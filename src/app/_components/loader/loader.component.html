@@ -1,0 +1,8 @@
+<div class="loader-div">
+  <div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+      <fa-icon [icon]="faDumbbell" [spin]="true" size="6x" *ngIf="!reload"></fa-icon>
+      <fa-icon [icon]="faSync" size="6x" *ngIf="reload" (click)="reloadFunc()"></fa-icon>
+    </div>
+  </div>
+</div>

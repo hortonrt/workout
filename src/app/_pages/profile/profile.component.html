@@ -1,0 +1,96 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row">
+    <div class="col-12">
+      <h2>My Profile </h2>
+      <div class="form-row" *ngIf="admin">
+        <div class="form-group col-12">
+          <label for="Admin">Users</label>
+          <select name="User" class="form-control form-control-sm" [(ngModel)]="user">
+            <option *ngFor="let user of users" [(ngValue)]="user">{{ user.FirstName }} {{user.LastName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label for="FirstName">First</label>
+          <input type="text" name="FirstName" [(ngModel)]="user.FirstName" class="form-control" />
+        </div>
+        <div class="form-group col-6">
+          <label for="LastName">Last</label>
+          <input type="text" name="LastName" [(ngModel)]="user.LastName" class="form-control" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label for="Username">Username</label>
+          <input type="text" name="Username" [(ngModel)]="user.Username" class="form-control" />
+        </div>
+        <div class="form-group col-6" *ngIf="admin">
+          <label for="Password">Password</label>
+          <input type="password" name="Password" [(ngModel)]="user.Password" class="form-control" autocomplete="new-password" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label for="Birthdate">Birthdate</label>
+          <input type="date" name="Birthdate" [(ngModel)]="user.Birthdate" class="form-control" />
+        </div>
+        <div class="form-group col-6">
+          <label for="Height">Height</label>
+          <div class="input-group">
+            <input type="number" name="Height" [(ngModel)]="user.Height" class="form-control" />
+            <div class="input-group-append">
+              <span class="input-group-text">in</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="admin">
+        <div class="form-group col-6">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" (change)="user.IsAdmin = !user.IsAdmin" [(checked)]="user.IsAdmin" id="IsAdmin" />
+            <label class="form-check-label" for="IsAdmin">Is Admin</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-4">
+        <button class="btn btn-workout w-100" type="button" (click)="save()">Save</button>
+      </div>
+      <div class="alert alert-success text-center" *ngIf="!saveError && saveMessage.length">{{saveMessage}}</div>
+      <div class="alert alert-danger text-center" *ngIf="saveError && saveMessage.length">{{saveMessage}}</div>
+    </div>
+    <div class="col-12" *ngIf="user.UserID !== -1">
+      <h2>Change Password </h2>
+      <div class="form-row">
+        <div class="form-group col-12">
+          <label for="OldPassword">Current</label>
+          <input type="password" name="OldPassword" [(ngModel)]="change.OldPassword" class="form-control" autocomplete="new-password" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label for="NewPassword">New</label>
+          <input type="password" name="NewPassword" [(ngModel)]="change.NewPassword" class="form-control" autocomplete="new-password" />
+        </div>
+        <div class="form-group col-6">
+          <label for="VerifyPassword">Verify</label>
+          <input type="password" name="VerifyPassword" [(ngModel)]="change.VerifyPassword" class="form-control" autocomplete="new-password" />
+        </div>
+      </div>
+      <div class="form-row mb-4">
+        <button class="btn btn-workout w-100" type="button" (click)="changePW()">Update Password</button>
+      </div>
+      <div class="alert alert-success text-center" *ngIf="!changeError && changeMessage.length">{{changeMessage}}</div>
+      <div class="alert alert-danger text-center" *ngIf="changeError && changeMessage.length">{{changeMessage}}</div>
+    </div>
+  </div>
+</div>

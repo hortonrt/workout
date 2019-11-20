@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark  bg-primary text-white">
+  <a class="navbar-brand font-weight-bold" [routerLink]="['/']">Workout</a>
+  <button class="navbar-toggler border-0" type="button" aria-expanded="false" (click)="isCollapsed = !isCollapsed">
+    <fa-icon [icon]="faBars" class="text-white"></fa-icon>
+  </button>
+
+  <div class="collapse navbar-collapse" [collapse]="!isCollapsed">
+    <ul class="navbar-nav mr-auto text-center text-lg-left">
+      <li class="nav-item active">
+        <a class="nav-link" [routerLink]="['/']">
+          Home <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/programs']" (click)="isCollapsed = !isCollapsed">Programs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/exercises']" (click)="isCollapsed = !isCollapsed">Exercises</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/routines']" (click)="isCollapsed = !isCollapsed">Routines</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/history']" (click)="isCollapsed = !isCollapsed">History</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/measurements']" (click)="isCollapsed = !isCollapsed">Measurements</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/profile']" (click)="isCollapsed = !isCollapsed">Profile</a>
+      </li>
+    </ul>
+    <div class="form-inline my-2 my-lg-0 buttons-form">
+      <button class="btn btn-white btn-sm mr-0 mr-lg-2" (click)="update()" *ngIf="worker">
+        <span *ngIf="!checking">Check for Update</span>
+        <span *ngIf="checking">
+          <fa-icon [icon]="faSync" [spin]="true"></fa-icon>
+        </span>
+      </button>
+      <button class="btn btn-white btn-sm" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,48 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">
+      History
+    </li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row">
+    <div class="col-12 p-2">
+      <h2>
+        History
+      </h2>
+    </div>
+  </div>
+  <div class="row no-gutters">
+    <div class="col-12">
+      <table class="table table-sm table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Program</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let wo of history">
+            <td class="text-center align-middle">
+              {{ wo.StartTime }}
+            </td>
+            <td class="align-middle">
+              <a [routerLink]="['/history/workout/', wo.UserWorkoutHistoryID]">
+                {{ wo.Name }}
+              </a>
+            </td>
+            <td class="text-center align-middle">
+              {{ wo.Duration | secondstimer: '12':'7' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

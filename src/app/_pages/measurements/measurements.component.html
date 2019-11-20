@@ -1,0 +1,60 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Measurements</li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row">
+    <div class="col-12">
+      <h2> Measurement History <button class="btn btn-sm btn-success float-right" (click)="addMeasurement()"> Add </button> </h2>
+      <tabset>
+        <tab heading="Table" id="tab1">
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered bg-white table-striped">
+              <thead>
+                <tr class="bg-dark text-light">
+                  <th>Date</th>
+                  <th>Weight</th>
+                  <th>Fat</th>
+                  <th>Water</th>
+                  <th>Bone</th>
+                  <th>Visceral</th>
+                  <th>BMR</th>
+                  <th>Muscle</th>
+                  <th>BMI</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="!measurements.length">
+                <tr>
+                  <td colspan="10" class="text-center">None</td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="measurements.length">
+                <tr *ngFor="let m of measurements">
+                  <td> <button class="btn btn-link" (click)="addMeasurement(m)"> {{ m.DateCreated | date: 'M/d/yyyy' }} </button> </td>
+                  <td class="text-center align-middle">{{ m.Weight }}lbs</td>
+                  <td class="text-center align-middle">{{ m.Fat }}%</td>
+                  <td class="text-center align-middle">{{ m.Water }}%</td>
+                  <td class="text-center align-middle">{{ m.Bone }}lbs</td>
+                  <td class="text-center align-middle">{{ m.Visceral }}</td>
+                  <td class="text-center align-middle">{{ m.BMR }}Kcal</td>
+                  <td class="text-center align-middle">{{ m.Muscle }}lbs</td>
+                  <td class="text-center align-middle">{{ m.BMI }}</td>
+                  <td class="text-center align-middle"> <button class="btn btn-workout btn-sm" type="button" (click)="delete(m)"> Delete </button> </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </tab>
+        <tab heading="Graph">
+          <app-output-graph [umh]="measurements"></app-output-graph>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>

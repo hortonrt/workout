@@ -1,0 +1,27 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Routines</li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row">
+    <div class="col-12 p-4">
+      <h2> Routines
+        <button class="btn btn-primary text-white float-right" [routerLink]="['/routine/create']" type="button"> Create New Routine </button>
+      </h2>
+    </div>
+  </div>
+  <div class="row mb-2 button-spacer no-gutters">
+    <div class="ccol-12 col-sm-6" *ngFor="let routine of routines">
+      <div class="bg-workout text-white m-2 p-4">
+        <a [routerLink]="['/routine/view', -1, routine.RoutineID]" class="text-white">
+          <h4>{{ routine.Name }} </h4>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

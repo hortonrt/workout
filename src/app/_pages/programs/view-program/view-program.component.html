@@ -1,0 +1,40 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item"> <a [routerLink]="['/programs']">Programs</a> </li>
+    <li class="breadcrumb-item active" aria-current="page">View</li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row mb-2 no-gutters">
+    <div class="col-12 p-3">
+      <h2> {{ program.Name }}
+        <button class="btn btn-primary text-white float-right" [routerLink]="['/program/edit', program.ProgramID]" type="button"> Edit Program </button>
+      </h2>
+    </div>
+  </div>
+  <div class="row no-gutters button-spacer">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-sm mb-0" *ngFor="let phase of program.Phases">
+          <thead>
+            <tr class="bg-routine text-light">
+              <th colspan="4"> {{ phase.Name }} </th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let day of phase.Days">
+            <tr *ngFor="let routine of day.Routines; let routineX = index">
+              <td class="align-middle font-weight-bold" [attr.rowspan]="day.Routines.length" *ngIf="routineX === 0" style="width:5%"> <span class="d-none d-md-inline">Day </span>{{ day.DayNumber }} </td>
+              <td class="align-middle" style="width:65%"> <a [routerLink]="[ '/routine/view', routine.ProgramRoutineID, routine.RoutineID ]">{{ routine.Routine.Name }}</a> </td>
+              <td class="text-center align-middle" style="width:5%"> {{ routine.RoutineCount }} </td>
+              <td class="text-right align-middle" style="width:30%"> <button type="button" [routerLink]="[ '/workout', routine.ProgramRoutineID, routine.RoutineID ]" class="btn btm-sm btn-workout"> Workout </button> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

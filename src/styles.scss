@@ -1,1 +1,69 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
+@import 'variables';
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+body {
+  background-color: $body-bg;
+  background-attachment: fixed;
+  touch-action: manipulation;
+}
+
+.btn-xl {
+  @include button-size(
+    $btn-padding-y-xl,
+    $btn-padding-x-xl,
+    $font-size-xl,
+    $btn-line-height-xl,
+    $btn-border-radius-xl
+  );
+}
+
+:focus {
+  outline: none;
+}
+
+a {
+  cursor: pointer;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+.row {
+  margin: 0 !important;
+}
+
+.button-spacer {
+  margin-bottom: 54px !important;
+}
+
+.btn-primary {
+  color: $white;
+}
+
+input[type='color'],
+input[type='date'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='email'],
+input[type='month'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='time'],
+input[type='url'],
+input[type='week'],
+select:focus,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+.form-control{
+  font-size: 16px !important;
+}

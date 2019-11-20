@@ -1,0 +1,14 @@
+<label [for]="name">{{ name }}</label>
+<div class="input-group" [ngClass]="{'input-group-tgl': big}">
+  <div class=" input-group-prepend">
+    <button class="btn btn-primary" (click)="down()" tabindex="-1">
+      <fa-icon [icon]="faMinus"></fa-icon>
+    </button>
+  </div>
+  <input type="number" name="Weight" [(ngModel)]="obj[name]" class="form-control text-center" />
+  <div class="input-group-prepend">
+    <button class="btn btn-primary" (click)="up()" tabindex="-1">
+      <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
+  </div>
+</div>

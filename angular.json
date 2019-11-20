@@ -36,14 +36,25 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/workout-pwa",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/api",
+              "src/apple-touch-icon-57x57.png",
+              "src/apple-touch-icon-72x72.png",
+              "src/apple-touch-icon-76x76.png",
+              "src/apple-touch-icon-114x114.png",
+              "src/apple-touch-icon-120x120.png",
+              "src/apple-touch-icon-144x144.png",
+              "src/apple-touch-icon-152x152.png",
+              "src/apple-touch-icon-180x180.png",
+              "src/apple-touch-icon.png"
             ],
             "styles": [
               "src/styles.scss"
@@ -74,7 +85,9 @@
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             }
           }
         },
@@ -108,7 +121,8 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ]
           }
         },

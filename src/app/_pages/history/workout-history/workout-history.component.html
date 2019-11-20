@@ -1,0 +1,67 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item"> <a [routerLink]="['/history']">History</a> </li>
+    <li class="breadcrumb-item active" aria-current="page"> Workout </li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row">
+    <div class="col-12 p-2">
+      <h2>Workout History
+        <button class="btn btn-sm btn-workout float-right" (click)="edit()">Edit</button>
+      </h2>
+    </div>
+  </div>
+  <div class="row no-gutters">
+    <div class="col-12">
+      <table class="table table-sm table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="text-center">
+              {{ history.Name }}
+            </th>
+            <th class="text-center">
+              {{ history.StartTime }}
+            </th>
+            <th colspan="2" class="text-center">
+              {{ history.Duration | secondstimer: '12':'7' }}
+            </th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Exercise</th>
+            <th>Reps/Duration</th>
+            <th>Weight</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ue of history.Exercises">
+            <td>
+              <a [routerLink]="['/history/exercise/', ue.ExerciseID]">
+                {{ ue.Name }}
+              </a>
+            </td>
+            <td class="text-center align-middle">{{ ue.Reps }}</td>
+            <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(ue.Weight)}" *ngIf="ue.ExerciseTypeID === 3"></td>
+            <td class="w-25 align-middle text-center" *ngIf="ue.ExerciseTypeID !== 3">{{ue.Weight}} </td>
+            <td class="text-center align-middle" [class.bg-danger]="ue.Rating === 1" [class.bg-warning]="ue.Rating === 2" [class.bg-success]="ue.Rating === 3">
+              <fa-icon [icon]="
+                    ue.Rating === 1
+                      ? faStarHalf
+                      : ue.Rating === 2
+                      ? faStar
+                      : faStarFull
+                  " class="text-white"></fa-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

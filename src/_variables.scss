@@ -1,0 +1,128 @@
+//Colors
+//gray and black
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+
+$color1: rgba(56, 178, 255, 1) !default;
+$color2: rgba(255, 186, 73, 1) !default;
+$color3: rgba(167, 190, 211, 1) !default;
+$color4: rgba(138, 205, 234, 1) !default;
+$color5: rgba(0, 105, 137, 1) !default;
+
+$cs-nav-gray: #444444;
+
+//other
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #28a745 !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+
+$colors: () !default;
+$colors: map-merge(
+  (
+    'blue': $blue,
+    'indigo': $indigo,
+    'purple': $purple,
+    'pink': $pink,
+    'red': $red,
+    'orange': $orange,
+    'yellow': $yellow,
+    'green': $green,
+    'teal': $teal,
+    'cyan': $cyan,
+    'white': $white,
+    'gray': $gray-600,
+    'gray-dark': $gray-800,
+    'color1': $color1,
+    'color2': $color2,
+    'color3': $color3,
+    'color4': $color4,
+    'color5': $color5,
+  ),
+  $colors
+);
+
+$primary: $blue !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-800 !default;
+
+//custom theme colors
+$theme-colors: ();
+$theme-colors: map-merge(
+  (
+    'primary': $color1,
+    'secondary': $color2,
+    'success': $success,
+    'info': $color3,
+    'warning': $warning,
+    'danger': $danger,
+    'light': $light,
+    'workout': $color4,
+    'routine': $color5,
+    'dark': $dark,
+    'white': $white,
+    'transparent': transparent,
+  ),
+  $theme-colors
+);
+//turn off rounding
+$enable-rounded: false;
+//spacer on grid system
+$spacer: 0.5rem;
+// This variable affects the `.h-*` and `.w-*` classes. Adding more than standard amount
+$sizes: ();
+$sizes: map-merge(
+  (
+    10: 10%,
+    20: 20%,
+    25: 25%,
+    40: 40%,
+    50: 50%,
+    60: 60%,
+    75: 75%,
+    90: 90%,
+    100: 100%,
+    auto: auto,
+  ),
+  $sizes
+);
+//fonts and background
+$font-size-base: 0.8rem; //smaller
+$body-bg: $white; //set background color
+$modal-lg: 90%;
+
+//xl sizes
+$line-height-xl: 1.5;
+$input-btn-padding-y-xl: 0.75rem;
+$input-btn-padding-x-xl: 1.5rem;
+$input-btn-line-height-xl: $line-height-xl;
+$btn-padding-y-xl: $input-btn-padding-y-xl;
+$btn-padding-x-xl: $input-btn-padding-x-xl;
+$btn-line-height-xl: $input-btn-line-height-xl;
+$border-radius-xl: 0.4rem;
+$btn-border-radius-xl: $border-radius-xl;
+$font-size-xl: ($font-size-base * 1.5);
+
+@import '../node_modules/bootstrap/scss/_functions.scss';
+@import '../node_modules/bootstrap/scss/_mixins.scss';
+@import '../node_modules/bootstrap/scss/_variables.scss';

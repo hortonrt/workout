@@ -1,0 +1,28 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Programs</li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row">
+    <div class="col-12 p-4">
+      <h2>
+        Programs
+        <button class="btn btn-primary text-white float-right" [routerLink]="['/program/create']" type="button"> Create New Program </button>
+      </h2>
+    </div>
+  </div>
+  <div class="row mb-2 button-spacer no-gutters">
+    <div class="ccol-12 col-sm-6 col-md-3" *ngFor="let program of programs">
+      <div class="bg-workout text-white m-2 p-4">
+        <a [routerLink]="['/program/view', program.ProgramID]" class="text-white">
+          <h4>{{ program.Name }}</h4>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

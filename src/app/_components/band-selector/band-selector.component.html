@@ -1,0 +1,13 @@
+<label>Band</label>
+<div class="input-group">
+  <div class="btn-group btn-group-lg w-100">
+    <button class="btn text-white" (click)="select(band)" *ngFor="let band of bands" [ngStyle]="{'background-color': band.n}">
+      <span *ngIf="band.v === obj.Weight">
+        <fa-icon [icon]="faCheck"></fa-icon>
+      </span>
+      <span *ngIf="band.v !== obj.Weight">
+        <fa-icon [icon]="faCheck" [styles]="{'stroke': band.n, 'color': band.n}"></fa-icon>
+      </span>
+    </button>
+  </div>
+</div>

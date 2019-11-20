@@ -1,0 +1,136 @@
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <div class="row">
+    <div class="col-12 text-center bg-primary text-white p-2">
+      <h3>{{ workout.RoutineName }}</h3>
+    </div>
+  </div>
+  <div *ngIf="!exercising && !resting && !done">
+    <app-workout-preview [workout]="workout"></app-workout-preview>
+    <div class="row no-gutters mt-5">
+      <div class="col-12">
+        <button class="btn btn-success text-white w-100 btn-xl" (click)="startWorkout()" type="button"> Start Workout </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="exercising">
+    <div *ngFor="let we of workout.Exercises; let weX = index" [class.active]="we.Active" [class.d-none]="we.Completed" class="exercise-wrap">
+      <div class="row" *ngIf=" workout.Exercises[weX - 1]?.BlockOrder !== we.BlockOrder || we.Active ">
+        <div class="col-12 bg-dark text-white"> Block {{ we.BlockOrder }} - {{ we.BlockTypeName }} </div>
+      </div>
+      <div class="row" *ngIf=" (workout.Exercises[weX - 1]?.SetNumber !== we.SetNumber && workout.Exercises[weX - 1]?.BlockOrder === we.BlockOrder) || (workout.Exercises[weX - 1]?.BlockOrder !== we.BlockOrder && we.SetNumber === 1) || we.Active ">
+        <div class="col-12 bg-info text-white">Set {{ we.SetNumber }}</div>
+      </div>
+      <div class="row">
+        <div class="exercise-div col-12">
+          <div class="pb-3">
+            <strong>{{ we.ExerciseType }} {{ we.ExerciseName}}<span *ngIf="we.SideType !== 'Both'"> - {{ we.SideType }}</span></strong>
+            <span class="float-right font-italic"> {{ we.WeightType }}<span *ngIf="we.RepType !== 'AMRAP'"> - {{ we.Reps }}</span>{{ we.RepType }} </span>
+          </div>
+          <div *ngIf="we.Active">
+            <div class="form-row">
+              <div class="form-group col-12 col-md-6" [ngClass]="{'col-md-12': we.ExerciseType === 'Dumbbell' || we.ExerciseType === 'Bands' || we.ExerciseType === 'Body Weight'}">
+                <app-adjuster name="Reps" [(obj)]="activeExercise" [step]="1" big="true"></app-adjuster>
+              </div>
+              <div class="form-group col-12 col-md-6" [ngClass]="{'d-none': we.ExerciseType === 'Dumbbell' || we.ExerciseType === 'Bands' || we.ExerciseType === 'Body Weight'}">
+                <app-adjuster name="Weight" [(obj)]="activeExercise" [step]="5" big="true"></app-adjuster>
+              </div>
+            </div>
+            <div class="form-row" *ngIf="we.ExerciseType === 'Dumbbell'">
+              <div class="form-group col-12">
+                <app-dumbbell-selector [(obj)]="activeExercise"></app-dumbbell-selector>
+              </div>
+            </div>
+            <div class="form-row" *ngIf="we.ExerciseType === 'Bands'">
+              <div class="form-group col-12">
+                <app-band-selector [(obj)]="activeExercise"></app-band-selector>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <button class="btn-xl" [ngClass]="activeExercise.Rating === 1 ? 'btn w-100 btn-danger' : activeExercise.Rating === 2 ? 'btn w-100 btn-warning' : 'btn w-100 btn-success'" type="button" (click)="toggleRating()">
+                  <fa-icon [icon]="activeExercise.Rating === 1 ? faStarHalf : activeExercise.Rating === 2 ? faStar : faStarFull" class="text-white"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center" *ngIf="we.HasPrevious">
+            <div class="col-6 p-0">
+              <table class="table table-sm table-bordered rounded text-center w-100">
+                <tr>
+                  <td class="w-25 align-middle bg-dark text-white font-weight-bold"> {{ we.PrevDate }} </td>
+                  <td class="w-25 align-middle"> {{ we.PrevReps }} </td>
+                  <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(we.PrevWeight)}" *ngIf="we.ExerciseType === 'Bands'"></td>
+                  <td class="w-25 align-middle" *ngIf="we.ExerciseType !== 'Bands'">{{we.PrevWeight}} </td>
+                  <td class="w-25 align-middle" [class.bg-danger]="we.PrevRating === 1" [class.bg-warning]="we.PrevRating === 2" [class.bg-success]="we.PrevRating === 3">
+                    <fa-icon [icon]="we.PrevRating === 1 ? faStarHalf : we.PrevRating === 2 ? faStar : faStarFull" class="text-white"></fa-icon>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-6 p-0">
+              <table class="table table-sm table-bordered rounded text-center w-100" *ngIf="we.ExerciseType === 'Barbell' || we.ExerciseType === 'EZ Bar'">
+                <tr>
+                  <td class="bg-workout w-25">Per</td>
+                  <td class="bg-light w-25">{{ ((we.Active ? activeExercise.Weight : we.Weight) - (we.ExerciseType === 'Barbell' ? 45 : 15)) / 2 }}</td>
+                  <td class="bg-workout w-25">Total</td>
+                  <td class="bg-light w-25">{{ we.Active ? activeExercise.Weight : we.Weight }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="navbar navbar-dark bg-dark workout-nav" *ngIf="we.Active">
+        <form class="form-inline w-100 nav-form"> <button class="btn btn-link btn-xl text-white clock" type="button">
+            <fa-icon [icon]="faClock"></fa-icon> {{ clock | secondstimer: '12':'7' }}
+          </button> <button class="btn btn-success btn-xl" type="button" (click)="next()" [disabled]="resting">
+            <fa-icon [icon]="faChevronCircleRight"></fa-icon>
+          </button> </form>
+      </nav>
+      <div class="row" *ngIf="we.PostRest > 0">
+        <div class="bg-danger col-12 text-white text-center">
+          <fa-icon [icon]="faHeartbeat"></fa-icon>&nbsp;{{ we.PostRest | secondstimer: '15':'4' }}
+        </div>
+      </div>
+    </div>
+    <div class="finish-flag text-center"></div>
+    <div *ngIf="resting" class="resting-div">
+      <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+          <div class="text-center resting-content">
+            <fa-icon [icon]="faHeartbeat" size="5x"></fa-icon><span class="big clock">{{ restTimer | secondstimer: '14':'5' }}</span>
+            <table class="table table-sm table-bordered border-white text-white">
+              <tbody *ngFor="let we of blockSummary; let weX = index">
+                <tr *ngIf="weX === 0">
+                  <td colspan="5" class="text-left">
+                    <h4> Block {{ we.BlockOrder }} - {{ we.BlockTypeName }} </h4>
+                  </td>
+                </tr>
+                <tr *ngIf="weX === 0" class="font-weight-bold">
+                  <td>Exercise</td>
+                  <td>Reps</td>
+                  <td>Weight</td>
+                  <td>Per</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>{{ we.ExerciseType }} {{ we.ExerciseName }}<span *ngIf="we.SideType !== 'Both'"> - {{ we.SideType }}</span></td>
+                  <td>{{ we.Reps }}</td>
+                  <td>{{ we.Weight }}</td>
+                  <td> <span *ngIf="we.ExerciseType !== 'Barbell' && we.ExerciseType !== 'EZ Bar'">N/A</span> <span *ngIf="we.ExerciseType === 'Barbell' || we.ExerciseType === 'EZ Bar'">{{ (we.Weight - (we.ExerciseType === 'Barbell' ? 45 : 15)) / 2 }}</span> </td>
+                  <td>
+                    <fa-icon [icon]="faTimes" *ngIf="!we.Completed"></fa-icon>
+                    <fa-icon [icon]="faCheck" *ngIf="we.Completed"></fa-icon>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

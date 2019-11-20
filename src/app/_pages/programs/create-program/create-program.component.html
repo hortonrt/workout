@@ -1,0 +1,59 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item"> <a [routerLink]="['/programs']">Programs</a> </li>
+    <li class="breadcrumb-item active" aria-current="page"> <span *ngIf="program.ProgramID > 0">Edit</span><span *ngIf="program.ProgramID === 0">Create</span> </li>
+  </ol>
+</nav>
+<div *ngIf="!loaded || saving">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <form [formGroup]="programForm" (ngSubmit)="onSubmit()">
+    <div class="p-2">
+      <h2> Program <div class="float-right"> <button class="btn btn-sm btn-primary">Save</button> <button class="btn btn-sm btn-danger" type="button" *ngIf="program.ProgramID > 0" (click)="delete('Programs', program.ProgramID)">Delete</button> </div>
+      </h2>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <div class="form-group d-none"> <label for="ID">ID</label> <input type="text" formControlName="ProgramID" class="form-control form-control-sm" /> </div>
+    <div class="form-group p-2"> <label for="Name" class="font-weight-bold">Program Name</label> <input type="text" formControlName="Name" class="form-control form-control-sm" /> </div>
+    <div formArrayName="Phases" *ngIf="program.ProgramID > 0">
+      <div class="p-2">
+        <h2>Phases<button class="btn btn-workout btn-sm float-right" type="button" (click)="addPhase()">Add Phase</button></h2>
+      </div>
+      <div *ngFor="let phase of programForm.get('Phases').controls;let phaseX = index" class="p-2 mt-3 bg-routine text-white">
+        <div [formGroupName]="phaseX"> <input type="text" formControlName="ProgramPhaseID" class="form-control form-control-sm d-none" />
+          <div class="input-group input-group-sm mb-2"> <input type="text" formControlName="Name" placeholder="Phase Name" class="form-control form-control-sm" /> <input type="number" formControlName="PhaseOrder" placeholder="Order" class="form-control form-control-sm" />
+            <div class="input-group-append" *ngIf="phase.value.ProgramPhaseID > 0"> <button class="btn btn-danger btn w-100" type="button" (click)="delete('ProgramPhases', phase.value.ProgramPhaseID, programForm.get('Phases'), phaseX)">Delete</button> </div>
+          </div>
+          <div formArrayName="Days">
+            <h2>Days<button class="btn btn-workout btn-sm float-right" type="button" (click)="addDay(phase)">Add Day</button></h2>
+            <div *ngFor="let day of phase.get('Days').controls; let dayX = index" class="p-2 mr-2 mt-3 bg-light text-dark">
+              <div [formGroupName]="dayX">
+                <div class="form-row">
+                  <div class="form-group d-none"> <label for="ProgramDayID">ID</label> <input type="text" formControlName="ProgramDayID" class="form-control form-control-sm" /> </div>
+                  <div class="form-group col-12">
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend"> <span class="input-group-text">Day Number</span> </div> <input type="number" formControlName="DayNumber" class="form-control form-control-sm" />
+                      <div class="input-group-append input-group-prepend" *ngIf="day.value.ProgramDayID > 0"> <button class="btn btn-danger btn-sm w-100" type="button" (click)="delete('ProgramDays', day.value.ProgramDayID, phase.get('Days'), dayX)">Delete</button> </div>
+                    </div>
+                  </div>
+                </div>
+                <div formArrayName="Routines">
+                  <h2>Routines<button class="btn btn-workout btn-sm float-right" type="button" (click)="addRoutine(day)">Add Routine</button></h2>
+                  <div *ngFor="let routine of day.get('Routines').controls;let routineX = index" class="p-2 mr-0 mt-3 bg-light">
+                    <div [formGroupName]="routineX"> <input type="text" formControlName="ProgramRoutineID" class="form-control form-control-sm d-none" />
+                      <div class="input-group input-group-sm"> <input type="number" formControlName="RoutineOrder" class="form-control form-control-sm" /> <select formControlName="RoutineID" class="form-control form-control-sm w-300">
+                          <option *ngFor="let routine of routines" [ngValue]="routine.RoutineID">{{ routine.Name }}</option>
+                        </select> <span class="input-group-append" *ngIf="day.value.ProgramDayID > 0"> <button class="btn btn-danger btn-sm w-100" type="button" (click)="delete('ProgramRoutines', routine.value.ProgramRoutineID, day.get('Routines'), routineX)">Delete</button> </span> </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

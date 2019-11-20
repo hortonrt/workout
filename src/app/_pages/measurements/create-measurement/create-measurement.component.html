@@ -1,0 +1,50 @@
+<div class="modal-header bg-workout text-white">
+  <h4 class="modal-title pull-left"><span *ngIf="measurement.UserMeasurementHistoryID <= 0">Add</span><span *ngIf="measurement.UserMeasurementHistoryID > 0">Edit</span> Measurement</h4>
+  <button type="button" class="close pull-right text-white" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-row">
+    <div class="form-group col-12">
+      <label for="DateCreated">Date</label>
+      <input type="date" name="DateCreated" [(ngModel)]="measurement.DateCreated" class="form-control" />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-6">
+      <app-adjuster name="Weight" [(obj)]="measurement" [step]="0.1"></app-adjuster>
+    </div>
+    <div class="form-group col-6">
+      <app-adjuster name="Water" [(obj)]="measurement" [step]="0.1"></app-adjuster>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-6">
+      <app-adjuster name="Fat" [(obj)]="measurement" [step]="0.1"></app-adjuster>
+    </div>
+    <div class="form-group col-6">
+      <app-adjuster name="Bone" [(obj)]="measurement" [step]="0.1"></app-adjuster>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-6">
+      <app-adjuster name="BMI" [(obj)]="measurement" [step]="0.1"></app-adjuster>
+    </div>
+    <div class="form-group col-6">
+      <app-adjuster name="Visceral" [(obj)]="measurement" [step]="0.1"></app-adjuster>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-6">
+      <app-adjuster name="BMR" [(obj)]="measurement" [step]="1"></app-adjuster>
+    </div>
+    <div class="form-group col-6">
+      <app-adjuster name="Muscle" [(obj)]="measurement" [step]="0.1"></app-adjuster>
+    </div>
+  </div>
+</div>
+<div class="modal-footer text-right">
+  <button class="btn btn-secondary w-50" type="button" (click)="cancel()">Cancel</button>
+  <button class="btn btn-primary w-50" type="button" (click)="save()">Save</button>
+</div>

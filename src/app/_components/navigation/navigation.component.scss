@@ -1,0 +1,18 @@
+
+  @import './../../../_variables.scss';
+  
+  .buttons-form button{
+    width: 100%;
+    &:first-child{
+      margin-bottom: 5px;;
+    }
+  }
+
+@include media-breakpoint-up(lg) { 
+  .buttons-form button{
+    width: auto;
+    &:first-child{
+      margin-bottom: 0;;
+    }
+  }
+}
