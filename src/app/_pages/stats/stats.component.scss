@@ -1,0 +1,9 @@
+@import '../../../variables';
+
+.chart-wrap:not(:empty){
+  border-bottom: 3px solid $color3;
+  margin-top: 1.5rem; 
+  &:last-child{
+    border-bottom: none;
+  }
+}

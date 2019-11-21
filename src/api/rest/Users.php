@@ -39,6 +39,7 @@ if($method === "POST") {
   $user = checkForTokenOrDie();
   if(isset($payload->UserID) && !empty($payload->UserID) && $payload->UserID == $user["UserID"]){
     //user is updating
+    unset($payload->Password);
     upsert('Users', $payload);
     echo(json_encode(array('message'=> 'User profile has been updated.')));
   }

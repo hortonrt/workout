@@ -11,6 +11,7 @@ $stmt->execute([$payload->Username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $stmt = null;
 if($user){  
+  error_log($payload->Password);
   if($user && password_verify($payload->Password, $user['Password'])){    
     //good auth    
     $user['Token'] = guid();

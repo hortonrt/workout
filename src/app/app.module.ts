@@ -46,6 +46,8 @@ import { EditWorkoutComponent } from './_pages/history/workout-history/edit-work
 import { BandSelectorComponent } from './_components/band-selector/band-selector.component';
 import { DumbbellSelectorComponent } from './_components/dumbbell-selector/dumbbell-selector.component';
 import { WorkoutPreviewComponent } from './_pages/workout/workout-preview/workout-preview.component';
+import { StatsComponent } from './_pages/stats/stats.component';
+import { RepMaxHistoryComponent } from './_pages/stats/rep-max-history/rep-max-history.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { WorkoutPreviewComponent } from './_pages/workout/workout-preview/workou
     EditWorkoutComponent,
     BandSelectorComponent,
     DumbbellSelectorComponent,
-    WorkoutPreviewComponent
+    WorkoutPreviewComponent,
+    StatsComponent,
+    RepMaxHistoryComponent
   ],
   imports: [
     BrowserModule,

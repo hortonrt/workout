@@ -22,6 +22,7 @@ import { CreateRoutineGuard } from './_guards/createroutine.guard';
 import { CreateExerciseGuard } from './_guards/createexercise.guard';
 import { MeasurementsComponent } from './_pages/measurements/measurements.component';
 import { ProfileComponent } from './_pages/profile/profile.component';
+import { StatsComponent } from './_pages/stats/stats.component';
 
 const routes: Routes = [{
   path: '',
@@ -116,6 +117,11 @@ const routes: Routes = [{
 {
   path: 'profile',
   component: ProfileComponent,
+  canActivate: [AuthGuard],
+},
+{
+  path: 'stats',
+  component: StatsComponent,
   canActivate: [AuthGuard],
 },
 {

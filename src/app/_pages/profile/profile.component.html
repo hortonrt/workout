@@ -61,6 +61,13 @@
             <label class="form-check-label" for="IsAdmin">Is Admin</label>
           </div>
         </div>
+        <div class="form-group col-6">
+          <label for="Birthdate">Gender {{ user.Gender }}</label>
+          <select name="User" class="form-control form-control-sm" [(ngModel)]="user.Gender">
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
+        </div>
       </div>
       <div class="form-row mb-4">
         <button class="btn btn-workout w-100" type="button" (click)="save()">Save</button>

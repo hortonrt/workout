@@ -10,17 +10,10 @@ class DBClass {
     public $pdo;
 
     public function __construct(){
-        if ($_SERVER['SERVER_NAME'] !== 'apidev.localdev.com' && $_SERVER['SERVER_NAME'] !== 'workout.localdev.com') {
-            $this->host = "localhost";
-            $this->username = "porktig3_workout";
-            $this->password = "vN99iwbv7!";
-            $this->database = "porktig3_workout";
-        } else {
-            $this->host = "localhost";
-            $this->username = "workout";
-            $this->password = "vN99iwbv7!";
-            $this->database = "workout";
-        }
+        $this->host = "localhost";
+        $this->username = "porktig3_workout";
+        $this->password = "vN99iwbv7!";
+        $this->database = "porktig3_workout";
         $this->getConnection();      
     }
 

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  faChartLine,
+  faChartPie,
   faDumbbell,
   faCalendarCheck,
   faCogs,
   faWeight,
   faRunning,
-  faUser
+  faUser,
+  faCalendarAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { User } from 'src/app/_models/User';
@@ -19,12 +20,13 @@ import { User } from 'src/app/_models/User';
 export class HomeComponent implements OnInit {
   user: User = null;
   faDumbbell = faDumbbell;
-  faChartLine = faChartLine;
+  faChart = faChartPie;
   faCalendarCheck = faCalendarCheck;
   faCogs = faCogs;
   faWeight = faWeight;
   faRunning = faRunning;
   faUser = faUser;
+  faCalendarAlt = faCalendarAlt;
 
   constructor(private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(
