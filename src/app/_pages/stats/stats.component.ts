@@ -12,10 +12,22 @@ export class StatsComponent implements OnInit {
 
   constructor(private service: WorkoutService, private datePipe: DatePipe) { }
   rmh = null;
+  rmc = null;
+
   ngOnInit() {
     this.service.getAll('Stats').subscribe((x: any) => {
       this.setupRMH(x.RepMaxHistory);
+      this.setupRMC(x.RepMaxCurrent);
     });
+  }
+
+  setupRMC(data: any[]) {
+    const rmc: any = [];
+    for (const exercise of data) {
+      exercise.Container = Math.random().toString(36).substring(2, 15);
+      rmc.push(exercise);
+    }
+    this.rmc = rmc;
   }
 
   setupRMH(data: any[]) {

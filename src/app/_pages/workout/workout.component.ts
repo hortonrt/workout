@@ -41,8 +41,6 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   blockSummary: WorkoutExercise[] = [] as WorkoutExercise[];
   workout: Workout = {} as Workout;
   currentUser: User = {} as User;
-  primaryMuscleGroups: string;
-  otherMuscleGroups: string;
   equipment: string;
   optionalEquipment: string;
   exercising = false;

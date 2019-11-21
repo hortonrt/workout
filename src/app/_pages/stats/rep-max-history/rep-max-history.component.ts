@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-rep-max-history',
@@ -14,9 +13,7 @@ export class RepMaxHistoryComponent implements OnInit {
   ngOnInit() {
     this.options = {
       title: {
-        text: this.data.Name,
-        align: 'left',
-        style: { 'font-size': '2rem', },
+        text: '',
       },
       credits: { enabled: false },
       xAxis: {

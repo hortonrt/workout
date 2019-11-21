@@ -1,20 +1,32 @@
-<div class="row large">
-  <div class="col-6 text-center p-2"><b>Blocks</b><br />{{ workout.Blocks }}</div>
-  <div class="col-6 text-center p-2"> <b>Sets</b><br />{{ workout.Sets }} </div>
-  <div class="col-6 text-center p-2"> <b>Exercises</b><br />{{ workout.Exercises.length }} </div>
-  <div class="col-6 text-center p-2"> <b>Average</b><br />{{ workout.AvgDuration | secondstimer: '12':'7' }} </div>
+<div class="row bg-warning text-white">
+  <div class="col-3 text-center p-2"><b>Blocks</b><br />{{ workout.Blocks }}</div>
+  <div class="col-3 text-center p-2"> <b>Sets</b><br />{{ workout.Sets }} </div>
+  <div class="col-3 text-center p-2"> <b>Exercises</b><br />{{ workout.Exercises.length }} </div>
+  <div class="col-3 text-center p-2"> <b>Average</b><br />{{ workout.AvgDuration | secondstimer: '12':'7' }} </div>
 </div>
-<div class="row large">
-  <div class="col-12 bg-warning p-2 order-1 order-lg-1" *ngIf="workout.PrimaryMuscleGroups"> <b>Primary</b>
-    <div class="pl-5">{{ workout.PrimaryMuscleGroups }}</div>
+<div class="row">
+  <div class="col-12 p-2 bg-workout">
+    <h4>Equipment</h4>
   </div>
-  <div class="col-12 bg-info p-2 order-3 order-lg-2" *ngIf="workout.NeededEquipment"> <b>Equipment</b>
-    <div class="pl-5">{{ workout.NeededEquipment }}</div>
+  <div class="col-6 bg-light p-2" *ngIf="workout.NeededEquipment"> <b>Required</b>
+    <div class="pl-3">{{ workout.NeededEquipment }}</div>
   </div>
-  <div class="col-12 bg-warning p-2 order-2 order-lg-3" *ngIf="workout.SecondaryMuscleGroups"> <b>Supported</b>
-    <div class="pl-5">{{ workout.SecondaryMuscleGroups }}</div>
+  <div class="col-6 bg-light p-2" *ngIf="workout.OptionalEquipment"> <b>Optional</b>
+    <div class="pl-3">{{ workout.OptionalEquipment }}</div>
   </div>
-  <div class="col-12 bg-info p-2 order-4 order-lg-4" *ngIf="workout.OptionalEquipment"> <b>Optional</b>
-    <div class="pl-5">{{ workout.OptionalEquipment }}</div>
+</div>
+<div class="row no-gutters">
+  <div class="col-12 p-2 bg-workout">
+    <h4>Muscle Groups</h4>
+  </div>
+  <div class="col-12 bg-light">
+    <tabset [justified]="true">
+      <tab heading="Primary" id="tab1">
+        <app-workout-muscles [data]="workout.PrimaryMuscleGroups"></app-workout-muscles>
+      </tab>
+      <tab heading="Secondary " id="tab3" *ngIf="workout.SecondaryMuscleGroups">
+        <app-workout-muscles [data]="workout.SecondaryMuscleGroups"></app-workout-muscles>
+      </tab>
+    </tabset>
   </div>
 </div>

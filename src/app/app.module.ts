@@ -13,6 +13,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+// highcharts
+import { HighchartsChartModule } from 'highcharts-angular';
 // pages
 import { HomeComponent } from './_pages/home/home.component';
 import { LoginComponent } from './_pages/login/login.component';
@@ -48,6 +50,8 @@ import { DumbbellSelectorComponent } from './_components/dumbbell-selector/dumbb
 import { WorkoutPreviewComponent } from './_pages/workout/workout-preview/workout-preview.component';
 import { StatsComponent } from './_pages/stats/stats.component';
 import { RepMaxHistoryComponent } from './_pages/stats/rep-max-history/rep-max-history.component';
+import { RepMaxCurrentComponent } from './_pages/stats/rep-max-current/rep-max-current.component';
+import { WorkoutMusclesComponent } from './_pages/workout/workout-preview/workout-muscles/workout-muscles.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +87,9 @@ import { RepMaxHistoryComponent } from './_pages/stats/rep-max-history/rep-max-h
     DumbbellSelectorComponent,
     WorkoutPreviewComponent,
     StatsComponent,
-    RepMaxHistoryComponent
+    RepMaxHistoryComponent,
+    RepMaxCurrentComponent,
+    WorkoutMusclesComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +102,7 @@ import { RepMaxHistoryComponent } from './_pages/stats/rep-max-history/rep-max-h
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
+    HighchartsChartModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

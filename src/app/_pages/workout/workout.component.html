@@ -8,12 +8,12 @@
     </div>
   </div>
   <div *ngIf="!exercising && !resting && !done">
-    <app-workout-preview [workout]="workout"></app-workout-preview>
     <div class="row no-gutters mt-5">
       <div class="col-12">
         <button class="btn btn-success text-white w-100 btn-xl" (click)="startWorkout()" type="button"> Start Workout </button>
       </div>
     </div>
+    <app-workout-preview [workout]="workout"></app-workout-preview>
   </div>
   <div *ngIf="exercising">
     <div *ngFor="let we of workout.Exercises; let weX = index" [class.active]="we.Active" [class.d-none]="we.Completed" class="exercise-wrap">

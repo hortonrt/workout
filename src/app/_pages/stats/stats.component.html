@@ -1,3 +1,16 @@
-<div *ngFor="let exercise of rmh" class="chart-wrap">
-  <app-rep-max-history [data]="exercise"></app-rep-max-history>
-</div>
+<tabset>
+  <tab heading="Rep Max" id="tab1" class="pt-5">
+    <tabset>
+      <tab heading=" Current" id="tab1-1">
+        <div *ngFor="let exercise of rmc" class="chart-wrap">
+          <app-rep-max-current [data]="exercise"></app-rep-max-current>
+        </div>
+      </tab>
+      <tab heading="History" id="tab1-2">
+        <div *ngFor="let exercise of rmh" class="chart-wrap">
+          <app-rep-max-history [data]="exercise"></app-rep-max-history>
+        </div>
+      </tab>
+    </tabset>
+  </tab>
+</tabset>
