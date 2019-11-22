@@ -30,9 +30,12 @@ if($method === "GET"){
                                       , u.Rating
                                       , u.UserWorkoutExerciseHistoryID
                                       , ExerciseTypeID
+                                      , rbse.Reps as ExerciseReps
                                   from UserWorkoutExerciseHistory u
                                     inner join Exercises e 
                                       on u.ExerciseID = e.ExerciseID
+                                      INNER JOIN RoutineBlockSetExercises rbse
+										on rbse.RoutineBlockSetExerciseID = u.RoutineBlockSetExerciseID
                                   where UserWorkoutHistoryID = ' . $id . ' order by ExerciseStart');
       echo(json_encode($wo[0]));
     }    

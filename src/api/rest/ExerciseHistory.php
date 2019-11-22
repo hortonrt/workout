@@ -17,9 +17,13 @@ if($method === "GET"){
             , u.Rating
             , e.ExerciseTypeID
             , DATE_FORMAT(ExerciseStart, '%m/%d') as ExerciseStart
+            , rbse.Reps as ExerciseReps
+            , ROUND(Case when (Select ByRep from ExerciseStandards es where es.ExerciseID = e.ExerciseID Limit 1) then null else u.Weight * (1 + (u.Reps / 30)) end, 1) as ORM
         from UserWorkoutExerciseHistory u
           inner join Exercises e 
             on u.ExerciseID = e.ExerciseID
+          INNER JOIN RoutineBlockSetExercises rbse
+            on rbse.RoutineBlockSetExerciseID = u.RoutineBlockSetExerciseID
         where u.ExerciseID = " . $id . " order by ExerciseStart desc");
       echo(json_encode($wo));
     }    

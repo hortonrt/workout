@@ -11,7 +11,7 @@ if($method === "GET"){
     echo(json_encode($program,JSON_NUMERIC_CHECK));
   }
   else{    
-    echo(json_encode(getAllByUser('UserMeasurementHistory', $userID), JSON_NUMERIC_CHECK));
+    echo(json_encode(getAllByUsercustomFilter('UserMeasurementHistory', $userID, "DateCreated >= '2019-11-18'"), JSON_NUMERIC_CHECK));
   }
 }
 

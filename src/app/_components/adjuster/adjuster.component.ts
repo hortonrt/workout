@@ -16,6 +16,7 @@ export class AdjusterComponent implements OnInit {
   @Input() step: number;
   @Input() dec = 1;
   @Input() big = false;
+  @Input() bigfont = false;
 
   faPlus: IconDefinition = faPlus;
   faMinus: IconDefinition = faMinus;

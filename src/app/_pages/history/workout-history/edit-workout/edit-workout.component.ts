@@ -27,8 +27,11 @@ export class EditWorkoutComponent implements OnInit {
   }
 
   save() {
-    const out = Object.assign({}, this.workout);
-    this.updateHistory(out);
+    for (const exercise of this.workout.Exercises) {
+      delete exercise.ExerciseTypeID;
+      delete exercise.ExerciseReps;
+    }
+    this.updateHistory(this.workout);
     this.bsModalRef.hide();
   }
 

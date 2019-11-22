@@ -68,21 +68,21 @@
                         <div class="form-group col-12 col-lg-4">
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend"> <span class="input-group-text">Reps</span> </div> <input type="number" formControlName="Reps" class="form-control form-control-sm" />
+                            <div class="input-group-prepend"> <span class="input-group-text">Rest</span> </div> <input type="text" formControlName="PostRest" class="form-control form-control-sm" />
+                            <div class="input-group-append input-group-prepend"> <span class="input-group-text">Order</span> </div> <input type="number" formControlName="ExerciseOrder" class="form-control form-control-sm" />
+                          </div>
+                        </div>
+                        <div class="form-group col-12 col-lg-4">
+                          <div class="input-group input-group-sm">
                             <div class="input-group-prepend input-group-append"> <span class="input-group-text">Type</span> </div> <select formControlName="RepTypeID" class="form-control form-control-sm">
                               <option *ngFor="let repType of repTypes" [ngValue]="repType.RepTypeID">{{ repType.Name }} </option>
                             </select>
                             <div class="input-group-append input-group-prepend"> <span class="input-group-text">WT</span> </div> <select formControlName="WeightTypeID" class="form-control form-control-sm">
                               <option *ngFor="let wType of weightTypes" [ngValue]="wType.WeightTypeID">{{ wType.Name }} </option>
                             </select>
-                          </div>
-                        </div>
-                        <div class="form-group col-12 col-lg-4">
-                          <div class="input-group input-group-sm">
-                            <div class="input-group-prepend"> <span class="input-group-text">Rest</span> </div> <input type="text" formControlName="PostRest" class="form-control form-control-sm" />
                             <div class="input-group-append input-group-prepend"> <span class="input-group-text">Side</span> </div> <select formControlName="SideTypeID" class="form-control form-control-sm">
                               <option *ngFor="let sideType of sideTypes" [ngValue]="sideType.SideTypeID">{{ sideType.Name }}</option>
                             </select>
-                            <div class="input-group-append input-group-prepend"> <span class="input-group-text">Order</span> </div> <input type="number" formControlName="ExerciseOrder" class="form-control form-control-sm" />
                           </div>
                         </div>
                       </div>

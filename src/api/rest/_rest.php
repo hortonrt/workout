@@ -13,6 +13,16 @@ function get($table, $id){
   return $result;
 }
 
+function getCustom($table, $id, $customFilter){
+  $dictionary = getDictionary();
+  $db = new DBClass();
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $dictionary[$table]['ID'] .' = ? and ' . $customFilter . ' ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt->execute([$id]);
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt = null;
+  return $result;
+}
+
 function getBy($table, $val, $field){
   $dictionary = getDictionary();
   $val = strval($val);
@@ -39,6 +49,16 @@ function getAllByUser($table, $userID){
   $dictionary = getDictionary();
   $db = new DBClass();
   $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE UserID = ? ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt->execute([$userID]);
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $stmt = null;
+  return $result;
+}
+
+function getAllByUserCustomFilter($table, $userID, $customFilter){
+  $dictionary = getDictionary();
+  $db = new DBClass();
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE UserID = ? and ' . $customFilter . ' ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([$userID]);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt = null;
@@ -149,4 +169,7 @@ function deleteR($table, $id){
 
 
 // new stuff
-//todo rep max report
+// exercise progress report
+// routine progress report
+// RM Per Exercise Report
+// RM For Exercise Modal in Workout

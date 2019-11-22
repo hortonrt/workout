@@ -53,7 +53,7 @@ export class WorkoutHistoryComponent implements OnInit {
 
 
   edit() {
-    const workoutObj: any = Object.assign({}, this.history);
+    const workoutObj: any = { ...this.history };
     const start = this.stringToUTC(workoutObj.StartTimeDate);
     const end = this.stringToUTC(workoutObj.EndTimeDate);
     workoutObj.StartTime = start.toISOString().split('.')[0].substr(0, 16);
