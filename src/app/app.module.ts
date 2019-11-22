@@ -55,6 +55,7 @@ import { WorkoutMusclesComponent } from './_pages/workout/workout-preview/workou
 import { RepMaxChartComponent } from './_components/rep-max-chart/rep-max-chart.component';
 import { RoutineHistoryComponent } from './_pages/stats/routine-history/routine-history.component';
 import { ExerciseHistoryReportComponent } from './_pages/stats/exercise-history-report/exercise-history-report.component';
+import { ExercisesCurrentComponent } from './_pages/stats/exercises-current/exercises-current.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { ExerciseHistoryReportComponent } from './_pages/stats/exercise-history-
     WorkoutMusclesComponent,
     RepMaxChartComponent,
     RoutineHistoryComponent,
-    ExerciseHistoryReportComponent
+    ExerciseHistoryReportComponent,
+    ExercisesCurrentComponent
   ],
   imports: [
     BrowserModule,

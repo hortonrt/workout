@@ -23,7 +23,7 @@ export class ExercisesComponent implements OnInit {
       this.currentUser = x;
       this.service.getAll('ExerciseGroups').subscribe((data: any[]) => {
         for (const group of data) {
-          group.collapsed = true;
+          group.collapsed = false;
         }
         this.groups = data;
         this.loaded = true;

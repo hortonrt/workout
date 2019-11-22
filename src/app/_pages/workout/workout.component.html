@@ -50,6 +50,7 @@
             </div>
             <div class="form-row">
               <div class="form-group col-12">
+                <label>Form</label>
                 <button class="btn-xl" [ngClass]="activeExercise.Rating === 1 ? 'btn w-100 btn-danger' : activeExercise.Rating === 2 ? 'btn w-100 btn-warning' : 'btn w-100 btn-success'" type="button" (click)="toggleRating()">
                   <fa-icon [icon]="activeExercise.Rating === 1 ? faStarHalf : activeExercise.Rating === 2 ? faStar : faStarFull" class="text-white"></fa-icon>
                 </button>
@@ -74,9 +75,9 @@
               <table class="table table-sm table-bordered rounded text-center w-100" *ngIf="we.ExerciseType === 'Barbell' || we.ExerciseType === 'EZ Bar'">
                 <tr>
                   <td class="bg-workout w-25">Per</td>
-                  <td class="bg-light w-25">{{ ((we.Active ? activeExercise.Weight : we.Weight) - (we.ExerciseType === 'Barbell' ? 45 : 15)) / (we.SideType === 'Single' ? 1 : 2) }}</td>
+                  <td class="w-25">{{ ((we.Active ? activeExercise.Weight : we.Weight) - (we.ExerciseType === 'Barbell' ? 45 : 15)) / (we.SideType === 'Single' ? 1 : 2) }}</td>
                   <td class="bg-workout w-25">Total</td>
-                  <td class="bg-light w-25">{{ we.Active ? activeExercise.Weight : we.Weight }}</td>
+                  <td class="w-25">{{ we.Active ? activeExercise.Weight : we.Weight }}</td>
                 </tr>
               </table>
             </div>

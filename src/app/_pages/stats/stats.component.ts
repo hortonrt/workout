@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { DatePipe } from '@angular/common';
+import { exhaustMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-stats',
@@ -12,19 +13,36 @@ export class StatsComponent implements OnInit {
 
   constructor(private service: WorkoutService, private datePipe: DatePipe) { }
   rmh = null;
+  data = null;
   rmc = null;
   eh = null;
   rh = null;
+  ec = null;
   sets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   loaded = false;
 
   ngOnInit() {
     this.service.getAll('Stats').subscribe((x: any) => {
-      this.setupRMH(x.RepMaxHistory);
       this.setupRMC(x.RepMaxCurrent);
-      this.setupEH(x.ExerciseHistory);
+      this.data = x;
       this.loaded = true;
     });
+  }
+
+  onSelect($event) {
+    if ($event.id === 'tab1-2' && !this.rmh) {
+      this.loaded = false;
+      this.setupRMH(this.data.RepMaxHistory);
+      this.loaded = true;
+    } else if (($event.id === 'tab2-1' || $event.id === 'tab2') && !this.eh) {
+      this.loaded = false;
+      this.setupEH(this.data.ExerciseHistory);
+      this.loaded = true;
+    } else if ($event.id === 'tab2-2' && !this.ec) {
+      this.loaded = false;
+      this.ec = this.data.ExercisesCurrent;
+      this.loaded = true;
+    }
   }
 
   setupEH(data: any[]) {

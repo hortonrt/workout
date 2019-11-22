@@ -11,22 +11,30 @@
   <tabset>
     <tab heading="Rep Max" id="tab1" class="pt-5">
       <tabset>
-        <tab heading=" Current" id="tab1-1">
+        <tab heading="Current" id="tab1-1">
           <div *ngFor="let exercise of rmc" class="chart-wrap">
             <app-rep-max-current [data]="exercise"></app-rep-max-current>
           </div>
         </tab>
-        <tab heading="History" id="tab1-2">
+        <tab heading="History" id="tab1-2" (selectTab)="onSelect($event)">
           <div *ngFor="let exercise of rmh" class="chart-wrap">
             <app-rep-max-history [data]="exercise"></app-rep-max-history>
           </div>
         </tab>
       </tabset>
     </tab>
-    <tab heading="Exercises" id="tab2" class="pt-5">
-      <div *ngFor="let exercise of eh" class="chart-wrap">
-        <app-exercise-history-report [data]="exercise"></app-exercise-history-report>
-      </div>
+    <tab heading="Exercises" id="tab2" class="pt-5" (selectTab)="onSelect($event)">
+      <tabset>
+        <tab heading="Progress" id="tab2-1" (selectTab)="onSelect($event)">
+          <div *ngFor="let exercise of eh" class="chart-wrap">
+            <app-exercise-history-report [data]="exercise"></app-exercise-history-report>
+          </div>
+        </tab>
+        <tab heading="Rep Max List" id="tab2-2" (selectTab)="onSelect($event)">
+          <app-exercises-current [history]="this.ec" *ngIf="this.ec">
+          </app-exercises-current>
+        </tab>
+      </tabset>
     </tab>
   </tabset>
 </div>

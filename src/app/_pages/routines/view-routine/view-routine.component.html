@@ -23,6 +23,31 @@
     </div>
   </div>
   <div class="row no-gutters button-spacer">
+    <div class="col-12 p-2 bg-warning">
+      <h4>Equipment</h4>
+    </div>
+    <div class="col-6 bg-light p-2" *ngIf="routine.NeededEquipment"> <b>Required</b>
+      <div class="pl-3">{{ routine.NeededEquipment }}</div>
+    </div>
+    <div class="col-6 bg-light p-2" *ngIf="routine.OptionalEquipment"> <b>Optional</b>
+      <div class="pl-3">{{ routine.OptionalEquipment }}</div>
+    </div>
+    <div class="col-12 p-2 bg-warning">
+      <h4>Muscle Groups</h4>
+    </div>
+    <div class="col-12 bg-light">
+      <tabset [justified]="true">
+        <tab heading="Primary" id="tab1">
+          <app-workout-muscles [data]="routine.PrimaryMuscleGroups"></app-workout-muscles>
+        </tab>
+        <tab heading="Secondary " id="tab3" *ngIf="routine.SecondaryMuscleGroups">
+          <app-workout-muscles [data]="routine.SecondaryMuscleGroups"></app-workout-muscles>
+        </tab>
+      </tabset>
+    </div>
+    <div class="col-12 p-2 bg-warning">
+      <h4>Routine</h4>
+    </div>
     <div class="col-12">
       <ul class="list-unstyled mb-0" *ngFor="let block of routine.Blocks">
         <li>

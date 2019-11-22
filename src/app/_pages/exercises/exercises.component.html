@@ -22,9 +22,11 @@
     </div>
   </div>
   <div class="row no-gutters button-spacer">
-    <div class="col-12 col-sm-6 col-md-3 mb-4" *ngFor="let group of groups">
+    <div class="col-12 col-md-6 mb-4" *ngFor="let group of groups">
       <div class="p-2">
-        <h3 (click)="group.collapsed = !group.collapsed"><span *ngIf="!group.collapsed">+</span><span *ngIf="group.collapsed">-</span>{{group.Name}}</h3>
+        <h3 (click)="group.collapsed = !group.collapsed">
+          <span *ngIf="!group.collapsed">+</span><span *ngIf="group.collapsed">-</span>&nbsp;{{group.Name}}&nbsp;<span class="badge badge-workout">{{group.Exercises.length}}</span>
+        </h3>
         <div [collapse]="!group.collapsed">
           <div class="bg-workout text-white m-4 p-4" *ngFor="let exercise of group.Exercises | filterExercise:searchText" [routerLink]="['/exercise/edit', exercise.ExerciseID]">
             <table class="table table-sm text-white no-borders">

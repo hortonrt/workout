@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="row mb-2 button-spacer no-gutters">
-    <div class="ccol-12 col-sm-6 col-md-3" *ngFor="let program of programs">
+    <div class="ccol-12 col-lg-6" *ngFor="let program of programs">
       <div class="bg-workout text-white m-2 p-4">
         <a [routerLink]="['/program/view', program.ProgramID]" class="text-white">
           <h4>{{ program.Name }}</h4>

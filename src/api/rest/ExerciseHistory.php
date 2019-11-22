@@ -18,7 +18,7 @@ if($method === "GET"){
             , e.ExerciseTypeID
             , DATE_FORMAT(ExerciseStart, '%m/%d') as ExerciseStart
             , rbse.Reps as ExerciseReps
-            , ROUND(Case when (Select ByRep from ExerciseStandards es where es.ExerciseID = e.ExerciseID Limit 1) then null else u.Weight * (1 + (u.Reps / 30)) end, 1) as ORM
+            , ROUND(Case when e.ExerciseTypeID not in (1,2,5) then u.Reps else u.Weight * (1 + (u.Reps / 30)) end, 1) as ORM
         from UserWorkoutExerciseHistory u
           inner join Exercises e 
             on u.ExerciseID = e.ExerciseID

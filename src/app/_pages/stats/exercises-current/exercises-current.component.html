@@ -1,0 +1,21 @@
+<table class="table table-sm table-bordered table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Exercise</th>
+      <th>Date</th>
+      <th>Reps</th>
+      <th>Weight</th>
+      <th>1RM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let ue of history">
+      <td>{{ ue.Name }}</td>
+      <td class="text-center">{{ ue.Date }}</td>
+      <td class="text-center align-middle">{{ ue.Reps }}</td>
+      <td class="align-middle" [ngStyle]="{'background-color': bandColor(ue.Weight)}" *ngIf="ue.ExerciseTypeID === 3"></td>
+      <td class="align-middle text-center" *ngIf="ue.ExerciseTypeID !== 3">{{ue.LiftWeight}} </td>
+      <td class="align-middle text-center"><a class="text-primary" (click)="viewRepMax(ue.ORM)">{{ue.ORM}}</a></td>
+    </tr>
+  </tbody>
+</table>

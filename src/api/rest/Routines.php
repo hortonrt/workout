@@ -24,6 +24,14 @@ if($method === "GET"){
         }
       }
     } 
+    $needed = custom('CALL workout_required_equipment(' . $_GET['i'] . ')');
+    $routine['NeededEquipment'] = $needed[0]['NeededEquipment'];
+    $optional = custom('CALL workout_optional_equipment(' . $_GET['i'] . ')');
+    $routine['OptionalEquipment'] = $optional[0]['OptionalEquipment'];
+    $primary = custom('CALL workout_primary_groups(' . $_GET['i'] . ')');
+    $routine['PrimaryMuscleGroups'] = $primary[0]['PrimaryMuscleGroups'];
+    $secondary = custom('CALL workout_secondary_groups(' . $_GET['i'] . ')');
+    $routine['SecondaryMuscleGroups'] = $secondary[0]['SecondaryMuscleGroups'];
      echo(json_encode($routine));
   }
   else{    
