@@ -21,12 +21,10 @@ export class ExerciseHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.service
-        .get('ExerciseHistory', params.get('id'))
-        .subscribe((hist: any) => {
-          this.history = hist;
-          this.loaded = true;
-        });
+      this.service.get('ExerciseHistory', params.get('id')).subscribe((hist: any) => {
+        this.history = hist;
+        this.loaded = true;
+      });
     });
   }
 

@@ -1,16 +1,32 @@
-<tabset>
-  <tab heading="Rep Max" id="tab1" class="pt-5">
-    <tabset>
-      <tab heading=" Current" id="tab1-1">
-        <div *ngFor="let exercise of rmc" class="chart-wrap">
-          <app-rep-max-current [data]="exercise"></app-rep-max-current>
-        </div>
-      </tab>
-      <tab heading="History" id="tab1-2">
-        <div *ngFor="let exercise of rmh" class="chart-wrap">
-          <app-rep-max-history [data]="exercise"></app-rep-max-history>
-        </div>
-      </tab>
-    </tabset>
-  </tab>
-</tabset>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Stats</li>
+  </ol>
+</nav>
+<div *ngIf="!loaded">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="loaded">
+  <tabset>
+    <tab heading="Rep Max" id="tab1" class="pt-5">
+      <tabset>
+        <tab heading=" Current" id="tab1-1">
+          <div *ngFor="let exercise of rmc" class="chart-wrap">
+            <app-rep-max-current [data]="exercise"></app-rep-max-current>
+          </div>
+        </tab>
+        <tab heading="History" id="tab1-2">
+          <div *ngFor="let exercise of rmh" class="chart-wrap">
+            <app-rep-max-history [data]="exercise"></app-rep-max-history>
+          </div>
+        </tab>
+      </tabset>
+    </tab>
+    <tab heading="Exercises" id="tab2" class="pt-5">
+      <div *ngFor="let exercise of eh" class="chart-wrap">
+        <app-exercise-history-report [data]="exercise"></app-exercise-history-report>
+      </div>
+    </tab>
+  </tabset>
+</div>

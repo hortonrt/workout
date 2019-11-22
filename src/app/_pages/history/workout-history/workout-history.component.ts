@@ -39,12 +39,10 @@ export class WorkoutHistoryComponent implements OnInit {
 
   load() {
     this.loaded = false;
-    this.service
-      .get('WorkoutHistory', + this.workoutID)
-      .subscribe((hist: UserWorkoutHistory) => {
-        this.history = hist;
-        this.loaded = true;
-      });
+    this.service.get('WorkoutHistory', + this.workoutID).subscribe((hist: UserWorkoutHistory) => {
+      this.history = hist;
+      this.loaded = true;
+    });
   }
 
   bandColor(weight) {

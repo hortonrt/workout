@@ -171,4 +171,3 @@ function deleteR($table, $id){
 // new stuff
 // exercise progress report
 // routine progress report
-// RM Per Exercise Report

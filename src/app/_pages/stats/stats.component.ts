@@ -13,12 +13,57 @@ export class StatsComponent implements OnInit {
   constructor(private service: WorkoutService, private datePipe: DatePipe) { }
   rmh = null;
   rmc = null;
+  eh = null;
+  rh = null;
+  sets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  loaded = false;
 
   ngOnInit() {
     this.service.getAll('Stats').subscribe((x: any) => {
       this.setupRMH(x.RepMaxHistory);
       this.setupRMC(x.RepMaxCurrent);
+      this.setupEH(x.ExerciseHistory);
+      this.loaded = true;
     });
+  }
+
+  setupEH(data: any[]) {
+    const eh: any = [];
+
+    const uniqueExercises = [...new Set(data.map(x => x.Name))].sort();
+    for (const ex of uniqueExercises) {
+      const wo = data.filter(x => x.Name === ex);
+      const dates = [...new Set(wo.map(x => x.WorkoutDate))];
+      const pt = {
+        Name: ex,
+        Container: Math.random().toString(36).substring(2, 15),
+        Categories: dates,
+        Series: []
+      };
+      const series = [];
+      const highestSet = Math.max.apply(Math, wo.map((o) => o.SetNumber));
+      for (const setx of this.sets) {
+        if (setx <= highestSet) {
+          series.push({ name: 'Set ' + setx, data: [] });
+        }
+      }
+      for (const cat of dates) {
+        for (const set of this.sets) {
+          if (series[set - 1]) {
+            const a = wo.find(x => x.SetNumber === set && x.WorkoutDate === cat);
+            series[set - 1].data.push(
+              {
+                y: a ? (a.ByRep === 1 ? a.Reps : a.Weight) : 0,
+                color: (a ? (a.Rating === 1 ? '#dc3545' : a.Rating === 3 ? '#28a745' : '#fd7e14') : null)
+              }
+            );
+          }
+        }
+      }
+      pt.Series = series;
+      eh.push(pt);
+    }
+    this.eh = eh;
   }
 
   setupRMC(data: any[]) {
