@@ -23,6 +23,8 @@ import { CreateExerciseGuard } from './_guards/createexercise.guard';
 import { MeasurementsComponent } from './_pages/measurements/measurements.component';
 import { ProfileComponent } from './_pages/profile/profile.component';
 import { StatsComponent } from './_pages/stats/stats.component';
+import { WorkoutNowComponent } from './_pages/workout-now/workout-now.component';
+import { ConfirmCustomGuard } from './_guards/confirm-custom.guard';
 
 const routes: Routes = [{
   path: '',
@@ -129,6 +131,12 @@ const routes: Routes = [{
   component: WorkoutComponent,
   canActivate: [AuthGuard],
   canDeactivate: [ConfirmGuard],
+},
+{
+  path: 'custom',
+  component: WorkoutNowComponent,
+  canActivate: [AuthGuard],
+  canDeactivate: [ConfirmCustomGuard],
 },
 // otherwise redirect to home
 { path: '**', redirectTo: '' }];

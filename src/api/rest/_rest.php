@@ -6,7 +6,7 @@ include_once __DIR__.'/_db.php';
 function get($table, $id){
   $dictionary = getDictionary();
   $db = new DBClass();
-  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $dictionary[$table]['ID'] .' = ? ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $dictionary[$table]['ID'] .' = ? and ' . $dictionary[$table]['ID'] .' != -1 ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([$id]);
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
   $stmt = null;
@@ -16,7 +16,7 @@ function get($table, $id){
 function getCustom($table, $id, $customFilter){
   $dictionary = getDictionary();
   $db = new DBClass();
-  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $dictionary[$table]['ID'] .' = ? and ' . $customFilter . ' ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $dictionary[$table]['ID'] .' = ? and ' . $customFilter . '  and ' . $dictionary[$table]['ID'] .' != -1 ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([$id]);
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
   $stmt = null;
@@ -27,7 +27,7 @@ function getBy($table, $val, $field){
   $dictionary = getDictionary();
   $val = strval($val);
   $db = new DBClass();
-  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $field .' = ? ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $field .' = ?  and ' . $dictionary[$table]['ID'] .' != -1 ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([$val]);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt = null;
@@ -38,7 +38,7 @@ function getByUser($table, $val, $field, $userID){
   $dictionary = getDictionary();
   $val = strval($val);
   $db = new DBClass();
-  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $field .' = ? and UserID = ? ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $field .' = ? and UserID = ?  and ' . $dictionary[$table]['ID'] .' != -1 ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([$val, $userID]);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt = null;
@@ -48,7 +48,7 @@ function getByUser($table, $val, $field, $userID){
 function getAllByUser($table, $userID){
   $dictionary = getDictionary();
   $db = new DBClass();
-  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE UserID = ? ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE UserID = ?  and ' . $dictionary[$table]['ID'] .' != -1 ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([$userID]);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt = null;
@@ -58,7 +58,7 @@ function getAllByUser($table, $userID){
 function getAllByUserCustomFilter($table, $userID, $customFilter){
   $dictionary = getDictionary();
   $db = new DBClass();
-  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE UserID = ? and ' . $customFilter . ' ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE UserID = ? and ' . $customFilter . '  and ' . $dictionary[$table]['ID'] .' != -1 ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([$userID]);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt = null;
@@ -68,7 +68,7 @@ function getAllByUserCustomFilter($table, $userID, $customFilter){
 function getAll($table){
   $dictionary = getDictionary();
   $db = new DBClass();
-  $stmt = $db->pdo->prepare("SELECT * FROM " . $table . " ORDER BY " . $dictionary[$table]['ORDER'] . ";");
+  $stmt = $db->pdo->prepare('SELECT * FROM ' . $table . ' WHERE ' . $dictionary[$table]['ID'] .' != -1 ORDER BY ' . $dictionary[$table]['ORDER'] . ';');
   $stmt->execute([]);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt = null;

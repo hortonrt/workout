@@ -2,8 +2,8 @@
 include_once __DIR__.'/_rest.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
-$db = new DBClass();
 $allowed = array('BlockTypes', 'ExerciseTypes', 'MuscleGroupTypes', 'MuscleTypes', 'RepTypes', 'SideTypes', 'WeightTypes', 'Equipment');
+$dictionary = getDictionary();
 
 if($method === "GET"){ 
   if(isset($_GET['i']) && in_array($_GET['i'], $allowed)){
@@ -11,10 +11,11 @@ if($method === "GET"){
   }
   else{
      // get all
-     $out = array();
-     foreach($allowed as $type){
-       $out[$type] = getAll($type);
-     }
-     echo(json_encode($out));
+    $out = array();
+    foreach($allowed as $type){
+      $f = getAll($type);
+      $out[$type] = $f;
+    }
+    echo(json_encode($out));
   }
 }

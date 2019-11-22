@@ -1,0 +1,96 @@
+.add-div{
+  background-color: #ddd;
+  color:#aaa;
+  text-align:center;
+  height: 150px;
+  line-height: 150px;
+  font-size: 4rem;
+}
+
+
+.workout-nav button {
+  width: 50%;
+  border-right: 1px solid #ddd;
+  &:last-child {
+    border-right: none;
+  }
+}
+
+label{
+  font-weight: bold;
+}
+
+.workout-nav {
+  padding: 0;
+}
+
+.exercise-wrap {
+  .exercise-div {
+    height: auto;
+    padding: 0.5rem;
+    background-color: #ccc;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  &.active {
+    .exercise-div {
+      background-color: #fff;
+    }
+  }
+}
+
+.resting-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2000;
+  background-color: red;
+  opacity: 0.9;
+  color: #fff;
+}
+
+.resting-content span {
+  display: block;
+  &.big {
+    font-size: 100px;
+  }
+}
+
+.clock {
+  font-family: 'Roboto Mono', monospace;
+  text-align: center;
+  line-height: 50px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.finish-flag {
+  background-image: linear-gradient(45deg, #777 25%, transparent 25%),
+    linear-gradient(-45deg, #777 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #777 75%),
+    linear-gradient(-45deg, transparent 75%, #777 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  height: 50px;
+  font-size: 35px;
+  font-weight: bold;
+  line-height: 50px;
+}
+
+
+.input-group-tgl {
+  .btn, input {
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: auto;
+  }
+}
+.large{
+  font-size: 1.3rem;
+}

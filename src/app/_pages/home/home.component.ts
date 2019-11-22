@@ -7,7 +7,8 @@ import {
   faWeight,
   faRunning,
   faUser,
-  faCalendarAlt
+  faCalendarAlt,
+  faBolt
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { User } from 'src/app/_models/User';
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   faWeight = faWeight;
   faRunning = faRunning;
   faUser = faUser;
+  faBolt = faBolt;
   faCalendarAlt = faCalendarAlt;
 
   constructor(private authenticationService: AuthenticationService) {
