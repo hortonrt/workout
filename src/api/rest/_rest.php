@@ -172,4 +172,3 @@ function deleteR($table, $id){
 // exercise progress report
 // routine progress report
 // RM Per Exercise Report
-// RM For Exercise Modal in Workout

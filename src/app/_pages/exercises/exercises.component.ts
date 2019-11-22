@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Exercise } from 'src/app/_models/Exercise';
 import { User } from 'src/app/_models/User';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';

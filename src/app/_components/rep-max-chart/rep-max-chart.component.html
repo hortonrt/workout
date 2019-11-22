@@ -1,0 +1,20 @@
+<div class="modal-header bg-workout text-white">
+  <h4 class="modal-title pull-left">Pick Exercise</h4>
+  <button type="button" class="close pull-right text-white" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0">
+  <table class="table table-bordered table-striped table-sm">
+    <tbody>
+      <tr>
+        <th class="w-50 bg-warning text-white">Reps</th>
+        <th class="w-50 bg-warning text-white">Weight</th>
+      </tr>
+      <tr *ngFor="let rep of reps">
+        <td class="text-center">{{rep}}</td>
+        <td class="text-center">{{ ORM | repmax:1:rep}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

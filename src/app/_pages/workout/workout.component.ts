@@ -21,6 +21,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { DatePipe } from '@angular/common';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
 
 @Component({
   selector: 'app-workout',
@@ -54,12 +56,15 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   restTimer: number;
   done = false;
   bands = null;
+  bsModalRef = null;
+
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutService,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private modalService: BsModalService
   ) {
     this.bands = Object.assign([], service.bands);
   }
@@ -179,6 +184,13 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     if (this.exercising) {
       $event.returnValue = true;
     }
+  }
+
+  viewRepMax(ormIn) {
+    const initialState = {
+      ORM: ormIn
+    };
+    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState });
   }
 
   finish() {

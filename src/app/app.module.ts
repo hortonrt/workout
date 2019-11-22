@@ -52,6 +52,7 @@ import { StatsComponent } from './_pages/stats/stats.component';
 import { RepMaxHistoryComponent } from './_pages/stats/rep-max-history/rep-max-history.component';
 import { RepMaxCurrentComponent } from './_pages/stats/rep-max-current/rep-max-current.component';
 import { WorkoutMusclesComponent } from './_pages/workout/workout-preview/workout-muscles/workout-muscles.component';
+import { RepMaxChartComponent } from './_components/rep-max-chart/rep-max-chart.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { WorkoutMusclesComponent } from './_pages/workout/workout-preview/workou
     StatsComponent,
     RepMaxHistoryComponent,
     RepMaxCurrentComponent,
-    WorkoutMusclesComponent
+    WorkoutMusclesComponent,
+    RepMaxChartComponent
   ],
   imports: [
     BrowserModule,
@@ -110,6 +112,6 @@ import { WorkoutMusclesComponent } from './_pages/workout/workout-preview/workou
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ExercisePickerComponent, CreateMeasurementComponent, EditWorkoutComponent]
+  entryComponents: [ExercisePickerComponent, CreateMeasurementComponent, EditWorkoutComponent, RepMaxChartComponent]
 })
 export class AppModule { }

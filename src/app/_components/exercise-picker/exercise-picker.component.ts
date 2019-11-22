@@ -40,4 +40,8 @@ export class ExercisePickerComponent implements OnInit {
     this.pickExercise(exercise);
     this.bsModalRef.hide();
   }
+
+  cancel() {
+    this.bsModalRef.hide();
+  }
 }
