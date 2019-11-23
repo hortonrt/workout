@@ -16,7 +16,7 @@ if($method === "GET"){
             , u.Weight
             , u.Rating
             , e.ExerciseTypeID
-            , DATE_FORMAT(ExerciseStart, '%m/%d') as ExerciseStart
+            , DATE_FORMAT(ExerciseStart, '%c/%e') as ExerciseStart
             , rbse.Reps as ExerciseReps
             , ROUND(Case when e.ExerciseTypeID not in (1,2,5) then u.Reps else u.Weight * (1 + (u.Reps / 30)) end, 1) as ORM
         from UserWorkoutExerciseHistory u

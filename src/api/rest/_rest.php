@@ -166,8 +166,3 @@ function deleteR($table, $id){
   $stmt->execute();
   $stmt = null;
 }
-
-
-// new stuff
-// exercise progress report
-// routine progress report

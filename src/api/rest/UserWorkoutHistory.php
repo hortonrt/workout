@@ -9,7 +9,7 @@ if($method === "GET"){
                               u.UserWorkoutHistoryID
                                 , r.Name
                                 , Duration    
-                                , DATE_FORMAT(StartTime,'%m/%d') as StartTime
+                                , DATE_FORMAT(StartTime,'%c/%e') as StartTime
                                 , StartTime as StartTimeDate
                                 , EndTime as EndTimeDate
                             from UserWorkoutHistory u

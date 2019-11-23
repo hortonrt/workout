@@ -47,7 +47,7 @@
                 {{ ue.Name }}
               </a>
             </td>
-            <td class="text-center align-middle">{{ ue.Reps }} / {{ue.ExerciseReps}}</td>
+            <td class="text-center align-middle">{{ ue.Reps }}<span *ngIf="ue.ExerciseReps"> / {{ue.ExerciseReps}}</span></td>
             <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(ue.Weight)}" *ngIf="ue.ExerciseTypeID === 3"></td>
             <td class="w-25 align-middle text-center" *ngIf="ue.ExerciseTypeID !== 3">{{ue.Weight}} </td>
             <td class="text-center align-middle" [class.bg-danger]="ue.Rating === 1" [class.bg-warning]="ue.Rating === 2" [class.bg-success]="ue.Rating === 3">

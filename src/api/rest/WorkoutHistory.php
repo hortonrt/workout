@@ -14,7 +14,7 @@ if($method === "GET"){
                     u.UserWorkoutHistoryID
                       , r.Name
                       , Duration    
-                      , DATE_FORMAT(StartTime, '%m/%d - %l:%i %p') as StartTime 
+                      , DATE_FORMAT(StartTime, '%c/%e - %l:%i %p') as StartTime 
                       , StartTime as StartTimeDate
                       , EndTime as EndTimeDate
                   from UserWorkoutHistory u
@@ -34,7 +34,7 @@ if($method === "GET"){
                                   from UserWorkoutExerciseHistory u
                                     inner join Exercises e 
                                       on u.ExerciseID = e.ExerciseID
-                                      INNER JOIN RoutineBlockSetExercises rbse
+                                      left outer JOIN RoutineBlockSetExercises rbse
 										on rbse.RoutineBlockSetExerciseID = u.RoutineBlockSetExerciseID
                                   where UserWorkoutHistoryID = ' . $id . ' order by ExerciseStart');
       echo(json_encode($wo[0]));
