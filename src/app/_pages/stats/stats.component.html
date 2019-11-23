@@ -36,5 +36,20 @@
         </tab>
       </tabset>
     </tab>
+    <tab heading="Routines" id="tab3" class="pt-5" (selectTab)="onSelect($event)">
+      <tabset>
+        <tab heading="Progress" id="tab3-1" (selectTab)="onSelect($event)">
+          <select class="form-control mt-1" (change)="routineReportBuild($event.target.value)">
+            <option value="-1">Select Routine</option>
+            <option *ngFor="let routine of this.routines" [value]="routine.RoutineID">
+              {{routine.Name}}
+            </option>
+          </select>
+          <div *ngFor="let exercise of rh" class="chart-wrap">
+            <app-routine-history [data]="exercise"></app-routine-history>
+          </div>
+        </tab>
+      </tabset>
+    </tab>
   </tabset>
 </div>

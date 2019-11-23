@@ -18,16 +18,59 @@ export class StatsComponent implements OnInit {
   eh = null;
   rh = null;
   ec = null;
+  routines = [];
   sets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   loaded = false;
 
   ngOnInit() {
-    this.service.getAll('Stats').subscribe((x: any) => {
-      this.setupRMC(x.RepMaxCurrent);
-      this.data = x;
-      this.loaded = true;
+    this.service.getAll('Routines').subscribe((r: any[]) => {
+      this.routines = r;
+      this.service.getAll('Stats').subscribe((x: any) => {
+        this.setupRMC(x.RepMaxCurrent);
+        this.data = x;
+        this.loaded = true;
+      });
     });
   }
+
+  routineReportBuild(routineID) {
+    this.rh = [];
+    this.service.get('Routines', routineID).subscribe((r: any) => {
+      this.service.get('RoutineHistory', routineID).subscribe((x: any[]) => {
+        const newRH = [];
+        for (const b of r.Blocks) {
+          for (const s of b.Sets) {
+            for (const e of s.Exercises) {
+              const series = [];
+              const datax = [];
+              for (const a of x.filter(eh => eh.RoutineBlockSetExerciseID === e.RoutineBlockSetExerciseID)) {
+                datax.push({
+                  y: a ? (a.ByRep === 1 ? a.Reps : a.Weight) : 0,
+                  color: (a ? (a.Rating === 1 ? '#dc3545' : a.Rating === 3 ? '#28a745' : '#fd7e14') : null),
+                  info: a.Reps + ' Reps x' + a.Weight + ' lbs',
+                });
+              }
+              series.push(
+                {
+                  data: datax
+                });
+
+              newRH.push({
+                Name: e.Exercise.Name,
+                Container: Math.random().toString(36).substring(2, 15),
+                Categories: x.filter(eh => eh.RoutineBlockSetExerciseID === e.RoutineBlockSetExerciseID).map(y => y.WorkoutDate),
+                Series: series
+              });
+            }
+          }
+        }
+        setTimeout(() => {
+          this.rh = newRH;
+        });
+      });
+    });
+  }
+
 
   onSelect($event) {
     if ($event.id === 'tab1-2' && !this.rmh) {

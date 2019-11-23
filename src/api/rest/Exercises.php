@@ -18,6 +18,7 @@ if($method === "GET"){
                           FROM Exercises e
                             inner join ExerciseTypes et
                               on et.ExerciseTypeID = e.ExerciseTypeID
+                          Where ExerciseID not in (-1,10)
                           order by e.Name");
     foreach($exercises as $exerciseKey => $exercise){
       $exercises[$exerciseKey]["MuscleTypes"] = custom("SELECT emt.IsPrimary, mt.Name as MuscleName, mgt.Name as MuscleGroupName

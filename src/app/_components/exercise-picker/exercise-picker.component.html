@@ -6,29 +6,40 @@
 </div>
 <div class="modal-body">
   <div class="row no-gutters button-spacer">
-    <input class="form-control form-control-sm" [(ngModel)]="searchText" placeholder="Search">
-    <div class="col-12 mb-4" *ngFor="let group of groups">
-      <div class="p-2">
-        <h3 (click)="group.collapsed = !group.collapsed"><span *ngIf="group.collapsed">+</span><span *ngIf="!group.collapsed">-</span>{{group.Name}}</h3>
-        <div [collapse]="group.collapsed">
-          <div class=" bg-workout text-white m-4 p-4" (click)="select(exercise)" *ngFor="let exercise of group.Exercises | filterExercise:searchText">
-            <table class="table table-sm text-white no-borders">
-              <tbody>
-                <tr>
-                  <td colspan="2" class="big">{{exercise.Name}} - {{exercise.ExerciseTypeName}}</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div *ngFor="let mt of exercise.MuscleTypes" [ngClass]="{'text-underline': mt.IsPrimary === 1}">{{ mt.MuscleGroupName }} - {{ mt.MuscleName }}</div>
-                  </td>
-                  <td>
-                    <div *ngFor="let e of exercise.Equipment" [ngClass]="{'text-underline': e.IsOptional === 0}">{{ e.Name }}</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+    <div class="col-12">
+      <div class="input-group input-group-sm">
+        <input class="form-control" [(ngModel)]="exFilt.searchText" placeholder="Search" (keyup)="updateList()">
+        <select class="form-control" (change)="onChangeMT($event.target.value)">
+          <option value="">All Muscle Groups</option>
+          <option *ngFor="let group of this.lists.MuscleGroupTypes" [value]="group.Name">
+            {{group.Name}}
+          </option>
+        </select>
+        <select class="form-control" (change)="onChangeET($event.target.value)">
+          <option value="">All Types</option>
+          <option *ngFor="let group of this.lists.ExerciseTypes" [value]="group.Name">
+            {{group.Name}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12 mb-4" *ngFor="let exercise of exercises">
+      <div class="bg-workout text-white m-4 p-4" (click)="select(exercise)">
+        <table class="table table-sm text-white no-borders">
+          <tbody>
+            <tr>
+              <td colspan="2" class="big">{{exercise.Name}} - {{exercise.ExerciseTypeName}}</td>
+            </tr>
+            <tr>
+              <td>
+                <div *ngFor="let mt of exercise.MuscleTypes" [ngClass]="{'text-underline': mt.IsPrimary === 1}">{{ mt.MuscleGroupName }} - {{ mt.MuscleName }}</div>
+              </td>
+              <td>
+                <div *ngFor="let e of exercise.Equipment" [ngClass]="{'text-underline': e.IsOptional === 0}">{{ e.Name }}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

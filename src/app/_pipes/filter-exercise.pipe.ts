@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'filterExercise'
 })
 export class FilterExercisePipe implements PipeTransform {
-  transform(items: any[], searchText: string): any {
+  transform(items: any[], searchText: string, groupID: number, typeID: number): any {
     if (!items) { return []; }
     if (!searchText) { return items; }
     searchText = searchText.toLowerCase();

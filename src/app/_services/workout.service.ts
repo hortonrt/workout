@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,19 @@ export class WorkoutService {
     { v: 20, n: 'red' },
     { v: 25, n: 'purple' }];
 
+  public lists: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
   };
   private rootpath = environment.api + 'rest/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.getAll('Lists').subscribe(x => {
+      this.lists.next(x);
+    });
+  }
 
   getAll(path: string) {
     return this.http.get(this.rootpath + path + '.php');
