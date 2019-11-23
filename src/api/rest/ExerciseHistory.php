@@ -24,7 +24,7 @@ if($method === "GET"){
             on u.ExerciseID = e.ExerciseID
           INNER JOIN RoutineBlockSetExercises rbse
             on rbse.RoutineBlockSetExerciseID = u.RoutineBlockSetExerciseID
-        where u.ExerciseID = " . $id . " order by ExerciseStart desc");
+        where u.ExerciseID = " . $id . " order by cast(ExerciseStart as datetime) desc");
       echo(json_encode($wo));
     }    
   }

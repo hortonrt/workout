@@ -20,7 +20,7 @@ if($method === "GET"){
                   from UserWorkoutHistory u
                     inner join Routines r
                       on u.RoutineID = r.RoutineID
-                  where UserWorkoutHistoryID = " . $id . " order by StartTime desc");
+                  where UserWorkoutHistoryID = " . $id . " order by cast(StartTime as datetime) desc");
 
       $wo[0]['Exercises'] = custom('SELECT 
                                     e.ExerciseID
@@ -36,7 +36,7 @@ if($method === "GET"){
                                       on u.ExerciseID = e.ExerciseID
                                       left outer JOIN RoutineBlockSetExercises rbse
 										on rbse.RoutineBlockSetExerciseID = u.RoutineBlockSetExerciseID
-                                  where UserWorkoutHistoryID = ' . $id . ' order by ExerciseStart');
+                                  where UserWorkoutHistoryID = ' . $id . ' order by cast(ExerciseStart as datetime)');
       echo(json_encode($wo[0]));
     }    
   }
