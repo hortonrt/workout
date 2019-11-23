@@ -6,29 +6,29 @@
 
   <div class="collapse navbar-collapse" [collapse]="!isCollapsed">
     <ul class="navbar-nav mr-auto text-center text-lg-left">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['/']" (click)="isCollapsed = !isCollapsed"> Home <span class="sr-only">(current)</span> </a>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed"> Home <span class="sr-only">(current)</span> </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/programs']" (click)="isCollapsed = !isCollapsed">Programs</a>
+        <a class="nav-link" [routerLink]="['/programs']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed">Programs</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/exercises']" (click)="isCollapsed = !isCollapsed">Exercises</a>
+        <a class="nav-link" [routerLink]="['/exercises']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed">Exercises</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/routines']" (click)="isCollapsed = !isCollapsed">Routines</a>
+        <a class="nav-link" [routerLink]="['/routines']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed">Routines</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/history']" (click)="isCollapsed = !isCollapsed">History</a>
+        <a class="nav-link" [routerLink]="['/history']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed">History</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/measurements']" (click)="isCollapsed = !isCollapsed">Measurements</a>
+        <a class="nav-link" [routerLink]="['/measurements']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed">Measurements</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/profile']" (click)="isCollapsed = !isCollapsed">Profile</a>
+        <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed">Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/stats']" (click)="isCollapsed = !isCollapsed">Stats</a>
+        <a class="nav-link" [routerLink]="['/stats']" routerLinkActive="router-link-active" (click)="isCollapsed = !isCollapsed">Stats</a>
       </li>
     </ul>
     <div class="form-inline my-2 my-lg-0 buttons-form">
