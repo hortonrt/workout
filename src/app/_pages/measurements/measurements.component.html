@@ -51,9 +51,44 @@
             </table>
           </div>
         </tab>
-        <tab heading="Graph">
+        <tab heading="Graph" id="tab3">
           <app-output-graph [umh]="measurements"></app-output-graph>
         </tab>
+        <tab heading="Breakdown" id="tab3">
+          <app-breakdown-graph [data]="measurements"></app-breakdown-graph>
+        </tab>
+
+        <!-- <tab heading="Breakdown" id="tab2">
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered bg-white table-striped">
+              <thead>
+                <tr class="bg-dark text-light">
+                  <th>Date</th>
+                  <th>Weight</th>
+                  <th>Fat</th>
+                  <th>Water</th>
+                  <th>Bone</th>
+                  <th>Muscle</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="!measurements.length">
+                <tr>
+                  <td colspan="10" class="text-center">None</td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="measurements.length">
+                <tr *ngFor="let m of measurements">
+                  <td>{{ m.DateCreated }}</td>
+                  <td class="text-center align-middle">{{ m.Weight }}lbs</td>
+                  <td class="text-center align-middle">{{ ((m.Fat / 100) * m.Weight).toFixed(1) }}lbs</td>
+                  <td class="text-center align-middle">{{ ((m.Water / 100) * m.Weight).toFixed(1) }}lbs</td>
+                  <td class="text-center align-middle">{{ m.Bone }}lbs</td>
+                  <td class="text-center align-middle">{{ m.Muscle }}lbs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </tab> -->
       </tabset>
     </div>
   </div>
