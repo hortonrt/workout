@@ -32,13 +32,13 @@
       </li>
     </ul>
     <div class="form-inline my-2 my-lg-0 buttons-form">
-      <button class="btn btn-white btn-sm mr-0 mr-lg-2" (click)="update()" *ngIf="worker">
+      <button class="btn btn-white mr-0 mr-lg-2" (click)="update()" *ngIf="worker">
         <span *ngIf="!checking">Check for Update</span>
         <span *ngIf="checking">
           <fa-icon [icon]="faSync" [spin]="true"></fa-icon>
         </span>
       </button>
-      <button class="btn btn-white btn-sm" (click)="logout()">
+      <button class="btn btn-white" (click)="logout()">
         Logout
       </button>
     </div>

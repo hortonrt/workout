@@ -57,7 +57,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   done = false;
   bands = null;
   bsModalRef = null;
-
+  rid = -1;
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutService,
@@ -77,6 +77,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
       this.route.paramMap.subscribe(params => {
+        this.rid = Number(params.get('routineid'));
         this.userWorkout.ProgramRoutineID = Number(
           params.get('programroutineid'),
         );
@@ -172,7 +173,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       this.activeExercise.ExerciseStart = eDate;
       this.activeExercise.RoutineBlockID = next.RoutineBlockID;
       this.activeExercise.RoutineBlockSetID = next.RoutineBlockSetID;
-      this.activeExercise.RoutineID = this.workout.RoutineID;
+      this.activeExercise.RoutineID = this.rid;
       next.Active = true;
     } else {
       this.finish();
@@ -233,7 +234,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.userWorkout.ProgramPhaseID = this.workout.ProgramPhaseID;
     this.userWorkout.ProgramRoutineID = this.workout.ProgramRoutineID;
     this.userWorkout.ProgramDayID = this.workout.ProgramDayID;
-    this.userWorkout.RoutineID = this.workout.RoutineID;
+    this.userWorkout.RoutineID = this.rid;
     this.activeExercise = {} as UserWorkoutExerciseHistory;
     this.activeExercise.ExerciseOrder = 1;
     this.activeExercise.Rating = 3;
@@ -244,7 +245,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.activeExercise.ExerciseStart = this.userWorkout.StartTime;
     this.activeExercise.RoutineBlockID = this.workout.Exercises[0].RoutineBlockID;
     this.activeExercise.RoutineBlockSetID = this.workout.Exercises[0].RoutineBlockSetID;
-    this.activeExercise.RoutineID = this.workout.RoutineID;
+    this.activeExercise.RoutineID = this.rid;
     this.clockInterval = setInterval(() => {
       this.clock = Math.floor(
         Math.abs(new Date().getTime() - this.userWorkout.StartTime.getTime()) /
