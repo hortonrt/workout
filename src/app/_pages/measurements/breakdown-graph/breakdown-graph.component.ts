@@ -14,8 +14,8 @@ export class BreakdownGraphComponent implements OnInit {
 
   ngOnInit() {
     this.data.map(x => {
-      x.Fat = parseFloat(((x.Fat / 100) * x.Weight).toFixed(1));
-      x.Water = parseFloat(((x.Water / 100) * x.Weight).toFixed(1));
+      x.FatL = parseFloat(((x.Fat / 100) * x.Weight).toFixed(1));
+      x.WaterL = parseFloat(((x.Water / 100) * x.Weight).toFixed(1));
     });
     this.options = {
       chart: {
@@ -45,10 +45,10 @@ export class BreakdownGraphComponent implements OnInit {
         data: this.data.map(x => x.Weight)
       }, {
         name: 'Fat',
-        data: this.data.map(x => x.Fat)
+        data: this.data.map(x => x.FatL)
       }, {
         name: 'Water',
-        data: this.data.map(x => x.Water)
+        data: this.data.map(x => x.WaterL)
       }, {
         name: 'Bone',
         data: this.data.map(x => x.Bone)
