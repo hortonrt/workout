@@ -198,7 +198,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       this.activeExercise.RoutineBlockSetID = next.RoutineBlockSetID;
       this.activeExercise.RoutineID = this.rid;
       next.Active = true;
-      if (next.AutoRun) {
+      if (next.AutoRun && next.RepType === 'Seconds') {
         this.toggleTimer();
       }
     } else {
@@ -280,7 +280,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       );
     }, 1000);
     this.exercising = true;
-    if (this.workout.Exercises[0].AutoRun) {
+    if (this.workout.Exercises[0].AutoRun && this.workout.Exercises[0].RepType === 'Seconds') {
       this.toggleTimer();
     }
   }
