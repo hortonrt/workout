@@ -72,7 +72,7 @@ export class MeasurementsComponent implements OnInit {
         const pay = Object.assign({}, measurement);
         delete pay.FatL;
         delete pay.WaterL;
-        this.service.post('UserMeasurementHistory', measurement).subscribe((data: UserMeasurementHistory[]) => {
+        this.service.post('UserMeasurementHistory', pay).subscribe((data: UserMeasurementHistory[]) => {
           this.load();
         });
       }
