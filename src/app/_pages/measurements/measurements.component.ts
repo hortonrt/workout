@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 export class MeasurementsComponent implements OnInit {
   currentUser: User = {} as User;
   measurements: UserMeasurementHistory[] = [] as UserMeasurementHistory[];
+  sorted: UserMeasurementHistory[] = [] as UserMeasurementHistory[];
   bsModalRef: BsModalRef;
   loaded = false;
 
@@ -34,6 +35,7 @@ export class MeasurementsComponent implements OnInit {
   load() {
     this.loaded = false;
     this.service.getAll('UserMeasurementHistory').subscribe((data: UserMeasurementHistory[]) => {
+      this.sorted = Object.assign([], data.sort((a, b) => (new Date(b.DateCreated).getTime() - new Date(a.DateCreated).getTime())));
       this.measurements = data;
       this.loaded = true;
     });
@@ -41,7 +43,7 @@ export class MeasurementsComponent implements OnInit {
 
   addMeasurement(meas) {
     if (meas === undefined) {
-      const lastMeas = this.measurements[0];
+      const lastMeas = this.sorted[0];
       meas = Object.assign({}, lastMeas);
       const dp = new DatePipe(navigator.language);
       const p = 'yyyy-MM-dd';

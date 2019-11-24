@@ -34,8 +34,8 @@
                   <td colspan="10" class="text-center">None</td>
                 </tr>
               </tbody>
-              <tbody *ngIf="measurements.length">
-                <tr *ngFor="let m of measurements">
+              <tbody *ngIf="sorted.length">
+                <tr *ngFor="let m of sorted">
                   <td> <button class="btn btn-link" (click)="addMeasurement(m)"> {{ m.DateCreated | date: 'M/d/yyyy' }} </button> </td>
                   <td class="text-center align-middle">{{ m.Weight }}lbs</td>
                   <td class="text-center align-middle">{{ m.Fat }}%</td>

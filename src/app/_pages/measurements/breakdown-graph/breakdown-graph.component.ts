@@ -13,7 +13,6 @@ export class BreakdownGraphComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.data = this.data.sort((a, b) => (new Date(a.DateCreated).getTime() - new Date(b.DateCreated).getTime()));
     this.data.map(x => {
       x.Fat = parseFloat(((x.Fat / 100) * x.Weight).toFixed(1));
       x.Water = parseFloat(((x.Water / 100) * x.Weight).toFixed(1));

@@ -13,7 +13,6 @@ export class OutputGraphComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.umh = this.umh.sort((a, b) => (new Date(a.DateCreated).getTime() - new Date(b.DateCreated).getTime()));
     this.options = {
       chart: { zoomType: 'xy', height: 700 },
       title: false,
