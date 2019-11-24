@@ -13,7 +13,9 @@ export class BreakdownGraphComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.data.map(x => {
+    const data = Object.assign([], this.data);
+    this.data = data.sort((a, b) => (new Date(a.DateCreated).getTime() - new Date(b.DateCreated).getTime()));
+    data.map(x => {
       x.FatL = parseFloat(((x.Fat / 100) * x.Weight).toFixed(1));
       x.WaterL = parseFloat(((x.Water / 100) * x.Weight).toFixed(1));
     });
@@ -26,7 +28,7 @@ export class BreakdownGraphComponent implements OnInit {
         text: ''
       },
       xAxis: {
-        categories: this.data.map(x => x.DateCreated)
+        categories: data.map(x => x.DateCreated)
       },
       yAxis: {
         title: {
@@ -42,19 +44,19 @@ export class BreakdownGraphComponent implements OnInit {
       },
       series: [{
         name: 'Weight',
-        data: this.data.map(x => x.Weight)
+        data: data.map(x => x.Weight)
       }, {
         name: 'Fat',
-        data: this.data.map(x => x.FatL)
+        data: data.map(x => x.FatL)
       }, {
         name: 'Water',
-        data: this.data.map(x => x.WaterL)
+        data: data.map(x => x.WaterL)
       }, {
         name: 'Bone',
-        data: this.data.map(x => x.Bone)
+        data: data.map(x => x.Bone)
       }, {
         name: 'Muscle',
-        data: this.data.map(x => x.Muscle)
+        data: data.map(x => x.Muscle)
       }],
 
       responsive: {
@@ -74,11 +76,4 @@ export class BreakdownGraphComponent implements OnInit {
     };
     Highcharts.chart('containerb', this.options);
   }
-
-  buildData(prop) {
-    const data = [];
-    this.data.map((x: UserMeasurementHistory) => x[prop]);
-    return data;
-  }
-
 }

@@ -9,4 +9,5 @@ export interface RoutineBlock {
   Sets: RoutineBlockSet[];
   ProgressDiff: number;
   ProgressType: string;
+  AutoRun: boolean;
 }

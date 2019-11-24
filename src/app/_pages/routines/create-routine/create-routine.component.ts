@@ -108,6 +108,7 @@ export class CreateRoutineComponent implements OnInit {
             BlockOrder: [block.BlockOrder, Validators.required],
             ProgressDiff: [block.ProgressDiff, Validators.required],
             ProgressType: [block.ProgressType, Validators.required],
+            AutoRun: [block.AutoRun],
             Sets: new FormArray([]),
           }),
         );
@@ -163,6 +164,7 @@ export class CreateRoutineComponent implements OnInit {
         BlockOrder: [control.length + 1, Validators.required],
         ProgressDiff: [0, Validators.required],
         ProgressType: ['Block', Validators.required],
+        AutoRun: [false],
         Sets: new FormArray([]),
       }),
     );

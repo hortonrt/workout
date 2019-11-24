@@ -4,7 +4,10 @@ import { User } from 'src/app/_models/User';
 import { ActivatedRoute } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { RoutineBlockSet } from 'src/app/_models/RoutineBlockSet';
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import {
+  faStopwatch,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-view-routine',
@@ -16,6 +19,7 @@ export class ViewRoutineComponent implements OnInit {
   currentUser: User = {} as User;
   programroutineid: number;
   loaded = false;
+  faStopWatch: IconDefinition = faStopwatch;
   maxSets = 0;
   constructor(
     private route: ActivatedRoute,

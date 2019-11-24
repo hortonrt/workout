@@ -24,14 +24,20 @@
             <div class="form-group col-3"> <label for="BlockTypeID">Block Type</label> <select formControlName="BlockTypeID" class="form-control form-control-sm">
                 <option *ngFor="let bType of blockTypes" [ngValue]="bType.BlockTypeID">{{ bType.Name }} </option>
               </select> </div>
-            <div class="form-group col-3"> <label for="BlockOrder">Order</label> <input type="number" formControlName="BlockOrder" class="form-control form-control-sm" /> </div>
+            <div class="form-group col-2"> <label for="BlockOrder">Order</label> <input type="number" formControlName="BlockOrder" class="form-control form-control-sm" /> </div>
             <div class="form-group col-3"> <label for="ProgressType">Progress Type</label> <select formControlName="ProgressType" class="form-control form-control-sm">
                 <option ngValue="None">None </option>
                 <option ngValue="Block">Block </option>
                 <option ngValue="Set">Set </option>
                 <option ngValue="Exercise">Exercise </option>
               </select> </div>
-            <div class="form-group col-3"> <label for="ProgressDiff">Progress Diff</label> <input type="number" formControlName="ProgressDiff" class="form-control form-control-sm" /> </div>
+            <div class="form-group col-2"> <label for="ProgressDiff">Progress Diff</label> <input type="number" formControlName="ProgressDiff" class="form-control form-control-sm" /> </div>
+            <div class="form-group col-2">
+              <label for="AutoRun">Auto Run {{block.AutoRun}}</label>
+              <div class="form-check">
+                <input class="form-check-input form-control" type="checkbox" formControlName="AutoRun" [checked]="block[blockX].AutoRun" />
+              </div>
+            </div>
             <div class="form-group col-12" *ngIf="block.value.RoutineBlockID > 0"> <button class="btn btn-sm btn-danger w-100" type="button" (click)="delete('RoutineBlocks', block.value.RoutineBlockID, routineForm.get('Blocks'), blockX)">Delete</button> </div>
           </div>
           <div formArrayName="Sets">

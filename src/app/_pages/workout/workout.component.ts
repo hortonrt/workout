@@ -5,6 +5,7 @@ import {
   faStar as faStarFull,
   faCheck,
   faTimes,
+  faStopwatch
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faClock,
@@ -36,6 +37,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   faClock = faClock;
   faStar = faStar;
   faCheck = faCheck;
+  faStopwatch = faStopwatch;
   faTimes = faTimes;
   faStarFull = faStarFull;
   faStarHalf = faStarHalf;
@@ -54,10 +56,12 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   clockInterval: any;
   restInterval: any;
   restTimer: number;
+  timerrunning = false;
   done = false;
   bands = null;
   bsModalRef = null;
   rid = -1;
+  timerInt = null;
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutService,
@@ -71,6 +75,24 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.clockInterval) { clearInterval(this.clockInterval); }
+  }
+
+  toggleTimer() {
+    this.timerrunning = !this.timerrunning;
+    if (this.timerrunning) {
+      const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
+      this.timerInt = setInterval(() => {
+        if (we.Remaining <= 0) {
+          clearInterval(this.timerInt);
+          this.timerrunning = false;
+          this.next(false);
+        } else {
+          we.Remaining -= 1;
+        }
+      }, 1000);
+    } else {
+      clearInterval(this.timerInt);
+    }
   }
 
   ngOnInit() {
@@ -160,6 +182,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     we.Reps = this.activeExercise.Reps;
     we.Weight = this.activeExercise.Weight;
     we.Rating = this.activeExercise.Rating;
+    next.Remaining = next.Reps;
     this.userWorkout.Exercises.push(Object.assign({}, this.activeExercise));
     if (next) {
       this.activeExercise = {} as UserWorkoutExerciseHistory;
@@ -175,6 +198,9 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       this.activeExercise.RoutineBlockSetID = next.RoutineBlockSetID;
       this.activeExercise.RoutineID = this.rid;
       next.Active = true;
+      if (next.AutoRun) {
+        this.toggleTimer();
+      }
     } else {
       this.finish();
     }
@@ -246,6 +272,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.activeExercise.RoutineBlockID = this.workout.Exercises[0].RoutineBlockID;
     this.activeExercise.RoutineBlockSetID = this.workout.Exercises[0].RoutineBlockSetID;
     this.activeExercise.RoutineID = this.rid;
+    this.workout.Exercises[0].Remaining = this.workout.Exercises[0].Reps;
     this.clockInterval = setInterval(() => {
       this.clock = Math.floor(
         Math.abs(new Date().getTime() - this.userWorkout.StartTime.getTime()) /
@@ -253,5 +280,8 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       );
     }, 1000);
     this.exercising = true;
+    if (this.workout.Exercises[0].AutoRun) {
+      this.toggleTimer();
+    }
   }
 }
