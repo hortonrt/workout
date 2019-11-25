@@ -7,6 +7,8 @@ if($method === "GET"){
   $stats = array();
   $rmh = custom("CALL rep_max_history(" . $userID . ");");
   $stats["RepMaxHistory"] = $rmh;
+  $fth = custom("CALL fit_test_history(" . $userID . ");");
+  $stats["FitTestHistory"] = $fth;
   $rmc = custom("CALL rep_max_current(" . $userID . ");");
   $stats["RepMaxCurrent"] = $rmc;
   $eh = custom("Select 

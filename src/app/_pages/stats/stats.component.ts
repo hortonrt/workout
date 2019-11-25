@@ -18,12 +18,13 @@ export class StatsComponent implements OnInit {
   eh = null;
   rh = null;
   ec = null;
+  fth = null;
   routines = [];
   sets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   loaded = false;
 
   ngOnInit() {
-    this.service.getAll('Routines').subscribe((r: any[]) => {
+    this.service.getAll('UserRoutines').subscribe((r: any[]) => {
       this.routines = r;
       this.service.getAll('Stats').subscribe((x: any) => {
         this.setupRMC(x.RepMaxCurrent);
@@ -85,13 +86,17 @@ export class StatsComponent implements OnInit {
       this.loaded = false;
       this.ec = this.data.ExercisesCurrent;
       this.loaded = true;
+    } else if (($event.id === 'tab4-1' || $event.id === 'tab4') && !this.fth) {
+      this.loaded = false;
+      this.setupFTH(this.data.FitTestHistory);
+      this.loaded = true;
     }
   }
 
   setupEH(data: any[]) {
     const eh: any = [];
 
-    const uniqueExercises = [...new Set(data.map(x => x.Name))].sort();
+    const uniqueExercises = [...new Set(data.map(x => x.Name))].sort((a, b) => a.WorkoutDate - b.WorkoutDate);
     for (const ex of uniqueExercises) {
       const wo = data.filter(x => x.Name === ex);
       const dates = [...new Set(wo.map(x => x.WorkoutDate))];
@@ -157,6 +162,43 @@ export class StatsComponent implements OnInit {
       });
     }
     this.rmh = rmh;
+  }
+
+  colorPick(obj) {
+    const v = obj.ByRep === 1 ? obj.Reps : obj.ORM;
+    if (v < obj.Beginner) {
+      return 'black';
+    } else if (v >= obj.Beginner && v < obj.Novice) {
+      return '#2dc937';
+    } else if (v >= obj.Novice && v < obj.Intermediate) {
+      return '#99c140';
+    } else if (v >= obj.Intermediate && v < obj.Advanced) {
+      return '#e7b416';
+    } else if (v >= obj.Advanced && v < obj.Elite) {
+      return '#db7b2b';
+    } else if (v >= obj.Elite) {
+      return '#cc3232';
+    }
+  }
+
+  setupFTH(data: any[]) {
+    console.log(data);
+    const fth: any = [];
+    const uniqueExercises = [...new Set(data.map(x =>
+      (x.ExerciseOrder < 10 ? '0' + x.ExerciseOrder : x.ExerciseOrder) + '-' + x.Name))].sort();
+    for (const exercise of uniqueExercises) {
+      const exercises: any[] = data.filter(x => x.Name === exercise.substring(3, exercise.length))
+        .sort((a, b) => (new Date(a.Date).getTime() - new Date(b.Date).getTime()));
+      fth.push({
+        Container: Math.random().toString(36).substring(2, 15),
+        Name: exercise.substring(3, exercise.length) + (exercises[0].ByRep === 0 ? ' @ ' + exercises[0].LiftWeight + 'lbs' : ''),
+        Dates: exercises.map(x => this.datePipe.transform(new Date(x.Date), 'MMM dd, yy')),
+        Reps: exercises.map(x => ({
+          y: x.Reps, color: this.colorPick(x), ORM: x.ORM,
+        })),
+      });
+    }
+    this.fth = fth;
   }
 
 }

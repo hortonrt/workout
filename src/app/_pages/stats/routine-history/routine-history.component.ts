@@ -13,7 +13,7 @@ export class RoutineHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.options = {
-      chart: { type: 'column' },
+      chart: { type: 'column', height: '150px' },
       title: { text: '' },
       xAxis: { categories: this.data.Categories },
       yAxis: { title: { enabled: false } },

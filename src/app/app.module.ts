@@ -58,6 +58,7 @@ import { ExerciseHistoryReportComponent } from './_pages/stats/exercise-history-
 import { ExercisesCurrentComponent } from './_pages/stats/exercises-current/exercises-current.component';
 import { WorkoutNowComponent } from './_pages/workout-now/workout-now.component';
 import { BreakdownGraphComponent } from './_pages/measurements/breakdown-graph/breakdown-graph.component';
+import { FitTestReportComponent } from './_pages/stats/fit-test-report/fit-test-report.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { BreakdownGraphComponent } from './_pages/measurements/breakdown-graph/b
     ExercisesCurrentComponent,
     WorkoutNowComponent,
     BreakdownGraphComponent,
+    FitTestReportComponent,
   ],
   imports: [
     BrowserModule,
