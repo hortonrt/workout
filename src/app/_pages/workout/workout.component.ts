@@ -102,7 +102,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.timerInt = setInterval(() => {
       if (we.Timer === 1) {
         this.buzzer(true);
-      } else if (we.Timer <= 5 && we.Timer > 1) {
+      } else if (we.Timer <= 6 && we.Timer > 1) {
         this.buzzer(false);
       }
       if (we.Timer <= 0) {

@@ -1,7 +1,7 @@
 <div *ngFor="let we of workout.Exercises; let weX = index" [class.active]="we.Active" [class.d-none]="we.Completed" class="exercise-wrap">
   <div class="row no-gutters" *ngIf="activeExercise">
     <div class="exercise-div col-12">
-      <div class="pb-3">
+      <div class="pb-3 large">
         <strong>{{ we.ExerciseType }} {{ we.ExerciseName}}</strong>
       </div>
       <div *ngIf="we.Active">

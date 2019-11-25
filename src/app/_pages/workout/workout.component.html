@@ -26,11 +26,12 @@
       <div class="row">
         <div class="exercise-div col-12">
           <div class="pb-3">
-            <span class="large">
+            <div class="large">
               <strong>{{ we.ExerciseType }} {{ we.ExerciseName}}<span *ngIf="we.SideType !== 'Both'"> - {{ we.SideType }}</span></strong>
-            </span>
-
-            <span class="float-right font-italic" *ngIf="we.RepType !== 'Seconds'"> {{ we.WeightType }}<span *ngIf="we.RepType !== 'AMRAP'"> - {{ we.Reps }}</span>&nbsp;{{ we.RepType }} </span>
+            </div>
+            <div class="font-italic" *ngIf="we.RepType !== 'Seconds'">
+              {{ we.WeightType }}<span *ngIf="we.RepType !== 'AMRAP'"> - {{ we.Reps }}</span>&nbsp;{{ we.RepType }}
+            </div>
           </div>
           <div *ngIf="we.Active">
             <div class="form-row" *ngIf="we.RepType !== 'Seconds'">
