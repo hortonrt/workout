@@ -78,6 +78,9 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.clockInterval) { clearInterval(this.clockInterval); }
+    if (this.timerInt) { clearInterval(this.timerInt); }
+    if (this.restInterval) { clearInterval(this.restInterval); }
+    if (this.countInt) { clearInterval(this.countInt); }
   }
 
   toggleTimer() {
@@ -115,23 +118,23 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // tslint:disable-next-line:no-string-literal
-    this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
-    webAudioTouchUnlock(this.audioCtx).then(() => {
-      this.authenticationService.currentUser.subscribe(x => {
-        this.currentUser = x;
-        this.route.paramMap.subscribe(params => {
-          this.rid = Number(params.get('routineid'));
-          this.userWorkout.ProgramRoutineID = Number(
-            params.get('programroutineid'),
-          );
-          this.service
-            .getWO(Number(params.get('programroutineid')), Number(params.get('routineid'))).subscribe((workout: Workout) => {
-              this.workout = workout;
-              this.workout.Exercises[0].Active = true;
-              this.loaded = true;
-            });
-        });
+
+    this.authenticationService.currentUser.subscribe(x => {
+      this.currentUser = x;
+      this.route.paramMap.subscribe(params => {
+        this.rid = Number(params.get('routineid'));
+        this.userWorkout.ProgramRoutineID = Number(
+          params.get('programroutineid'),
+        );
+        this.service
+          .getWO(Number(params.get('programroutineid')), Number(params.get('routineid'))).subscribe((workout: Workout) => {
+            this.workout = workout;
+            this.workout.Exercises[0].Active = true;
+            this.loaded = true;
+            // tslint:disable-next-line:no-string-literal
+            this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+            webAudioTouchUnlock(this.audioCtx);
+          });
       });
     });
   }

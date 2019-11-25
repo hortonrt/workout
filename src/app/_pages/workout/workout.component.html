@@ -30,7 +30,7 @@
               <strong>{{ we.ExerciseType }} {{ we.ExerciseName}}<span *ngIf="we.SideType !== 'Both'"> - {{ we.SideType }}</span></strong>
             </span>
 
-            <span class="float-right font-italic" *ngIf="we.RepType !== 'Seconds'"> {{ we.WeightType }}<span *ngIf="we.RepType !== 'AMRAP'"> - {{ we.Reps }}</span>{{ we.RepType }} </span>
+            <span class="float-right font-italic" *ngIf="we.RepType !== 'Seconds'"> {{ we.WeightType }}<span *ngIf="we.RepType !== 'AMRAP'"> - {{ we.Reps }}</span>&nbsp;{{ we.RepType }} </span>
           </div>
           <div *ngIf="we.Active">
             <div class="form-row" *ngIf="we.RepType !== 'Seconds'">
