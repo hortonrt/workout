@@ -112,7 +112,8 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.audioCtx = new AudioContext();
+    // tslint:disable-next-line:no-string-literal
+    this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
       this.route.paramMap.subscribe(params => {
