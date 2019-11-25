@@ -45,7 +45,7 @@
                 let mtX = index
               ">
               <div [formGroupName]="mtX">
-                <div class="form-row justify-content-center">
+                <div class="form-row justify-content-center" [ngClass]="{'bg-med': mtX % 2 === 0}">
                   <div class="form-group d-none">
                     <label for="ExerciseMuscleTypeID">ID</label>
                     <input type="text" formControlName="ExerciseMuscleTypeID" class="form-control" />
@@ -79,7 +79,7 @@
                 let eX = index
               ">
               <div [formGroupName]="eX">
-                <div class="form-row justify-content-center">
+                <div class="form-row justify-content-center" [ngClass]="{'bg-med': eX % 2 === 0}">
                   <div class="form-group d-none">
                     <label for="ExerciseEquipmentID">ID</label>
                     <input type="text" formControlName="ExerciseEquipmentID" class="form-control" />

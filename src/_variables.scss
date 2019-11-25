@@ -65,6 +65,7 @@ $warning: $yellow !default;
 $danger: $red !default;
 $light: $gray-100 !default;
 $dark: $gray-800 !default;
+$med: $gray-300 !default;
 
 //custom theme colors
 $theme-colors: ();
@@ -77,6 +78,7 @@ $theme-colors: map-merge(
     'warning': $warning,
     'danger': $danger,
     'light': $light,
+    'med': $med,
     'workout': $color4,
     'routine': $color5,
     'dark': $dark,
