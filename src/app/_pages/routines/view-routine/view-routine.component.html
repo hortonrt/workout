@@ -76,7 +76,7 @@
                     </span>
                   </div>
                   <div class="pl-3">
-                    <span *ngIf="exercise.RepType.Name !== 'AMRAP'">{{ exercise.Reps }} </span>{{ exercise.RepType.Name }}
+                    <span *ngIf="exercise.RepType.Name !== 'AMRAP'">{{ exercise.Timer > 0 ? exercise.Timer : exercise.Reps }} </span>{{ exercise.RepType.Name }}
                     <span *ngIf="exercise.RepType.Name !== 'Seconds'">- {{ exercise.WeightType.Name }}
                     </span>
                   </div>

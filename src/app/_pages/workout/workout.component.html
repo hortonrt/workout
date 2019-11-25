@@ -98,7 +98,7 @@
       <nav class="navbar navbar-dark bg-dark workout-nav" *ngIf="we.Active">
         <form class="form-inline w-100 nav-form"> <button class="btn btn-link btn-xl text-white clock" type="button">
             <fa-icon [icon]="faClock"></fa-icon> {{ clock | secondstimer: '12':'7' }}
-          </button> <button class="btn btn-success btn-xl" type="button" (click)="next()" [disabled]="resting || timerrunning">
+          </button> <button class="btn btn-success btn-xl" type="button" (click)="next()" [disabled]="resting || timerrunning || we.Timer > 0">
             <fa-icon [icon]="faChevronCircleRight"></fa-icon>
           </button> </form>
       </nav>

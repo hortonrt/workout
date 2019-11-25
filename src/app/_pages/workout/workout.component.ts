@@ -54,6 +54,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   loaded = false;
   clock = 0;
   clockInterval: any;
+  audioCtx: AudioContext = null;
   restInterval: any;
   restTimer: number;
   timerrunning = false;
@@ -62,6 +63,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   bsModalRef = null;
   rid = -1;
   timerInt = null;
+  countInt = null;
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutService,
@@ -81,21 +83,36 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.timerrunning = !this.timerrunning;
     if (this.timerrunning) {
       const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
-      this.timerInt = setInterval(() => {
-        if (we.Timer <= 0) {
-          clearInterval(this.timerInt);
-          this.timerrunning = false;
-          this.next(false);
-        } else {
-          we.Timer -= 1;
-        }
-      }, 1000);
+      if (we.AutoRun === 0) {
+        this.countIn();
+      } else {
+        this.startTimer();
+      }
     } else {
       clearInterval(this.timerInt);
     }
   }
 
+  startTimer() {
+    const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
+    this.timerInt = setInterval(() => {
+      if (we.Timer === 1) {
+        this.buzzer();
+      }
+      if (we.Timer <= 0) {
+        clearInterval(this.timerInt);
+        this.timerrunning = false;
+        if (we.AutoRun === 1) {
+          this.next(false);
+        }
+      } else {
+        we.Timer -= 1;
+      }
+    }, 1000);
+  }
+
   ngOnInit() {
+    this.audioCtx = new AudioContext();
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
       this.route.paramMap.subscribe(params => {
@@ -249,6 +266,42 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
   bandColor(weight) {
     return this.bands.find(x => x.v === weight).n;
+  }
+
+  buzzer() {
+    const oscillator = this.audioCtx.createOscillator();
+    const gainNode = this.audioCtx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(this.audioCtx.destination);
+    gainNode.gain.value = 1;
+    oscillator.frequency.value = 100;
+    oscillator.type = 'sawtooth';
+    oscillator.start();
+    setTimeout(() => { oscillator.stop(); }, 1000);
+  }
+
+  countIn() {
+    let times = 5;
+    this.countInt = setInterval(() => {
+      this.countInSound(times);
+      times -= 1;
+      if (times < 0) {
+        clearInterval(this.countInt);
+        this.startTimer();
+      }
+    }, 1000);
+  }
+
+  countInSound(last) {
+    const oscillator = this.audioCtx.createOscillator();
+    const gainNode = this.audioCtx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(this.audioCtx.destination);
+    gainNode.gain.value = 1;
+    oscillator.frequency.value = last === 0 ? 450 : 300;
+    oscillator.type = 'triangle';
+    oscillator.start();
+    setTimeout(() => { oscillator.stop(); }, 500);
   }
 
   startWorkout() {
