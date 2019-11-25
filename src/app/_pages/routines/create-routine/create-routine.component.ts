@@ -144,6 +144,8 @@ export class CreateRoutineComponent implements OnInit {
                     SideTypeID: [exercise.SideTypeID, Validators.required],
                     SideType: [exercise.SideType, Validators.required],
                     PostRest: [exercise.PostRest, Validators.required],
+                    FixedWeight: [(exercise.FixedWeight === -1 ? null : exercise.FixedWeight)],
+                    Timer: [exercise.Timer === -1 ? null : exercise.Timer],
                   }),
                 );
               });
@@ -198,6 +200,8 @@ export class CreateRoutineComponent implements OnInit {
         SideType: [this.sideTypes.find(x => x.SideTypeID === 1), Validators.required],
         ExerciseOrder: [set.controls.Exercises.length + 1, Validators.required],
         PostRest: [0, Validators.required],
+        FixedWeight: [null],
+        Timer: [null],
       }),
     );
   }
@@ -232,6 +236,12 @@ export class CreateRoutineComponent implements OnInit {
           delete e.Exercise;
           delete e.WeightType;
           delete e.SideType;
+          if (!e.Timer) {
+            e.Timer = -1;
+          }
+          if (!e.FixedWeight) {
+            e.FixedWeight = -1;
+          }
         });
       });
     });

@@ -61,7 +61,7 @@
                     <div [formGroupName]="exerciseX">
                       <div class="form-group d-none"> <label for="RoutineBlockSetExerciseID">ID</label> <input type="text" formControlName="RoutineBlockSetExerciseID" class="form-control form-control-sm" /> </div>
                       <div class="form-row">
-                        <div class="form-group col-12 col-lg-4">
+                        <div class="form-group col-12 col-lg-6">
                           <div class="input-group input-group-sm">
                             <div class="input-group-append"> <span class="input-group-text">Exercise</span> </div>
                             <input type="number" type="number" formControlName="ExerciseID" class="d-none" />
@@ -71,14 +71,14 @@
                             </div>
                           </div>
                         </div>
-                        <div class="form-group col-12 col-lg-4">
+                        <div class="form-group col-12 col-lg-6">
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend"> <span class="input-group-text">Reps</span> </div> <input type="number" formControlName="Reps" class="form-control form-control-sm" />
                             <div class="input-group-prepend"> <span class="input-group-text">Rest</span> </div> <input type="text" formControlName="PostRest" class="form-control form-control-sm" />
                             <div class="input-group-append input-group-prepend"> <span class="input-group-text">Order</span> </div> <input type="number" formControlName="ExerciseOrder" class="form-control form-control-sm" />
                           </div>
                         </div>
-                        <div class="form-group col-12 col-lg-4">
+                        <div class="form-group col-12 col-lg-6">
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend input-group-append"> <span class="input-group-text">Type</span> </div> <select formControlName="RepTypeID" class="form-control form-control-sm">
                               <option *ngFor="let repType of repTypes" [ngValue]="repType.RepTypeID">{{ repType.Name }} </option>
@@ -89,6 +89,12 @@
                             <div class="input-group-append input-group-prepend"> <span class="input-group-text">Side</span> </div> <select formControlName="SideTypeID" class="form-control form-control-sm">
                               <option *ngFor="let sideType of sideTypes" [ngValue]="sideType.SideTypeID">{{ sideType.Name }}</option>
                             </select>
+                          </div>
+                        </div>
+                        <div class="form-group col-12 col-lg-6">
+                          <div class="input-group input-group-sm">
+                            <div class="input-group-prepend"> <span class="input-group-text">Fixed Weight</span> </div> <input type="number" formControlName="FixedWeight" class="form-control form-control-sm" />
+                            <div class="input-group-prepend"> <span class="input-group-text">Timer</span> </div> <input type="number" formControlName="Timer" class="form-control form-control-sm" />
                           </div>
                         </div>
                       </div>

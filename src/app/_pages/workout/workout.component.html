@@ -38,7 +38,7 @@
                 <app-adjuster name="Reps" [(obj)]="activeExercise" [step]="1" big="true" bigfont="true"></app-adjuster>
               </div>
               <div class="form-group col-12 col-md-6" [ngClass]="{'d-none': we.ExerciseType === 'Dumbbell' || we.ExerciseType === 'Bands' || we.ExerciseType === 'Body Weight'}">
-                <app-adjuster name="Weight" [(obj)]="activeExercise" [step]="5" big="true" bigfont="true"></app-adjuster>
+                <app-adjuster name="Weight" [(obj)]="activeExercise" [step]="5" big="true" bigfont="true" [fixed]="we.FixedWeight >= 0"></app-adjuster>
               </div>
             </div>
             <div class="form-row" *ngIf="we.ExerciseType === 'Dumbbell'">
@@ -59,9 +59,9 @@
                 </button>
               </div>
             </div>
-            <div class="form-row" *ngIf="we.RepType === 'Seconds'">
+            <div class="form-row mb-3" *ngIf="we.Timer > 0">
               <div class="col-12 duration-box">
-                <fa-icon [icon]="faStopwatch"></fa-icon>&nbsp;{{ we.Remaining | secondstimer: '15':'4' }}
+                <fa-icon [icon]="faStopwatch"></fa-icon>&nbsp;{{ we.Timer | secondstimer: '15':'4' }}
               </div>
               <div class="col-12">
                 <button class="btn btn-xl w-100 btn-workout" (click)="toggleTimer()"><span *ngIf="timerrunning">Pause</span><span *ngIf="!timerrunning">Start</span></button>
@@ -98,7 +98,7 @@
       <nav class="navbar navbar-dark bg-dark workout-nav" *ngIf="we.Active">
         <form class="form-inline w-100 nav-form"> <button class="btn btn-link btn-xl text-white clock" type="button">
             <fa-icon [icon]="faClock"></fa-icon> {{ clock | secondstimer: '12':'7' }}
-          </button> <button class="btn btn-success btn-xl" type="button" (click)="next()" [disabled]="resting">
+          </button> <button class="btn btn-success btn-xl" type="button" (click)="next()" [disabled]="resting || timerrunning">
             <fa-icon [icon]="faChevronCircleRight"></fa-icon>
           </button> </form>
       </nav>

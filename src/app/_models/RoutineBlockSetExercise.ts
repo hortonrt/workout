@@ -16,4 +16,6 @@ export interface RoutineBlockSetExercise {
   SideTypeID: number;
   SideType: SideType;
   PostRest: number;
+  Timer: number;
+  FixedWeight: number;
 }

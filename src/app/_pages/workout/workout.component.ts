@@ -82,12 +82,12 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     if (this.timerrunning) {
       const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
       this.timerInt = setInterval(() => {
-        if (we.Remaining <= 0) {
+        if (we.Timer <= 0) {
           clearInterval(this.timerInt);
           this.timerrunning = false;
           this.next(false);
         } else {
-          we.Remaining -= 1;
+          we.Timer -= 1;
         }
       }, 1000);
     } else {
@@ -182,7 +182,6 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     we.Reps = this.activeExercise.Reps;
     we.Weight = this.activeExercise.Weight;
     we.Rating = this.activeExercise.Rating;
-    next.Remaining = next.Reps;
     this.userWorkout.Exercises.push(Object.assign({}, this.activeExercise));
     if (next) {
       this.activeExercise = {} as UserWorkoutExerciseHistory;
@@ -272,7 +271,6 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.activeExercise.RoutineBlockID = this.workout.Exercises[0].RoutineBlockID;
     this.activeExercise.RoutineBlockSetID = this.workout.Exercises[0].RoutineBlockSetID;
     this.activeExercise.RoutineID = this.rid;
-    this.workout.Exercises[0].Remaining = this.workout.Exercises[0].Reps;
     this.clockInterval = setInterval(() => {
       this.clock = Math.floor(
         Math.abs(new Date().getTime() - this.userWorkout.StartTime.getTime()) /

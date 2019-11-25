@@ -23,6 +23,6 @@ export interface WorkoutExercise {
   Active: boolean;
   Completed: boolean;
   HasPrevious: boolean;
-  Remaining: number;
+  Timer: number;
   AutoRun: number;
 }
