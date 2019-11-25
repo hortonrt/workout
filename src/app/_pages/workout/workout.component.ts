@@ -22,8 +22,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { DatePipe } from '@angular/common';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
+import webAudioTouchUnlock from 'web-audio-touch-unlock';
 
 @Component({
   selector: 'app-workout',
@@ -97,7 +98,9 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
     this.timerInt = setInterval(() => {
       if (we.Timer === 1) {
-        this.buzzer();
+        this.buzzer(true);
+      } else if (we.Timer <= 5 && we.Timer > 1) {
+        this.buzzer(false);
       }
       if (we.Timer <= 0) {
         clearInterval(this.timerInt);
@@ -114,19 +117,21 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // tslint:disable-next-line:no-string-literal
     this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
-    this.authenticationService.currentUser.subscribe(x => {
-      this.currentUser = x;
-      this.route.paramMap.subscribe(params => {
-        this.rid = Number(params.get('routineid'));
-        this.userWorkout.ProgramRoutineID = Number(
-          params.get('programroutineid'),
-        );
-        this.service
-          .getWO(Number(params.get('programroutineid')), Number(params.get('routineid'))).subscribe((workout: Workout) => {
-            this.workout = workout;
-            this.workout.Exercises[0].Active = true;
-            this.loaded = true;
-          });
+    webAudioTouchUnlock(this.audioCtx).then(() => {
+      this.authenticationService.currentUser.subscribe(x => {
+        this.currentUser = x;
+        this.route.paramMap.subscribe(params => {
+          this.rid = Number(params.get('routineid'));
+          this.userWorkout.ProgramRoutineID = Number(
+            params.get('programroutineid'),
+          );
+          this.service
+            .getWO(Number(params.get('programroutineid')), Number(params.get('routineid'))).subscribe((workout: Workout) => {
+              this.workout = workout;
+              this.workout.Exercises[0].Active = true;
+              this.loaded = true;
+            });
+        });
       });
     });
   }
@@ -269,7 +274,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     return this.bands.find(x => x.v === weight).n;
   }
 
-  buzzer() {
+  buzzer(full) {
     const oscillator = this.audioCtx.createOscillator();
     const gainNode = this.audioCtx.createGain();
     oscillator.connect(gainNode);
@@ -278,11 +283,11 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     oscillator.frequency.value = 100;
     oscillator.type = 'sawtooth';
     oscillator.start();
-    setTimeout(() => { oscillator.stop(); }, 1000);
+    setTimeout(() => { oscillator.stop(); }, full ? 1000 : 250);
   }
 
   countIn() {
-    let times = 5;
+    let times = 3;
     this.countInt = setInterval(() => {
       this.countInSound(times);
       times -= 1;
