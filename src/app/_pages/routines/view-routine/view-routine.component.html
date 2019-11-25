@@ -77,7 +77,9 @@
                   </div>
                   <div class="pl-3">
                     <span *ngIf="exercise.RepType.Name !== 'AMRAP'">{{ exercise.Timer > 0 ? exercise.Timer : exercise.Reps }} </span>{{ exercise.RepType.Name }}
-                    <span *ngIf="exercise.RepType.Name !== 'Seconds'">- {{ exercise.WeightType.Name }}
+                    <span *ngIf="exercise.RepType.Name !== 'Seconds'">- {{ exercise.WeightType.Name }}</span>
+                    <span *ngIf="exercise.Timer >= 1">
+                      <fa-icon [icon]="faStopWatch"></fa-icon>&nbsp;{{we.Timer}}
                     </span>
                   </div>
                   <div *ngIf="exercise.PostRest > 0" class="text-danger">
