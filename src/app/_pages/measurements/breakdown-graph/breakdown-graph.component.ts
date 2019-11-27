@@ -10,19 +10,20 @@ import * as Highcharts from 'highcharts';
 export class BreakdownGraphComponent implements OnInit {
   @Input() data = null;
   options = null;
+  container = null;
+  @Input() percent = false;
   constructor() { }
 
   ngOnInit() {
     const data = Object.assign([], this.data);
+    this.container = Math.random().toString(36).substring(2, 15);
     this.data = data.sort((a, b) => (new Date(a.DateCreated).getTime() - new Date(b.DateCreated).getTime()));
     data.map(x => {
       x.FatL = parseFloat(((x.Fat / 100) * x.Weight).toFixed(1));
       x.WaterL = parseFloat(((x.Water / 100) * x.Weight).toFixed(1));
     });
     this.options = {
-      chart: {
-        type: 'spline'
-      },
+      chart: { type: 'column' },
       credits: { enabled: false },
       title: {
         text: ''
@@ -36,27 +37,43 @@ export class BreakdownGraphComponent implements OnInit {
         }
       },
       plotOptions: {
-        series: {
-          label: {
-            connectorAllowed: false
+        column: {
+          stacking: this.percent ? 'percent' : 'normal',
+          dataLabels: {
+            enabled: true
+          }
+        },
+        spline: {
+          dataLabels: {
+            enabled: true
           }
         }
       },
       series: [{
         name: 'Weight',
-        data: data.map(x => x.Weight)
+        type: 'spline',
+        data: data.map(x => ({ y: x.Weight }))
       }, {
         name: 'Fat',
-        data: data.map(x => x.FatL)
-      }, {
-        name: 'Water',
-        data: data.map(x => x.WaterL)
+        data: data.map(x => ({ y: x.FatL, pcnt: x.Fat })),
+        tooltip: {
+          pointFormat: '' +
+            '{point.y} lbs / {point.pcnt}%'
+        },
       }, {
         name: 'Bone',
-        data: data.map(x => x.Bone)
+        data: data.map(x => ({ y: x.Bone, pcnt: (x.Bone / x.Weight * 100).toFixed(1) })),
+        tooltip: {
+          pointFormat: '' +
+            '{point.y} lbs / {point.pcnt}%'
+        },
       }, {
         name: 'Muscle',
-        data: data.map(x => x.Muscle)
+        data: data.map(x => ({ y: x.Muscle, pcnt: (x.Muscle / x.Weight * 100).toFixed(1) })),
+        tooltip: {
+          pointFormat: '' +
+            '{point.y} lbs / {point.pcnt}%'
+        },
       }],
 
       responsive: {
@@ -74,6 +91,8 @@ export class BreakdownGraphComponent implements OnInit {
         }]
       }
     };
-    Highcharts.chart('containerb', this.options);
+    setTimeout(() => {
+      Highcharts.chart(this.container, this.options);
+    });
   }
 }
