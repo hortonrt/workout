@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/_models/User';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { Routine } from 'src/app/_models/Routine';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,7 @@ export class ProfileComponent implements OnInit {
   saveMessage = '';
   saveError = false;
   changeError = false;
+  routines: Routine[] = [];
   newuser: User = {
     UserID: -1,
     FirstName: 'Create',
@@ -27,7 +29,7 @@ export class ProfileComponent implements OnInit {
     Birthdate: null,
     Token: '',
     Expires: null,
-    IsAdmin: false
+    IsAdmin: false,
   };
   change = {
     UserID: -1,
@@ -55,7 +57,6 @@ export class ProfileComponent implements OnInit {
     delete payload.Expires;
     delete payload.Token;
     this.service.post('Users', payload).subscribe((x: any) => {
-      console.log(x);
       this.saveMessage = x.message;
     }, (err: any) => {
       console.log(err);

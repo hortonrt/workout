@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="row no-gutters button-spacer">
-    <div class="col-12 p-2 bg-warning">
+    <div class="col-12 p-2 bg-warning" *ngIf="routine.NeededEquipment || routine.OptionalEquipment">
       <h4>Equipment</h4>
     </div>
     <div class="col-6 bg-light p-2" *ngIf="routine.NeededEquipment"> <b>Required</b>
@@ -40,9 +40,9 @@
     <div class="col-12 p-2 bg-warning">
       <h4>Muscle Groups</h4>
     </div>
-    <div class="col-12 bg-light">
+    <div class="col-12 bg-light" *ngIf="routine.PrimaryMuscleGroups || routine.SecondaryMuscleGroups">
       <tabset [justified]="true">
-        <tab heading="Primary" id="tab1">
+        <tab heading="Primary" id="tab1" *ngIf="routine.PrimaryMuscleGroups">
           <app-workout-muscles [data]="routine.PrimaryMuscleGroups"></app-workout-muscles>
         </tab>
         <tab heading="Secondary " id="tab3" *ngIf="routine.SecondaryMuscleGroups">

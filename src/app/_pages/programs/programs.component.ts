@@ -20,7 +20,7 @@ export class ProgramsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.service.getAll('Programs').subscribe((data: Program[]) => {
+    this.service.getAll('UserPrograms').subscribe((data: Program[]) => {
       this.programs = data;
       this.authenticationService.currentUser.subscribe(x => {
         this.currentUser = x;

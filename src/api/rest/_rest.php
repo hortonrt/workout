@@ -2,6 +2,7 @@
 
 include_once __DIR__.'/_setup.php';
 include_once __DIR__.'/_db.php';
+include_once __DIR__.'/_functions.php';
 
 function get($table, $id){
   $dictionary = getDictionary();
@@ -123,7 +124,14 @@ function insert($table, $data){
       }
     }
   }
-  $sql = "INSERT INTO $table (" . implode(', ', $cols) . ") VALUES (" . implode(', ', $vals) . ");";
+  $sql = '';
+  if(isset($dictionary[$table]['AddUserID']) && $dictionary[$table]['AddUserID'] === true){
+    $user = checkForTokenOrDie();
+    $sql = "INSERT INTO $table (" . implode(', ', $cols) . ", UserID) VALUES (" . implode(', ', $vals) . ", " . $user['UserID'] . ");";
+  }
+  else{
+    $sql = "INSERT INTO $table (" . implode(', ', $cols) . ") VALUES (" . implode(', ', $vals) . ");";
+  }
   $stmt = $db->pdo->prepare($sql);
   $stmt->execute();
   $id = $db->pdo->lastInsertId();

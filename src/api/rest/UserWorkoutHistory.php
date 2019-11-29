@@ -15,6 +15,6 @@ if($method === "GET"){
                             from UserWorkoutHistory u
                               inner join Routines r
                                 on u.RoutineID = r.RoutineID
-                            where UserID = " . $userID . " and r.Name <> 'Rest' order by cast(StartTime as date) desc")));
+                            where u.UserID = " . $userID . " and r.Name <> 'Rest' order by cast(StartTime as date) desc")));
   
 }

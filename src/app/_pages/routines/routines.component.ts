@@ -20,7 +20,7 @@ export class RoutinesComponent implements OnInit {
   ngOnInit() {
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
-      this.service.getAll('Routines').subscribe((data: Routine[]) => {
+      this.service.getAll('UserRoutines').subscribe((data: Routine[]) => {
         this.routines = data;
         this.loaded = true;
       });

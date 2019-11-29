@@ -33,7 +33,7 @@ export class CreateProgramComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.getAll('Routines').subscribe((data: Routine[]) => {
+    this.service.getAll('UserRoutines').subscribe((data: Routine[]) => {
       this.routines = data;
     });
     this.route.paramMap.subscribe(params => {

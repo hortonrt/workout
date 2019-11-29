@@ -48,13 +48,11 @@ const routes: Routes = [{
 {
   path: 'program/edit/:id',
   component: CreateProgramComponent,
-  canActivate: [AdminGuard],
   canDeactivate: [CreateProgramGuard],
 },
 {
   path: 'program/create',
   component: CreateProgramComponent,
-  canActivate: [AdminGuard],
   canDeactivate: [CreateProgramGuard],
 },
 {
@@ -70,13 +68,11 @@ const routes: Routes = [{
 {
   path: 'routine/edit/:id',
   component: CreateRoutineComponent,
-  canActivate: [AdminGuard],
   canDeactivate: [CreateRoutineGuard],
 },
 {
   path: 'routine/create',
   component: CreateRoutineComponent,
-  canActivate: [AdminGuard],
   canDeactivate: [CreateRoutineGuard],
 },
 {
@@ -87,13 +83,11 @@ const routes: Routes = [{
 {
   path: 'exercise/edit/:id',
   component: CreateExerciseComponent,
-  canActivate: [AdminGuard],
   canDeactivate: [CreateExerciseGuard],
 },
 {
   path: 'exercise/create',
   component: CreateExerciseComponent,
-  canActivate: [AdminGuard],
   canDeactivate: [CreateExerciseGuard],
 },
 {

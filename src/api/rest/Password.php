@@ -9,7 +9,6 @@ if($method === "POST") {
   $user = checkForTokenOrDie();
   if(isset($payload->UserID) && !empty($payload->UserID) && $payload->UserID == $user["UserID"]){
     //user is updating
-    error_log($user['Password']);
     if(password_verify($payload->OldPassword, $user['Password'])){
       //good password
       $pwUp = array('UserID'=> $user['UserID'], 'Password'=> password_hash($payload->NewPassword, PASSWORD_DEFAULT));
