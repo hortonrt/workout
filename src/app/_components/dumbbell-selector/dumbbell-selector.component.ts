@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { WorkoutService } from 'src/app/_services/workout.service';
 
 @Component({
   selector: 'app-dumbbell-selector',
@@ -6,13 +7,23 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./dumbbell-selector.component.scss']
 })
 export class DumbbellSelectorComponent implements OnInit {
-  dumbbells = [5, 10, 12, 15, 20, 25, 30, 35, 40, 45];
+  dumbbells = [];
 
   @Input() obj: any;
-  constructor() { }
+  constructor(private service: WorkoutService) { }
 
   ngOnInit() {
+    this.dumbbells = this.chunk(Object.assign([], this.service.dumbbells), 2);
   }
+
+  chunk(target, size) {
+    return target.reduce((memo, value, index) => {
+      if (index % (target.length / size) === 0 && index !== 0) { memo.push([]); }
+      memo[memo.length - 1].push(value);
+      return memo;
+    }, [[]]);
+  }
+
 
   select(weight) {
     this.obj.Weight = weight;

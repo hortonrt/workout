@@ -56,10 +56,10 @@
       </div>
       <div class="form-row" *ngIf="admin">
         <div class="form-group col-6">
-          <label for="IsAdmin">Is Admin</label>
-          <div class="form-check">
-            <input class="form-check-input form-control" type="checkbox" (change)="user.IsAdmin = !user.IsAdmin" [(checked)]="user.IsAdmin" id="IsAdmin" />
-          </div>
+          <label for="IsAdmin">Largest Dumbbell</label>
+          <select name="User" class="form-control form-control-sm" [(ngModel)]="user.HighestDumbbell">
+            <option *ngFor="let dumbbell of dumbbells" [(ngValue)]="dumbbell">{{ dumbbell }}</option>
+          </select>
         </div>
         <div class="form-group col-6">
           <label for="Birthdate">Gender</label>
@@ -69,8 +69,18 @@
           </select>
         </div>
       </div>
-      <div class="form-row mb-4">
-        <button class="btn btn-workout w-100" type="button" (click)="save()">Save</button>
+      <div class="form-row" *ngIf="admin">
+        <div class="form-group col-6">
+          <label for="IsAdmin">Is Admin</label>
+          <div class="form-check">
+            <input class="form-check-input form-control form-control-sm" type="checkbox" (change)="user.IsAdmin = !user.IsAdmin" [(checked)]="user.IsAdmin" id="IsAdmin" />
+          </div>
+        </div>
+      </div>
+      <div class="form-row mb-4 mt-5">
+        <div class="form-group col-12">
+          <button class="btn btn-workout w-100" type="button" (click)="save()">Save</button>
+        </div>
       </div>
       <div class="alert alert-success text-center" *ngIf="!saveError && saveMessage.length">{{saveMessage}}</div>
       <div class="alert alert-danger text-center" *ngIf="saveError && saveMessage.length">{{saveMessage}}</div>

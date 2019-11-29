@@ -1,8 +1,8 @@
 <label>Dumbbell(s)</label>
 <div class="input-group">
-  <div class="btn-group btn-group-lg w-100">
-    <button class="btn px-1" (click)="select(weight)" *ngFor="let weight of dumbbells" [ngClass]="{'btn-workout': weight === obj.Weight, 'btn-white': weight !== obj.Weight }">
-      {{ weight }}
+  <div class="btn-group btn-group-lg w-100" *ngFor="let chunk of dumbbells">
+    <button class="btn px-1" (click)="select(weight)" *ngFor="let weight of chunk" [ngClass]="{'btn-workout': weight === obj.Weight, 'btn-white': weight !== obj.Weight }">
+      <span *ngIf="weight < 10">0</span>{{ weight }}
     </button>
   </div>
 </div>

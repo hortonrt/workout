@@ -9,4 +9,5 @@ export interface User {
   Token: string;
   Expires: string;
   IsAdmin: boolean;
+  HighestDumbbell: number;
 }

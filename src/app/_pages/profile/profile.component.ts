@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   changeMessage = '';
   saveMessage = '';
   saveError = false;
+  dumbbells = null;
   changeError = false;
   routines: Routine[] = [];
   newuser: User = {
@@ -30,6 +31,7 @@ export class ProfileComponent implements OnInit {
     Token: '',
     Expires: null,
     IsAdmin: false,
+    HighestDumbbell: 45
   };
   change = {
     UserID: -1,
@@ -41,6 +43,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.loaded = false;
+    this.dumbbells = this.service.dumbbells;
     this.service.getAll('Users').subscribe((users: User[]) => {
       this.admin = users.length > 1 || (users.length === 1 && Boolean(users[0].IsAdmin) === true);
       this.users = Object.assign([], users);
@@ -74,10 +77,8 @@ export class ProfileComponent implements OnInit {
     } else {
       this.change.UserID = this.user.UserID;
       this.service.post('Password', this.change).subscribe((x: any) => {
-        console.log(x);
         this.changeMessage = x.message;
       }, (err: any) => {
-        console.log(err);
         this.changeError = true;
         this.changeMessage = err;
       });

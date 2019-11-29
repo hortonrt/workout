@@ -160,6 +160,7 @@ function update($table, $data, $id) {
     }
   }
   $sql = "UPDATE $table SET " . implode(', ', $cols) . " WHERE " . $dictionary[$table]['ID'] . ' = ' . $id . ';';
+  error_log($sql);
   $stmt = $db->pdo->prepare($sql);
   $stmt->execute();
   $stmt = null;

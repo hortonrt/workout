@@ -15,6 +15,8 @@ export class WorkoutService {
     { v: 20, n: 'red' },
     { v: 25, n: 'purple' }];
 
+  dumbbells = [5, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
+
   public lists: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   private httpOptions = {
