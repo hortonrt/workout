@@ -6,13 +6,17 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AuthenticationService } from '../_services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService, private router: Router, private activeRoute: ActivatedRoute) { }
+  currentUrl = null;
+  constructor(private authenticationService: AuthenticationService, private router: Router, private activeRoute: ActivatedRoute) {
+
+
+  }
 
   intercept(
     request: HttpRequest<any>,
@@ -21,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(err => {
-        if (err.status === 401) {
+        if (err.status === 401 && this.router.url !== '/login') {
           // auto logout if 401 response returned from api
           this.authenticationService.logout();
           let url = window.location.protocol + '//' + window.location.hostname;

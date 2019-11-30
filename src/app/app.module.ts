@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ServiceWorkerModule } from '@angular/service-worker';
+// import { ServiceWorkerModule } from '@angular/service-worker';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { environment } from '../environments/environment';
+// import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 // vendor
@@ -116,8 +116,8 @@ import { FitTestReportComponent } from './_pages/stats/fit-test-report/fit-test-
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
-    HighchartsChartModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    HighchartsChartModule
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -28,9 +28,11 @@ if($method === "GET"){
     echo(json_encode($users));
   }
   else{
-    http_response_code(400);
-    $res = array('status'=> 400, 'message' => 'Invalid Request');
-    echo(json_encode($res));
+    $users = get('Users', $userID);
+    echo(json_encode(array($users)));
+    // http_response_code(400);
+    // $res = array('status'=> 400, 'message' => 'Invalid Request');
+    // echo(json_encode($res));
   }
 }
 

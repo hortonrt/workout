@@ -17,10 +17,10 @@
       <h2>
         {{ routine.Name }}
         <div class="float-right">
-          <button class="btn btn-primary text-white" [routerLink]="['/routine/edit', routine.RoutineID]" *ngIf="currentUser.IsAdmin">
+          <button class="btn btn-primary text-white" [routerLink]="['/routine/edit', routine.RoutineID]">
             Edit Routine
           </button>
-          <button class="btn btn-success mr-1 text-white" [routerLink]="['/workout',-1, routine.RoutineID]" *ngIf="currentUser.IsAdmin">
+          <button class="btn btn-success mr-1 text-white" [routerLink]="['/workout',-1, routine.RoutineID]">
             Workout
           </button>
         </div>

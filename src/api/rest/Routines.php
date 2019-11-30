@@ -60,7 +60,7 @@ if($method === "POST") {
 }
 
 if($method === "DELETE"){
-  if(isset($_GET['t']) && isset($_GET['i']) && $isAdmin === 1){
+  if(isset($_GET['t']) && isset($_GET['i'])){
     $id = $_GET['i'];
     if(in_array($_GET['t'], $allowed) && filter_var($id, FILTER_VALIDATE_INT)){
       deleteR($_GET['t'], $id);

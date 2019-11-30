@@ -54,9 +54,9 @@
           </div>
         </div>
       </div>
-      <div class="form-row" *ngIf="admin">
+      <div class="form-row">
         <div class="form-group col-6">
-          <label for="IsAdmin">Largest Dumbbell</label>
+          <label for="HighestDumbbell">Largest Dumbbell</label>
           <select name="User" class="form-control form-control-sm" [(ngModel)]="user.HighestDumbbell">
             <option *ngFor="let dumbbell of dumbbells" [(ngValue)]="dumbbell">{{ dumbbell }}</option>
           </select>

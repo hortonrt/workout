@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faBars, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { SwUpdate } from '@angular/service-worker';
+// import { SwUpdate } from '@angular/service-worker';
 
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,7 +12,9 @@ import { faSync } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
-  constructor(private router: Router, private authenticationService: AuthenticationService, private updateService: SwUpdate) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService
+    // , private updateService: SwUpdate
+  ) { }
   faBars = faBars;
   isCollapsed = false;
   worker = false;
@@ -21,12 +23,12 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit() {
     this.isCollapsed = false;
-    this.worker = this.updateService.isEnabled;
-    if (this.worker) {
-      this.updateService.available.subscribe(event => {
-        this.checking = false;
-      });
-    }
+    this.worker = false; // this.updateService.isEnabled;
+    // if (this.worker) {
+    //   this.updateService.available.subscribe(event => {
+    //     this.checking = false;
+    //   });
+    // }
   }
 
   logout() {
@@ -35,18 +37,18 @@ export class NavigationComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  update() {
-    if (this.updateService.isEnabled) {
-      this.checking = true;
-      this.updateService.checkForUpdate().then(() => {
-        setTimeout(() => {
-          if (this.checking) {
-            this.isCollapsed = false;
-            this.checking = false;
-            alert('No Update Available');
-          }
-        }, 3000);
-      });
-    }
-  }
+  // update() {
+  //   if (this.updateService.isEnabled) {
+  //     this.checking = true;
+  //     this.updateService.checkForUpdate().then(() => {
+  //       setTimeout(() => {
+  //         if (this.checking) {
+  //           this.isCollapsed = false;
+  //           this.checking = false;
+  //           alert('No Update Available');
+  //         }
+  //       }, 3000);
+  //     });
+  //   }
+  // }
 }

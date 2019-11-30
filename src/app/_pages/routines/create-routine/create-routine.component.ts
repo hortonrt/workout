@@ -82,7 +82,7 @@ export class CreateRoutineComponent implements OnInit {
     this.routineForm = this.formBuilder.group({
       RoutineID: [this.routine.RoutineID, Validators.required],
       Name: [this.routine.Name, Validators.required],
-      IsFitTest: [this.routine.IsFitTest],
+      IsFitTest: [this.routine.IsFitTest || false],
       Blocks: new FormArray([]),
     });
     this.initForm();
