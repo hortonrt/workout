@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserWorkoutHistory } from 'src/app/_models/UserWorkoutHistory';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,13 +7,14 @@ import { faStar, faStarHalf } from '@fortawesome/free-regular-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EditWorkoutComponent } from './edit-workout/edit-workout.component';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workout-history',
   templateUrl: './workout-history.component.html',
   providers: [DatePipe]
 })
-export class WorkoutHistoryComponent implements OnInit {
+export class WorkoutHistoryComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   workoutID = -1;
   loaded = false;
@@ -21,6 +22,9 @@ export class WorkoutHistoryComponent implements OnInit {
   faStar = faStar;
   faStarFull = faStarFull;
   faStarHalf = faStarHalf;
+  routeSub: Subscription = null;
+  histSub: Subscription = null;
+  postSub: Subscription = null;
   bands = null;
   constructor(
     private service: WorkoutService,
@@ -31,15 +35,22 @@ export class WorkoutHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    this.histSub = this.route.paramMap.subscribe(params => {
       this.workoutID = Number(params.get('id'));
       this.load();
     });
   }
 
+  ngOnDestroy() {
+
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.histSub) { this.histSub.unsubscribe(); }
+    if (this.postSub) { this.postSub.unsubscribe(); }
+  }
+
   load() {
     this.loaded = false;
-    this.service.get('WorkoutHistory', + this.workoutID).subscribe((hist: UserWorkoutHistory) => {
+    this.histSub = this.service.get('WorkoutHistory', + this.workoutID).subscribe((hist: UserWorkoutHistory) => {
       this.history = hist;
       this.loaded = true;
     });
@@ -69,7 +80,7 @@ export class WorkoutHistoryComponent implements OnInit {
         delete out.EndTimeDate;
         delete out.Name;
         out.Exercises.map(x => { delete x.Name; });
-        this.service.post('Workout', out).subscribe((data: any) => {
+        this.postSub = this.service.post('Workout', out).subscribe((data: any) => {
           this.load();
         });
       }

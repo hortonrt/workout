@@ -1,22 +1,28 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Program } from 'src/app/_models/Program';
 import { Routine } from 'src/app/_models/Routine';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-program',
   templateUrl: './create-program.component.html',
   styleUrls: ['./create-program.component.scss']
 })
-export class CreateProgramComponent implements OnInit {
+export class CreateProgramComponent implements OnInit, OnDestroy {
   program: Program = {} as Program;
   routines: Routine[] = [] as Routine[];
   programForm: FormGroup;
   loaded = false;
   saving = false;
   error = '';
+  routeSub: Subscription = null;
+  routineSub: Subscription = null;
+  programSub: Subscription = null;
+  postSub: Subscription = null;
+  deleteSub: Subscription = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,22 +38,28 @@ export class CreateProgramComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.routineSub) { this.routineSub.unsubscribe(); }
+    if (this.programSub) { this.programSub.unsubscribe(); }
+    if (this.postSub) { this.postSub.unsubscribe(); }
+    if (this.deleteSub) { this.deleteSub.unsubscribe(); }
+  }
+
   ngOnInit() {
-    this.service.getAll('UserRoutines').subscribe((data: Routine[]) => {
+    this.routineSub = this.service.getAll('UserRoutines').subscribe((data: Routine[]) => {
       this.routines = data;
-    });
-    this.route.paramMap.subscribe(params => {
-      this.program.ProgramID = Number(params.get('id'));
-      if (this.program.ProgramID > 0) {
-        this.service
-          .get('Programs', this.program.ProgramID)
-          .subscribe((data: Program) => {
-            this.program = data;
+      this.routeSub = this.route.paramMap.subscribe(params => {
+        this.program.ProgramID = Number(params.get('id'));
+        if (this.program.ProgramID > 0) {
+          this.programSub = this.service.get('Programs', this.program.ProgramID).subscribe((dataP: Program) => {
+            this.program = dataP;
             this.setUpForm();
           });
-      } else {
-        this.setUpForm();
-      }
+        } else {
+          this.setUpForm();
+        }
+      });
     });
   }
 
@@ -147,7 +159,7 @@ export class CreateProgramComponent implements OnInit {
   delete(type, id, array: FormArray, index) {
     const conf = confirm('Are you sure?');
     if (conf) {
-      this.service.delete('Programs', id, type).subscribe(x => {
+      this.deleteSub = this.service.delete('Programs', id, type).subscribe(x => {
         if (type === 'Programs') {
           this.router.navigate(['programs']);
         } else {
@@ -174,7 +186,7 @@ export class CreateProgramComponent implements OnInit {
         });
       });
     });
-    this.service.post('Programs', payload).subscribe(
+    this.postSub = this.service.post('Programs', payload).subscribe(
       (data: Program) => {
         this.programForm.markAsPristine();
         if (this.program.ProgramID === 0) {

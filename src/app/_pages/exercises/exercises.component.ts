@@ -1,24 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/_models/User';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { Exercise } from 'src/app/_models/Exercise';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-exercises',
   templateUrl: './exercises.component.html',
   styleUrls: ['./exercises.component.scss']
 })
-export class ExercisesComponent implements OnInit {
+export class ExercisesComponent implements OnInit, OnDestroy {
   allExercises: Exercise[] = [] as Exercise[];
   exercises: Exercise[] = [] as Exercise[];
-  currentUser: User = {} as User;
   loaded = false;
   exFilt: any = { searchText: '', ExerciseTypeName: '', PrimaryMuscleGroup: '' };
   lists = null;
+  listsSub: Subscription = null;
+  exSub: Subscription = null;
   constructor(
     private service: WorkoutService,
-    private authenticationService: AuthenticationService,
   ) { }
 
   onChangeET(v) {
@@ -46,18 +45,20 @@ export class ExercisesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.lists.subscribe(l => {
+    this.listsSub = this.service.lists.subscribe(l => {
       if (l) {
         this.lists = l;
-        this.authenticationService.currentUser.subscribe(x => {
-          this.currentUser = x;
-          this.service.getAll('Exercises').subscribe((data: any[]) => {
-            this.allExercises = [...data];
-            this.exercises = data;
-            this.loaded = true;
-          });
+        this.exSub = this.service.getAll('Exercises').subscribe((data: any[]) => {
+          this.allExercises = [...data];
+          this.exercises = data;
+          this.loaded = true;
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.listsSub) { this.listsSub.unsubscribe(); }
+    if (this.exSub) { this.exSub.unsubscribe(); }
   }
 }

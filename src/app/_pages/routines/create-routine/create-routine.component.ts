@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Routine } from 'src/app/_models/Routine';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { BlockType } from 'src/app/_models/BlockType';
@@ -10,13 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ExercisePickerComponent } from 'src/app/_components/exercise-picker/exercise-picker.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-routine',
   templateUrl: './create-routine.component.html',
   styleUrls: ['./create-routine.component.scss']
 })
-export class CreateRoutineComponent implements OnInit {
+export class CreateRoutineComponent implements OnInit, OnDestroy {
   bsModalRef: BsModalRef;
   routine: Routine = {} as Routine;
   routineForm: FormGroup;
@@ -27,6 +28,12 @@ export class CreateRoutineComponent implements OnInit {
   weightTypes: WeightType[];
   sideTypes: SideType[];
   exercises: Exercise[];
+  exerciseSub: Subscription = null;
+  listSub: Subscription = null;
+  routeSub: Subscription = null;
+  routineSub: Subscription = null;
+  postSub: Subscription = null;
+  deleteSub: Subscription = null;
   error = '';
   constructor(
     private route: ActivatedRoute,
@@ -37,17 +44,17 @@ export class CreateRoutineComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.service.getAll('Exercises').subscribe((Exercises: any[]) => {
-      this.service.getAll('Lists').subscribe((lists: any) => {
+    this.exerciseSub = this.service.getAll('Exercises').subscribe((Exercises: any[]) => {
+      this.listSub = this.service.getAll('Lists').subscribe((lists: any) => {
         this.blockTypes = lists.BlockTypes;
         this.exercises = Exercises;
         this.repTypes = lists.RepTypes;
         this.weightTypes = lists.WeightTypes;
         this.sideTypes = lists.SideTypes;
-        this.route.paramMap.subscribe(params => {
+        this.routeSub = this.route.paramMap.subscribe(params => {
           this.routine.RoutineID = Number(params.get('id'));
           if (this.routine.RoutineID > 0) {
-            this.service.get('Routines', this.routine.RoutineID).subscribe((data: Routine) => {
+            this.routineSub = this.service.get('Routines', this.routine.RoutineID).subscribe((data: Routine) => {
               this.routine = data;
               this.setUpForm();
             });
@@ -57,6 +64,15 @@ export class CreateRoutineComponent implements OnInit {
         });
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.exerciseSub) { this.exerciseSub.unsubscribe(); }
+    if (this.listSub) { this.listSub.unsubscribe(); }
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.routineSub) { this.routineSub.unsubscribe(); }
+    if (this.postSub) { this.postSub.unsubscribe(); }
+    if (this.deleteSub) { this.deleteSub.unsubscribe(); }
   }
 
 
@@ -210,7 +226,7 @@ export class CreateRoutineComponent implements OnInit {
   delete(type, id, array: FormArray, index) {
     const conf = confirm('Are you sure?');
     if (conf) {
-      this.service.delete('Routines', id, type).subscribe(x => {
+      this.deleteSub = this.service.delete('Routines', id, type).subscribe(x => {
         if (type === 'Routines') {
           this.router.navigate(['routines']);
         } else {
@@ -246,7 +262,7 @@ export class CreateRoutineComponent implements OnInit {
         });
       });
     });
-    this.service.post('Routines', payload).subscribe(
+    this.postSub = this.service.post('Routines', payload).subscribe(
       (data: Routine) => {
         this.routineForm.markAsPristine();
         if (this.routine.RoutineID === 0) {

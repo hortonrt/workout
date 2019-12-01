@@ -19,8 +19,7 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.authenticationService.tokenExpired()) {
       // not logged in so redirect to login page with the return url
-      this.authenticationService.logout();
-      this.router.navigate(['login']);
+      this.authenticationService.logout(false);
       return false;
     } else {
       return true;

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from 'src/app/_models/User';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { Routine } from 'src/app/_models/Routine';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   users: User[] = [];
   user: User = null;
   loaded = false;
@@ -39,12 +40,15 @@ export class ProfileComponent implements OnInit {
     NewPassword: '',
     VerifyPassword: ''
   };
+  getSub: Subscription = null;
+  postSub: Subscription = null;
+  changeSub: Subscription = null;
   constructor(private service: WorkoutService, private authService: AuthenticationService) { }
 
   ngOnInit() {
     this.loaded = false;
     this.dumbbells = this.service.dumbbells;
-    this.service.getAll('Users').subscribe((users: User[]) => {
+    this.getSub = this.service.getAll('Users').subscribe((users: User[]) => {
       this.admin = users.length > 1 || (users.length === 1 && Boolean(users[0].IsAdmin) === true);
       this.users = Object.assign([], users);
       this.users.push(this.newuser);
@@ -53,13 +57,19 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.getSub) { this.getSub.unsubscribe(); }
+    if (this.postSub) { this.postSub.unsubscribe(); }
+    if (this.changeSub) { this.changeSub.unsubscribe(); }
+  }
+
   save() {
     this.saveMessage = '';
     this.saveError = false;
     const payload = Object.assign({}, this.user);
     delete payload.Expires;
     delete payload.Token;
-    this.service.post('Users', payload).subscribe((x: any) => {
+    this.postSub = this.service.post('Users', payload).subscribe((x: any) => {
       this.saveMessage = x.message;
     }, (err: any) => {
       console.log(err);
@@ -76,7 +86,7 @@ export class ProfileComponent implements OnInit {
       this.changeMessage = 'Passwords do not match.';
     } else {
       this.change.UserID = this.user.UserID;
-      this.service.post('Password', this.change).subscribe((x: any) => {
+      this.changeSub = this.service.post('Password', this.change).subscribe((x: any) => {
         this.changeMessage = x.message;
       }, (err: any) => {
         this.changeError = true;

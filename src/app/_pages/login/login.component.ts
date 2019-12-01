@@ -1,25 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
   faDumbbell = faDumbbell;
+  loginSub: Subscription = null;
   error = '';
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
   ) { }
@@ -31,7 +32,11 @@ export class LoginComponent implements OnInit {
     });
 
     // reset login status
-    this.authenticationService.logout();
+    this.authenticationService.logout(true);
+  }
+
+  ngOnDestroy() {
+    if (this.loginSub) { this.loginSub.unsubscribe(); }
   }
 
   // convenience getter for easy access to form fields
@@ -48,17 +53,14 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService
-      .login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.router.navigate(['']);
-        },
-        error => {
-          this.error = 'Invalid Username / Password';
-          this.loading = false;
-        },
-      );
+    this.loginSub = this.authenticationService.login(this.f.username.value, this.f.password.value).subscribe(
+      data => {
+        this.router.navigate(['']);
+      },
+      error => {
+        this.error = 'Invalid Username / Password';
+        this.loading = false;
+      },
+    );
   }
 }

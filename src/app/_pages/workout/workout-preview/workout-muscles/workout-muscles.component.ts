@@ -1,22 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { MuscleGroupType } from 'src/app/_models/MuscleGroupType';
 import { WorkoutService } from 'src/app/_services/workout.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workout-muscles',
   templateUrl: './workout-muscles.component.html',
 })
-export class WorkoutMusclesComponent implements OnInit {
+export class WorkoutMusclesComponent implements OnInit, OnDestroy {
   @Input() data: any;
   container = Math.random().toString(36).substring(2, 15);
   colors = Highcharts.getOptions().colors;
   groups: MuscleGroupType[] = [];
   options: any;
+  listSub: Subscription = null;
   constructor(private service: WorkoutService) { }
 
+  ngOnDestroy() {
+    if (this.listSub) { this.listSub.unsubscribe(); }
+  }
+
   ngOnInit() {
-    this.service.getAll('Lists').subscribe((lists: any) => {
+    this.listSub = this.service.getAll('Lists').subscribe((lists: any) => {
       this.groups = lists.MuscleGroupTypes;
       const groupCounts = this.data.split(',').reduce((p, c) => {
         const name = c.split('-')[0];

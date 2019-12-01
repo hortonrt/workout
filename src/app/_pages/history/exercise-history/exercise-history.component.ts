@@ -1,31 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { ActivatedRoute } from '@angular/router';
 import { faStar as faStarFull } from '@fortawesome/free-solid-svg-icons';
 import { faStar, faStarHalf } from '@fortawesome/free-regular-svg-icons';
+import { Subscription, SubscriptionLike } from 'rxjs';
 
 @Component({
   selector: 'app-exercise-history',
   templateUrl: './exercise-history.component.html'
 })
-export class ExerciseHistoryComponent implements OnInit {
+export class ExerciseHistoryComponent implements OnInit, OnDestroy {
   loaded = false;
   history: any = [];
   faStar = faStar;
   faStarFull = faStarFull;
   faStarHalf = faStarHalf;
   bands = null;
+  paramSub: Subscription = null;
+  exHis: Subscription = null;
+
   constructor(private service: WorkoutService, private route: ActivatedRoute) {
     this.bands = Object.assign([], service.bands);
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.service.get('ExerciseHistory', params.get('id')).subscribe((hist: any) => {
+    this.paramSub = this.route.paramMap.subscribe(params => {
+      this.exHis = this.service.get('ExerciseHistory', params.get('id')).subscribe((hist: any) => {
         this.history = hist;
         this.loaded = true;
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.paramSub) { this.paramSub.unsubscribe(); }
+    if (this.exHis) { this.exHis.unsubscribe(); }
   }
 
   bandColor(weight) {

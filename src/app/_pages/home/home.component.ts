@@ -19,7 +19,6 @@ import { User } from 'src/app/_models/User';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  user: User = null;
   faDumbbell = faDumbbell;
   faChart = faChartPie;
   faCalendarCheck = faCalendarCheck;
@@ -30,11 +29,7 @@ export class HomeComponent implements OnInit {
   faBolt = faBolt;
   faCalendarAlt = faCalendarAlt;
 
-  constructor(private authenticationService: AuthenticationService) {
-    this.authenticationService.currentUser.subscribe(
-      (x: User) => (this.user = x),
-    );
-  }
+  constructor() { }
 
   ngOnInit() { }
 

@@ -14,7 +14,7 @@ if($user){
   if($user && password_verify($payload->Password, $user['Password'])){    
     //good auth    
     $user['Token'] = guid();
-    $user['Expires'] = date("Y-m-d H:i:s", strtotime('+12 hours'));
+    $user['Expires'] = date("Y-m-d H:i:s", strtotime('+1 days 12 hours'));
     $newTokenQuery = "UPDATE Users SET Token = '" . $user['Token'] ."', Expires = '" . $user['Expires'] . "' Where UserID = " . $user['UserID'] . ";";
     $stmt = $db->pdo->prepare($newTokenQuery);
     $stmt->execute([]);

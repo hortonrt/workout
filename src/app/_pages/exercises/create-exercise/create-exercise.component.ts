@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { ExerciseType } from 'src/app/_models/ExerciseType';
 import { MuscleType } from 'src/app/_models/MuscleType';
 import { Equipment } from 'src/app/_models/Equipment';
@@ -6,13 +6,14 @@ import { Exercise } from 'src/app/_models/Exercise';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-exercise',
   templateUrl: './create-exercise.component.html',
   styleUrls: ['./create-exercise.component.scss']
 })
-export class CreateExerciseComponent implements OnInit {
+export class CreateExerciseComponent implements OnInit, OnDestroy {
   exerciseTypes: ExerciseType[] = [] as ExerciseType[];
   muscleTypes: MuscleType[] = [] as MuscleType[];
   equipment: Equipment[] = [] as Equipment[];
@@ -21,6 +22,10 @@ export class CreateExerciseComponent implements OnInit {
   loaded = false;
   error = '';
   saving = false;
+  listSub: Subscription = null;
+  routeSub: Subscription = null;
+  exSub: Subscription = null;
+  postSub: Subscription = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,15 +41,22 @@ export class CreateExerciseComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    if (this.listSub) { this.listSub.unsubscribe(); }
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.exSub) { this.exSub.unsubscribe(); }
+    if (this.postSub) { this.postSub.unsubscribe(); }
+  }
+
   ngOnInit() {
-    this.service.getAll('Lists').subscribe((lists: any) => {
+    this.listSub = this.service.getAll('Lists').subscribe((lists: any) => {
       this.equipment = lists.Equipment;
       this.muscleTypes = lists.MuscleTypes;
       this.exerciseTypes = lists.ExerciseTypes;
 
-      this.route.paramMap.subscribe(params => {
+      this.routeSub = this.route.paramMap.subscribe(params => {
         if (Number(params.get('id')) > 0) {
-          this.service.get('Exercises', + Number(params.get('id'))).subscribe((data: Exercise) => {
+          this.exSub = this.service.get('Exercises', + Number(params.get('id'))).subscribe((data: Exercise) => {
             this.exercise = data;
             this.setUpForm();
           });
@@ -189,7 +201,7 @@ export class CreateExerciseComponent implements OnInit {
       delete x.Exercise;
     });
     delete payload.ExerciseType;
-    this.service.post('Exercises', payload).subscribe(
+    this.postSub = this.service.post('Exercises', payload).subscribe(
       (data: Exercise) => {
         this.exerciseForm.markAsPristine();
         this.router.navigate(['exercises']);

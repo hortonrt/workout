@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { MuscleGroupType } from 'src/app/_models/MuscleGroupType';
 import { Equipment } from 'src/app/_models/Equipment';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Exercise } from 'src/app/_models/Exercise';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-exercise-picker',
   templateUrl: './exercise-picker.component.html',
   styleUrls: ['./exercise-picker.component.scss']
 })
-export class ExercisePickerComponent implements OnInit {
+export class ExercisePickerComponent implements OnInit, OnDestroy {
   allExercises: Exercise[] = [] as Exercise[];
   exercises: Exercise[] = [] as Exercise[];
   MuscleGroups: MuscleGroupType[] = [] as MuscleGroupType[];
@@ -21,20 +22,27 @@ export class ExercisePickerComponent implements OnInit {
   loaded = false;
   exFilt: any = { searchText: '', ExerciseTypeName: '', PrimaryMuscleGroup: '' };
   lists = null;
+  listsSub: Subscription = null;
+  exSub: Subscription = null;
   constructor(
     private service: WorkoutService,
     public bsModalRef: BsModalRef
   ) { }
 
   ngOnInit() {
-    this.service.lists.subscribe((lists: any) => {
+    this.listsSub = this.service.lists.subscribe((lists: any) => {
       this.lists = lists;
-      this.service.getAll('Exercises').subscribe((data: any[]) => {
+      this.exSub = this.service.getAll('Exercises').subscribe((data: any[]) => {
         this.allExercises = [...data];
         this.exercises = data;
         this.loaded = true;
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.listsSub) { this.listsSub.unsubscribe(); }
+    if (this.exSub) { this.exSub.unsubscribe(); }
   }
 
   onChangeET(v) {

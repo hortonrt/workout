@@ -11,18 +11,16 @@ import { User } from '../_models/User';
 })
 export class AuthenticationService {
 
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  currentUser: BehaviorSubject<User>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(
+    this.currentUser = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem('currentUser')),
     );
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User {
-    return this.currentUserSubject.value;
+    return this.currentUser.value;
   }
 
   ping() {
@@ -31,7 +29,7 @@ export class AuthenticationService {
 
   tokenExpired() {
     const now = new Date();
-    const currentUser = this.currentUserSubject.value;
+    const currentUser = this.currentUser.value;
     if (!currentUser) {
       return true;
     } else {
@@ -60,15 +58,22 @@ export class AuthenticationService {
         map(user => {
           if (user && user.Token) {
             localStorage.setItem('currentUser', JSON.stringify(user));
-            this.currentUserSubject.next(user);
+            this.currentUser.next(user);
           }
           return user;
         }),
       );
   }
 
-  logout() {
+  logout(justclear) {
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    this.currentUser.next(null);
+    if (!justclear) {
+      let url = window.location.protocol + '//' + window.location.hostname;
+      if (window.location.port.length) {
+        url += ':' + window.location.port;
+      }
+      window.location.assign(url + '/login');
+    }
   }
 }

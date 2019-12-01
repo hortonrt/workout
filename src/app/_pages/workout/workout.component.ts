@@ -15,16 +15,15 @@ import {
 import { RepmaxPipe } from 'src/app/_pipes/repmax.pipe';
 import { WorkoutExercise } from 'src/app/_models/WorkoutExercise';
 import { Workout } from 'src/app/_models/Workout';
-import { User } from 'src/app/_models/User';
 import { UserWorkoutHistory } from 'src/app/_models/UserWorkoutHistory';
 import { UserWorkoutExerciseHistory } from 'src/app/_models/UserWorkoutExerciseHistory';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { DatePipe } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
 import webAudioTouchUnlock from 'web-audio-touch-unlock';
+import { Subscription, Subscribable } from 'rxjs';
 
 @Component({
   selector: 'app-workout',
@@ -45,7 +44,6 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   faHeartbeat = faHeartbeat;
   blockSummary: WorkoutExercise[] = [] as WorkoutExercise[];
   workout: Workout = {} as Workout;
-  currentUser: User = {} as User;
   equipment: string;
   optionalEquipment: string;
   exercising = false;
@@ -65,10 +63,12 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   rid = -1;
   timerInt = null;
   countInt = null;
+  postSub: Subscription = null;
+  routeSub: Subscription = null;
+  woSub: Subscription = null;
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutService,
-    private authenticationService: AuthenticationService,
     private router: Router,
     private datePipe: DatePipe,
     private modalService: BsModalService
@@ -81,6 +81,9 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     if (this.timerInt) { clearInterval(this.timerInt); }
     if (this.restInterval) { clearInterval(this.restInterval); }
     if (this.countInt) { clearInterval(this.countInt); }
+    if (this.postSub) { this.postSub.unsubscribe(); }
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.woSub) { this.woSub.unsubscribe(); }
   }
 
   toggleTimer() {
@@ -118,24 +121,20 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-    this.authenticationService.currentUser.subscribe(x => {
-      this.currentUser = x;
-      this.route.paramMap.subscribe(params => {
-        this.rid = Number(params.get('routineid'));
-        this.userWorkout.ProgramRoutineID = Number(
-          params.get('programroutineid'),
-        );
-        this.service
-          .getWO(Number(params.get('programroutineid')), Number(params.get('routineid'))).subscribe((workout: Workout) => {
-            this.workout = workout;
-            this.workout.Exercises[0].Active = true;
-            this.loaded = true;
-            // tslint:disable-next-line:no-string-literal
-            this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
-            webAudioTouchUnlock(this.audioCtx);
-          });
-      });
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      this.rid = Number(params.get('routineid'));
+      this.userWorkout.ProgramRoutineID = Number(
+        params.get('programroutineid'),
+      );
+      this.woSub = this.service
+        .getWO(Number(params.get('programroutineid')), Number(params.get('routineid'))).subscribe((workout: Workout) => {
+          this.workout = workout;
+          this.workout.Exercises[0].Active = true;
+          this.loaded = true;
+          // tslint:disable-next-line:no-string-literal
+          this.audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+          webAudioTouchUnlock(this.audioCtx);
+        });
     });
   }
 
@@ -263,7 +262,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       ex.ExerciseStart = this.transformDate(ex.ExerciseStart);
       delete ex.Exercise;
     });
-    this.service.post('Workout', payload).subscribe((x: any) => {
+    this.postSub = this.service.post('Workout', payload).subscribe((x: any) => {
       this.router.navigate(['history/workout', x.UserWorkoutHistoryID]);
     });
     // TODO on error save workout in cache and try again

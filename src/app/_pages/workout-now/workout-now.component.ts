@@ -20,9 +20,9 @@ import { WorkoutService } from 'src/app/_services/workout.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
-import { ThrowStmt } from '@angular/compiler';
 import { WorkoutExercise } from 'src/app/_models/WorkoutExercise';
 import { Workout } from 'src/app/_models/Workout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workout-now',
@@ -35,6 +35,7 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
   workout: Workout;
   userWorkout: UserWorkoutHistory;
   clockInterval = null;
+  postSub: Subscription = null;
   clock = null;
   bsModalRef = null;
   faChevronCircleRight = faChevronCircleRight;
@@ -48,7 +49,7 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
   faHeartbeat = faHeartbeat;
   faPlus = faPlus;
   activeExercise: UserWorkoutExerciseHistory = null;
-  exerciseSub = null;
+  exerciseSub: Subscription = null;
   constructor(
     private modalService: BsModalService,
     private service: WorkoutService,
@@ -78,7 +79,10 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
     }, 1000);
     this.exercising = true;
   }
+
   ngOnDestroy() {
+    if (this.postSub) { this.postSub.unsubscribe(); }
+    if (this.exerciseSub) { this.exerciseSub.unsubscribe(); }
     if (this.clockInterval) { clearInterval(this.clockInterval); }
   }
 
@@ -190,10 +194,9 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
         ex.ExerciseStart = this.transformDate(ex.ExerciseStart);
         delete ex.Exercise;
       });
-      this.service.post('Workout', payload).subscribe((x: any) => {
+      this.postSub = this.service.post('Workout', payload).subscribe((x: any) => {
         this.router.navigate(['history/workout', x.UserWorkoutHistoryID]);
       });
-      // TODO on error save workout in cache and try again
     }
   }
 

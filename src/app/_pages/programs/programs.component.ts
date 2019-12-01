@@ -1,31 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { User } from 'src/app/_models/User';
 import { Program } from '../../_models/Program';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-programs',
   templateUrl: './programs.component.html',
   styleUrls: ['./programs.component.scss']
 })
-export class ProgramsComponent implements OnInit {
+export class ProgramsComponent implements OnInit, OnDestroy {
 
   programs: Program[];
-  currentUser: User = {} as User;
+  progSub: Subscription = null;
   loaded = false;
   constructor(
     private service: WorkoutService,
-    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit() {
-    this.service.getAll('UserPrograms').subscribe((data: Program[]) => {
+    this.progSub = this.service.getAll('UserPrograms').subscribe((data: Program[]) => {
       this.programs = data;
-      this.authenticationService.currentUser.subscribe(x => {
-        this.currentUser = x;
-        this.loaded = true;
-      });
+      this.loaded = true;
     });
+  }
+
+  ngOnDestroy() {
+    if (this.progSub) { this.progSub.unsubscribe(); }
   }
 }

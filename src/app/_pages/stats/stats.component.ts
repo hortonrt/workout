@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { DatePipe } from '@angular/common';
 import { exhaustMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-stats',
@@ -9,7 +10,7 @@ import { exhaustMap } from 'rxjs/operators';
   styleUrls: ['./stats.component.scss'],
   providers: [DatePipe]
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnInit, OnDestroy {
 
   constructor(private service: WorkoutService, private datePipe: DatePipe) { }
   rmh = null;
@@ -22,11 +23,15 @@ export class StatsComponent implements OnInit {
   routines = [];
   sets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   loaded = false;
+  userRoutineSub: Subscription = null;
+  statSub: Subscription = null;
+  routinesSub: Subscription = null;
+  histSub: Subscription = null;
 
   ngOnInit() {
-    this.service.getAll('UserRoutines').subscribe((r: any[]) => {
+    this.userRoutineSub = this.service.getAll('UserRoutines').subscribe((r: any[]) => {
       this.routines = r;
-      this.service.getAll('Stats').subscribe((x: any) => {
+      this.statSub = this.service.getAll('Stats').subscribe((x: any) => {
         this.setupRMC(x.RepMaxCurrent);
         this.data = x;
         this.loaded = true;
@@ -34,10 +39,17 @@ export class StatsComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.userRoutineSub) { this.userRoutineSub.unsubscribe(); }
+    if (this.statSub) { this.statSub.unsubscribe(); }
+    if (this.routinesSub) { this.routinesSub.unsubscribe(); }
+    if (this.histSub) { this.histSub.unsubscribe(); }
+  }
+
   routineReportBuild(routineID) {
     this.rh = [];
-    this.service.get('Routines', routineID).subscribe((r: any) => {
-      this.service.get('RoutineHistory', routineID).subscribe((x: any[]) => {
+    this.routinesSub = this.service.get('Routines', routineID).subscribe((r: any) => {
+      this.histSub = this.service.get('RoutineHistory', routineID).subscribe((x: any[]) => {
         const newRH = [];
         for (const b of r.Blocks) {
           for (const s of b.Sets) {
