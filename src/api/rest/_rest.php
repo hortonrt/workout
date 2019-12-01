@@ -174,3 +174,11 @@ function deleteR($table, $id){
   $stmt->execute();
   $stmt = null;
 }
+
+function executeR($sql){
+  $dictionary = getDictionary();
+  $db = new DBClass();
+  $stmt = $db->pdo->prepare($sql);
+  $stmt->execute();
+  $stmt = null;
+}

@@ -53,13 +53,17 @@ if($method === "GET"){
 if($method === "POST") {
   $payload = getPayload();
   $ExerciseID = upsert('Exercises', $payload);
+  executeR('DELETE From ExerciseEquipment where ExerciseID = ' . $ExerciseID);
+  executeR('DELETE From ExerciseMuscleTypes where ExerciseID = ' . $ExerciseID);
   foreach($payload->Equipment as $equip){
     $equip->ExerciseID = $ExerciseID;
-    upsert('ExerciseEquipment', $equip);
+    unset($equip->ExerciseEquipmentID);
+    insert('ExerciseEquipment', $equip);
   }
   foreach($payload->MuscleTypes as $mt){
     $mt->ExerciseID = $ExerciseID;
-    upsert('ExerciseMuscleTypes', $mt);
+    unset($equip->ExerciseMuscleTypeID);
+    insert('ExerciseMuscleTypes', $mt);
   }
   echo(json_encode(array('ExerciseID' => $ExerciseID)));
 }

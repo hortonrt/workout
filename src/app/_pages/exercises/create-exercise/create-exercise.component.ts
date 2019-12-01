@@ -201,6 +201,8 @@ export class CreateExerciseComponent implements OnInit, OnDestroy {
       delete x.Exercise;
     });
     delete payload.ExerciseType;
+    payload.MuscleTypes = payload.MuscleTypes.filter(x => x.IsWorked);
+    payload.Equipment = payload.Equipment.filter(x => x.IsUsed);
     this.postSub = this.service.post('Exercises', payload).subscribe(
       (data: Exercise) => {
         this.exerciseForm.markAsPristine();
