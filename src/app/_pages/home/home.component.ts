@@ -10,8 +10,6 @@ import {
   faCalendarAlt,
   faBolt
 } from '@fortawesome/free-solid-svg-icons';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { User } from 'src/app/_models/User';
 
 @Component({
   selector: 'app-home',
@@ -19,15 +17,16 @@ import { User } from 'src/app/_models/User';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  faDumbbell = faDumbbell;
-  faChart = faChartPie;
-  faCalendarCheck = faCalendarCheck;
-  faCogs = faCogs;
-  faWeight = faWeight;
-  faRunning = faRunning;
-  faUser = faUser;
-  faBolt = faBolt;
-  faCalendarAlt = faCalendarAlt;
+  links = [
+    { name: 'Programs', icon: faCalendarCheck, route: ['/programs'], css: 'btn-workout text-white' },
+    { name: 'Routines', icon: faCogs, route: ['/routines'], css: 'btn-workout text-white' },
+    { name: 'Exercises', icon: faRunning, route: ['/exercises'], css: 'btn-workout text-white' },
+    { name: 'User History', icon: faCalendarAlt, route: ['/history'], css: 'btn-workout text-white' },
+    { name: 'Measurements', icon: faWeight, route: ['/measurements'], css: 'btn-workout text-white' },
+    { name: 'Profile', icon: faUser, route: ['/profile'], css: 'btn-workout text-white' },
+    { name: 'Stats', icon: faChartPie, route: ['/stats'], css: 'btn-workout text-white' },
+    { name: 'Workout Now', icon: faBolt, route: ['/custom'], css: 'btn-success text-white' },
+  ];
 
   constructor() { }
 

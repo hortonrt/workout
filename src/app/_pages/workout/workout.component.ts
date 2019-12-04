@@ -23,7 +23,7 @@ import { DatePipe } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
 import webAudioTouchUnlock from 'web-audio-touch-unlock';
-import { Subscription, Subscribable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workout',

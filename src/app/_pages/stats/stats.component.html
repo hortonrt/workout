@@ -8,8 +8,8 @@
   <app-loader></app-loader>
 </div>
 <div *ngIf="loaded">
-  <tabset>
-    <tab heading="Rep Max" id="tab1" class="pt-5">
+  <tabset [justified]="true">
+    <tab heading="Rep&nbsp;Max" id="tab1" class="pt-5">
       <tabset>
         <tab heading="Current" id="tab1-1">
           <div *ngFor="let exercise of rmc" class="chart-wrap">
@@ -47,7 +47,7 @@
         <app-routine-history [data]="exercise"></app-routine-history>
       </div>
     </tab>
-    <tab heading="Fit Test" id="tab4" class="pt-5" (selectTab)="onSelect($event)">
+    <tab heading="Fit&nbsp;Test" id="tab4" class="pt-5" (selectTab)="onSelect($event)">
       <div *ngFor="let exercise of fth" class="chart-wrap">
         <app-fit-test-report [data]="exercise"></app-fit-test-report>
       </div>

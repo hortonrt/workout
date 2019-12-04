@@ -1,0 +1,14 @@
+<div class="btn-group btn-group-sm">
+  <button [class]="cls" *ngIf="add.observers.length" (click)="runAdd()">
+    <fa-icon [icon]="faPlus"></fa-icon>
+  </button>
+  <button [class]="cls" *ngIf="edit.observers.length" (click)="runEdit()">
+    <fa-icon [icon]="faPencil"></fa-icon>
+  </button>
+  <button [class]="cls" *ngIf="clone.observers.length" (click)="runClone()">
+    <fa-icon [icon]="faClone"></fa-icon>
+  </button>
+  <button [class]="cls" *ngIf="delete.observers.length" (click)="runDelete()">
+    <fa-icon [icon]="faTrash"></fa-icon>
+  </button>
+</div>

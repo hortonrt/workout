@@ -59,6 +59,15 @@ import { ExercisesCurrentComponent } from './_pages/stats/exercises-current/exer
 import { WorkoutNowComponent } from './_pages/workout-now/workout-now.component';
 import { BreakdownGraphComponent } from './_pages/measurements/breakdown-graph/breakdown-graph.component';
 import { FitTestReportComponent } from './_pages/stats/fit-test-report/fit-test-report.component';
+import { EditButtonsComponent } from './_components/edit-buttons/edit-buttons.component';
+import { NeweditRoutineComponent } from './_pages/routines/newedit/newedit-routine/newedit-routine.component';
+import { NeweditBlockComponent } from './_pages/routines/newedit/newedit-block/newedit-block.component';
+import { NeweditSetComponent } from './_pages/routines/newedit/newedit-set/newedit-set.component';
+import { NeweditExerciseComponent } from './_pages/routines/newedit/newedit-exercise/newedit-exercise.component';
+import { NeweditProgramComponent } from './_pages/programs/newedit/newedit-program/newedit-program.component';
+import { NeweditPhaseComponent } from './_pages/programs/newedit/newedit-phase/newedit-phase.component';
+import { NeweditDayComponent } from './_pages/programs/newedit/newedit-day/newedit-day.component';
+import { NeweditProgramroutineComponent } from './_pages/programs/newedit/newedit-programroutine/newedit-programroutine.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +113,15 @@ import { FitTestReportComponent } from './_pages/stats/fit-test-report/fit-test-
     WorkoutNowComponent,
     BreakdownGraphComponent,
     FitTestReportComponent,
+    EditButtonsComponent,
+    NeweditRoutineComponent,
+    NeweditBlockComponent,
+    NeweditSetComponent,
+    NeweditExerciseComponent,
+    NeweditProgramComponent,
+    NeweditPhaseComponent,
+    NeweditDayComponent,
+    NeweditProgramroutineComponent
   ],
   imports: [
     BrowserModule,
@@ -124,6 +142,18 @@ import { FitTestReportComponent } from './_pages/stats/fit-test-report/fit-test-
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ExercisePickerComponent, CreateMeasurementComponent, EditWorkoutComponent, RepMaxChartComponent]
+  entryComponents: [
+    ExercisePickerComponent,
+    CreateMeasurementComponent,
+    EditWorkoutComponent,
+    RepMaxChartComponent,
+    NeweditBlockComponent,
+    NeweditDayComponent,
+    NeweditExerciseComponent,
+    NeweditPhaseComponent,
+    NeweditProgramComponent,
+    NeweditRoutineComponent,
+    NeweditSetComponent,
+    NeweditProgramroutineComponent]
 })
 export class AppModule { }

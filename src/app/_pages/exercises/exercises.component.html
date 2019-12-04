@@ -8,20 +8,34 @@
   <app-loader></app-loader>
 </div>
 <div *ngIf="loaded">
-  <div class="row">
+  <div class="row no-gutters">
     <div class="col-12 p-2">
-      <h2>
-        Exercises
-        <button class="btn btn-primary text-white float-right" [routerLink]="['/exercise/create']" type="button">
-          Create New Exercise
-        </button>
-      </h2>
+      <h2> Exercises </h2>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary text-white w-100" [routerLink]="['/exercise/create']" type="button">
+        Create New Exercise
+      </button>
     </div>
     <div class="col-12">
       <div class="input-group input-group-sm">
+        <span class="input-group-prepend">
+          <span class="input-group-text">
+            <fa-icon [icon]="faSearch"></fa-icon>
+          </span>
+        </span>
         <input class="form-control" [(ngModel)]="exFilt.searchText" placeholder="Search" (keyup)="updateList()">
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="input-group input-group-sm">
+        <span class="input-group-prepend">
+          <span class="input-group-text">
+            <fa-icon [icon]="faFilter"></fa-icon>
+          </span>
+        </span>
         <select class="form-control" (change)="onChangeMT($event.target.value)">
-          <option value="">All Muscle Groups</option>
+          <option value="">All Muscles</option>
           <option *ngFor="let group of this.lists.MuscleGroupTypes" [value]="group.Name">
             {{group.Name}}
           </option>
@@ -35,13 +49,13 @@
       </div>
     </div>
   </div>
-  <div class="row no-gutters button-spacer">
-    <div class="col-12 col-md-6 mb-4" *ngFor="let exercise of exercises">
-      <div class="bg-workout text-white m-4 p-4" [routerLink]="['/exercise/edit', exercise.ExerciseID]">
+  <div class="row no-gutters">
+    <div class="col-12 col-md-6" *ngFor="let exercise of exercises">
+      <div class="bg-workout text-white mx-3 my-2" [routerLink]="['/exercise/edit', exercise.ExerciseID]">
         <table class="table table-sm text-white no-borders">
           <tbody>
             <tr>
-              <td colspan="2" class="big">{{exercise.Name}} - {{exercise.ExerciseTypeName}}</td>
+              <td colspan="2" class="big bg-routine p-2">{{exercise.Name}} - {{exercise.ExerciseTypeName}}</td>
             </tr>
             <tr>
               <td>

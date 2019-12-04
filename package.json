@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "pwa": "export PATH=/Users/ryan/npm-global/bin:$PATH && ng build --prod && cd dist && http-server -c-1 --proxy http://workout.localdev.com ."
+    "pwa": "export PATH=/Users/ryan/npm-global/bin:$PATH && ng build --prod && cd dist && http-server -c-1 --proxy http://workout.localdev.com .",
+    "kill": "sudo kill `sudo lsof -t -i:4200`"
   },
   "private": true,
   "dependencies": {

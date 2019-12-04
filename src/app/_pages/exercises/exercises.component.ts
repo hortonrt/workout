@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { Exercise } from 'src/app/_models/Exercise';
 import { Subscription } from 'rxjs';
+import { IconDefinition, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exercises',
@@ -16,6 +17,8 @@ export class ExercisesComponent implements OnInit, OnDestroy {
   lists = null;
   listsSub: Subscription = null;
   exSub: Subscription = null;
+  faSearch: IconDefinition = faSearch;
+  faFilter: IconDefinition = faFilter;
   constructor(
     private service: WorkoutService,
   ) { }

@@ -8,20 +8,20 @@
   <app-loader></app-loader>
 </div>
 <div *ngIf="loaded">
-  <div class="row">
-    <div class="col-12 p-4">
-      <h2>
-        Programs
-        <button class="btn btn-primary text-white float-right" [routerLink]="['/program/create']" type="button"> Create New Program </button>
-      </h2>
+  <div class="row no-gutters p-2">
+    <div class="col-12">
+      <h2> Programs </h2>
     </div>
   </div>
-  <div class="row mb-2 button-spacer no-gutters">
-    <div class="ccol-12 col-lg-6" *ngFor="let program of programs">
-      <div class="bg-workout text-white m-2 p-4">
-        <a [routerLink]="['/program/view', program.ProgramID]" class="text-white">
-          <h4>{{ program.Name }}</h4>
-        </a>
+  <div class="row mb-2 no-gutters p-2">
+    <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+      <div class="bg-primary text-white">
+        <button class="btn btn-primary text-white w-100" [routerLink]="['/program/create']" type="button"> Create New Program </button>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 mb-2 mb-lg-0" *ngFor="let program of programs">
+      <div class="bg-workout text-white p-3">
+        <a [routerLink]="['/program/view', program.ProgramID]" class="text-white d-block"> {{ program.Name }} </a>
       </div>
     </div>
   </div>

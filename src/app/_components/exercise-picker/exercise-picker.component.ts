@@ -5,6 +5,7 @@ import { Equipment } from 'src/app/_models/Equipment';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Exercise } from 'src/app/_models/Exercise';
 import { Subscription } from 'rxjs';
+import { IconDefinition, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exercise-picker',
@@ -24,6 +25,8 @@ export class ExercisePickerComponent implements OnInit, OnDestroy {
   lists = null;
   listsSub: Subscription = null;
   exSub: Subscription = null;
+  faSearch: IconDefinition = faSearch;
+  faFilter: IconDefinition = faFilter;
   constructor(
     private service: WorkoutService,
     public bsModalRef: BsModalRef

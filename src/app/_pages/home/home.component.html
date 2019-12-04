@@ -1,65 +1,11 @@
 <div class="home-wrap">
-  <div class="row no-gutters text-center text-primary">
-    <div class="col-6 p-4" [routerLink]="['/programs']">
-      <div class="bg-workout text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faCalendarCheck" size="3x"></fa-icon>
-        </div> Programs
-      </div>
-    </div>
-    <div class="col-6 p-4" [routerLink]="['/routines']">
-      <div class="bg-workout text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faCogs" size="3x"></fa-icon>
-        </div> Routines
-      </div>
-    </div>
-  </div>
-  <div class="row text-center text-primary">
-    <div class="col-6 p-4" [routerLink]="['/exercises']">
-      <div class="bg-workout text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faRunning" size="3x"></fa-icon>
-        </div> Exercises
-      </div>
-    </div>
-    <div class="col-6 p-4" [routerLink]="['/history']">
-      <div class="bg-workout text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faCalendarAlt" size="3x"></fa-icon>
-        </div> User History
-      </div>
-    </div>
-    <div class="col-6 p-4" [routerLink]="['/measurements']">
-      <div class="bg-workout text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faWeight" size="3x"></fa-icon>
+  <div class="row no-gutters">
+    <div class="col-6" *ngFor="let link of links" [routerLink]="link.route">
+      <div [class]="link.css">
+        <div class="mb-1">
+          <fa-icon [icon]="link.icon" size="3x"></fa-icon>
         </div>
-        Measurements
-      </div>
-    </div>
-    <div class="col-6 p-4" [routerLink]="['/profile']">
-      <div class="bg-workout text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faUser" size="3x"></fa-icon>
-        </div>
-        Profile
-      </div>
-    </div>
-    <div class="col-6 p-4" [routerLink]="['/stats']">
-      <div class="bg-workout text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faChart" size="3x"></fa-icon>
-        </div>
-        Stats
-      </div>
-    </div>
-    <div class="col-6 p-4" [routerLink]="['/custom']">
-      <div class="bg-success text-white p-4">
-        <div class="mb-3">
-          <fa-icon [icon]="faBolt" size="3x"></fa-icon>
-        </div>
-        Workout Now
+        {{link.name}}
       </div>
     </div>
   </div>
