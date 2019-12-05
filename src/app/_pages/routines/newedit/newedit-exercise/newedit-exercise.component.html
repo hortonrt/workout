@@ -13,7 +13,7 @@
     <div class="form-row">
       <div class="form-group col-12">
         <label for="exercise">Exercise</label>
-        <input type="string" readonly [value]="obj.Exercise ? obj.Exercise.Name + ' - ' + obj.Exercise.ExerciseType.Name : ''" class="form-control form-control-sm" (click)="selectExercise(exercise)" [ngClass]="{'is-invalid': !obj.Exercise && exerciseForm.submitted}" />
+        <input type="string" name="exercise" readonly [value]="obj.Exercise ? obj.Exercise.Name + ' - ' + obj.Exercise.ExerciseType.Name : ''" class="form-control form-control-sm" (click)="selectExercise(obj)" [ngClass]="{'is-invalid': !obj.Exercise && exerciseForm.submitted}" />
       </div>
       <div class="form-group col-6">
         <label for="order">Order</label>
