@@ -1,1 +1,83 @@
-<p>newedit-exercise works!</p>
+<div class="modal-header bg-workout text-white">
+  <h4 class="modal-title pull-left"><span *ngIf="obj.RoutineBlockSetExerciseID <= 0">Create</span><span *ngIf="obj.RoutineBlockSetExerciseID > 0">Edit</span> Exercise</h4>
+  <button type="button" class="close pull-right text-white" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form (submit)="save()" #exerciseForm="ngForm">
+  <div class="modal-body">
+    <div class="form-group d-none">
+      <label for="RoutineBlockSetExerciseID">ID</label>
+      <input type="text" [(ngModel)]="obj.RoutineBlockSetExerciseID" name="rbseid" #rbseid="ngModel" required class="form-control form-control-sm" />
+    </div>
+    <div class="form-row">
+      <div class="form-group col-12">
+        <label for="exercise">Exercise</label>
+        <input type="string" readonly [value]="obj.Exercise ? obj.Exercise.Name + ' - ' + obj.Exercise.ExerciseType.Name : ''" class="form-control form-control-sm" (click)="selectExercise(exercise)" [ngClass]="{'is-invalid': !obj.Exercise && exerciseForm.submitted}" />
+      </div>
+      <div class="form-group col-6">
+        <label for="order">Order</label>
+        <input type="number" [(ngModel)]="obj.ExerciseOrder" name="order" #order="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': order.invalid && (order.dirty || order.touched || exerciseForm.submitted)}" />
+      </div>
+      <div class="form-group col-6">
+        <label for="reps">Reps</label>
+        <input type="number" [(ngModel)]="obj.Reps" name="reps" #reps="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': reps.invalid && (reps.dirty || reps.touched || exerciseForm.submitted)}" />
+      </div>
+      <div class="form-group col-6">
+        <label for="rest">Post Rest</label>
+        <input type="number" [(ngModel)]="obj.PostRest" name="rest" #rest="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': rest.invalid && (rest.dirty || rest.touched || exerciseForm.submitted)}" />
+      </div>
+      <div class="form-group col-6">
+        <label for="st">Side</label>
+        <select [(ngModel)]="obj.SideType" name="st" #st="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': st.invalid && (st.dirty || st.touched || exerciseForm.submitted)}">
+          <option selected disabled value></option>
+          <option *ngFor="let sideType of lists.SideTypes" [ngValue]="sideType">{{ sideType.Name }}</option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="rt">Rep Type</label>
+        <select [(ngModel)]="obj.RepType" name="rt" #rt="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': rt.invalid && (rt.dirty || rt.touched || exerciseForm.submitted)}">
+          <option selected disabled value></option>
+          <option *ngFor="let repType of lists.RepTypes" [ngValue]="repType">{{ repType.Name }} </option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="reps">Weight Type</label>
+        <select [(ngModel)]="obj.WeightType" name="wt" #wt="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': wt.invalid && (wt.dirty || wt.touched || exerciseForm.submitted)}">
+          <option selected disabled value></option>
+          <option *ngFor="let WeightType of lists.WeightTypes" [ngValue]="WeightType">{{ WeightType.Name }} </option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label for="fw">Fixed Weight</label>
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <button class="btn btn-med" (click)="toggleFixed()" type="button">
+              <fa-icon [icon]="faSquare" *ngIf="obj.FixedWeight === -1"></fa-icon>
+              <fa-icon [icon]="faCheckSquare" *ngIf="obj.FixedWeight !== -1"></fa-icon>
+            </button>
+          </div>
+          <input type="number" value="" readonly class="form-control form-control-sm" *ngIf="obj.FixedWeight === -1" />
+          <input type="number" [(ngModel)]="obj.FixedWeight" name="fw" #fw="ngModel" class="form-control form-control-sm" *ngIf="obj.FixedWeight !== -1" required [ngClass]="{'is-invalid': fw.invalid && (fw.dirty || fw.touched || exerciseForm.submitted)}" />
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <label for="timer">Timer</label>
+        <div class="input-group input-group-sm">
+          <div class="input-group-prepend">
+            <button class="btn btn-med" (click)="toggleTimer()" type="button">
+              <fa-icon [icon]="faSquare" *ngIf="obj.Timer === -1"></fa-icon>
+              <fa-icon [icon]="faCheckSquare" *ngIf="obj.Timer !== -1"></fa-icon>
+            </button>
+          </div>
+          <input type="number" value="" readonly class="form-control form-control-sm" *ngIf="obj.Timer === -1" />
+          <input type="number" [(ngModel)]="obj.Timer" name="timer" #timer="ngModel" class="form-control form-control-sm" *ngIf="obj.Timer !== -1" required [ngClass]="{'is-invalid': timer.invalid && (timer.dirty || timer.touched || exerciseForm.submitted)}" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer text-right">
+    <button class="btn btn-secondary w-50" type="button" (click)="close()">Cancel</button>
+    <button class="btn btn-primary w-50" type="submit">Save</button>
+  </div>
+</form>

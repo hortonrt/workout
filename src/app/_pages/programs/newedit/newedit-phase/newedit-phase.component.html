@@ -1,1 +1,28 @@
-<p>newedit-phase works!</p>
+<div class="modal-header bg-workout text-white">
+  <h4 class="modal-title pull-left"><span *ngIf="obj.ProgramPhaseID <= 0">Create</span><span *ngIf="obj.ProgramPhaseID > 0">Edit</span> Phase</h4>
+  <button type="button" class="close pull-right text-white" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form (submit)="save()" #phaseForm="ngForm">
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col-6 d-none">
+        <label for="">ID</label>
+        <input type="text" [(ngModel)]="obj.ProgramPhaseID" name="id" class="form-control form-control-sm" />
+      </div>
+      <div class="form-group col-12">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="obj.Name" name="name" #name="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched || phaseForm.submitted)}" />
+      </div>
+      <div class="form-group col-12">
+        <label for="order">Order</label>
+        <input type="number" [(ngModel)]="obj.PhaseOrder" name="order" #order="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': order.invalid && (order.dirty || order.touched || phaseForm.submitted)}" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary w-50" type="button" (click)="close()">Cancel</button>
+    <button class="btn btn-primary w-50" type="submit">Save</button>
+  </div>
+</form>

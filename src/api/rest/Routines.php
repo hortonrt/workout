@@ -44,15 +44,21 @@ if($method === "GET"){
 if($method === "POST") {
   $payload = getPayload();
   $RoutineID = upsert('Routines', $payload);
-  foreach($payload->Blocks as $block){
-    $block->RoutineID = $RoutineID;
-    $BlockID = upsert('RoutineBlocks', $block);
-    foreach($block->Sets as $set){
-      $set->RoutineBlockID = $BlockID;
-      $setID = upsert('RoutineBlockSet', $set);
-      foreach($set->Exercises as $exercise){
-        $exercise->RoutineBlockSetID = $setID;
-        upsert('RoutineBlockSetExercises', $exercise);
+  if(isset($payload->Blocks)){
+    foreach($payload->Blocks as $block){
+      $block->RoutineID = $RoutineID;
+      $BlockID = upsert('RoutineBlocks', $block);
+      if(isset($block->Sets)){
+        foreach($block->Sets as $set){
+          $set->RoutineBlockID = $BlockID;
+          $setID = upsert('RoutineBlockSet', $set);
+          if(isset($set->Exercises)){
+            foreach($set->Exercises as $exercise){
+              $exercise->RoutineBlockSetID = $setID;
+              upsert('RoutineBlockSetExercises', $exercise);
+            }
+          }
+        }
       }
     }
   }

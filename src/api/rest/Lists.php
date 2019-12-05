@@ -16,6 +16,6 @@ if($method === "GET"){
       $f = getAll($type);
       $out[$type] = $f;
     }
-    echo(json_encode($out));
+    echo(json_encode($out,JSON_NUMERIC_CHECK));
   }
 }

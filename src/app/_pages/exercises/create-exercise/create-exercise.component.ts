@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { Subscription } from 'rxjs';
+import { IconDefinition, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-create-exercise',
@@ -26,6 +27,8 @@ export class CreateExerciseComponent implements OnInit, OnDestroy {
   routeSub: Subscription = null;
   exSub: Subscription = null;
   postSub: Subscription = null;
+  faSquare: IconDefinition = faSquare;
+  faCheckSquare: IconDefinition = faCheckSquare;
 
   constructor(
     private route: ActivatedRoute,

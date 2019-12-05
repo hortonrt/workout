@@ -10,7 +10,12 @@
 <div *ngIf="loaded">
   <div class="row">
     <div class="col-12">
-      <h2> Measurement History <button class="btn btn-sm btn-success float-right" (click)="addMeasurement()"> Add </button> </h2>
+      <h2> Measurement History </h2>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-success w-100" (click)="addMeasurement()"> Add </button>
+    </div>
+    <div class="col-12">
       <tabset>
         <tab heading="Table" id="tab1">
           <div class="table-responsive">

@@ -42,13 +42,12 @@ export class NeweditRoutineComponent implements OnInit {
         this.bsModalRef.hide();
       }, (e => {
         console.log(e);
-        // todo handle error
       }));
     }
   }
 
   close() {
-    this.finish(this.original);
+    Object.assign(this.obj, this.original);
     this.bsModalRef.hide();
   }
 

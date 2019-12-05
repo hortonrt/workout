@@ -33,15 +33,21 @@ if($method === "GET"){
 if($method === "POST") {
   $payload = getPayload();
   $ProgramID = upsert('Programs', $payload);
+  if(isset($payload->Phases)){
   foreach($payload->Phases as $phase){
     $phase->ProgramID = $ProgramID;
     $PhaseID = upsert('ProgramPhases', $phase);
-    foreach($phase->Days as $day){
-      $day->ProgramPhaseID = $PhaseID;
-      $dayID = upsert('ProgramDays', $day);
-      foreach($day->Routines as $routine){
-        $routine->ProgramDayID = $dayID;
-        upsert('ProgramRoutines', $routine);
+    if(isset($phase->Days)){
+      foreach($phase->Days as $day){
+        $day->ProgramPhaseID = $PhaseID;
+        $dayID = upsert('ProgramDays', $day);
+          if(isset($day->Routines)){
+            foreach($day->Routines as $routine){
+              $routine->ProgramDayID = $dayID;
+              upsert('ProgramRoutines', $routine);
+            }
+          }
+        }
       }
     }
   }

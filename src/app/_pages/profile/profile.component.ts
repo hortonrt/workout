@@ -4,6 +4,7 @@ import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { Routine } from 'src/app/_models/Routine';
 import { Subscription } from 'rxjs';
+import { IconDefinition, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +21,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   saveError = false;
   dumbbells = null;
   changeError = false;
+  faSquare: IconDefinition = faSquare;
+  faCheckSquare: IconDefinition = faCheckSquare;
   routines: Routine[] = [];
   newuser: User = {
     UserID: -1,

@@ -11,12 +11,13 @@
 <div *ngIf="loaded">
   <div class="row">
     <div class="col-12 p-2">
-      <h2>Workout History
-        <button class="btn btn-sm btn-workout float-right" (click)="edit()">Edit</button>
-      </h2>
+      <h2>Workout History </h2>
     </div>
   </div>
   <div class="row no-gutters">
+    <div class="col-12">
+      <button class="btn btn-success w-100" (click)="edit()">Edit</button>
+    </div>
     <div class="col-12">
       <table class="table table-sm table-bordered table-striped table-hover">
         <thead>

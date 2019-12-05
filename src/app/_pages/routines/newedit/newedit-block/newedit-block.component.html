@@ -1,1 +1,57 @@
-<p>newedit-block works!</p>
+<div class="modal-header bg-workout text-white">
+  <h4 class="modal-title pull-left"><span *ngIf="obj.RoutineBlockID <= 0">Create</span><span *ngIf="obj.RoutineBlockID > 0">Edit</span> Block</h4>
+  <button type="button" class="close pull-right text-white" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form (submit)="save()" #blockForm="ngForm">
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group d-none">
+        <label for="RoutineBlockID">ID</label>
+        <input type="text" [(ngModel)]="obj.RoutineBlockID" name="routineblockid" class="form-control form-control-sm" required #routineblockid="ngModel" [ngClass]="{'is-invalid': routineblockid.invalid && (routineblockid.dirty || routineblockid.touched || blockForm.submitted)}" />
+      </div>
+      <div class="form-row">
+        <div class="form-group col-12">
+          <label for="BlockTypeID">Block Type</label>
+          <select [(ngModel)]="obj.BlockTypeID" name="blocktypeid" class="form-control form-control-sm" required #blocktypeid="ngModel" [ngClass]="{'is-invalid': blocktypeid.invalid && (blocktypeid.dirty || blocktypeid.touched || blockForm.submitted)}">
+            <option disabled selected value>Select Block Type</option>
+            <option *ngFor="let bType of blockTypes" [value]="bType.BlockTypeID">{{ bType.Name }} </option>
+          </select>
+        </div>
+        <div class="form-group col-12">
+          <label for="BlockOrder">Order</label>
+          <input type="number" [(ngModel)]="obj.BlockOrder" name="blockorder" class="form-control form-control-sm" required #blockorder="ngModel" [ngClass]="{'is-invalid': blockorder.invalid && (blockorder.dirty || blockorder.touched || blockForm.submitted)}" />
+        </div>
+        <div class="form-group col-12">
+          <label for="ProgressType">Progress Type</label>
+          <select [(ngModel)]="obj.ProgressType" name="ProgressType" class="form-control form-control-sm">
+            <option ngValue="None">None </option>
+            <option ngValue="Block">Block </option>
+            <option ngValue="Set">Set </option>
+            <option ngValue="Exercise">Exercise </option>
+          </select> </div>
+        <div class="form-group col-12">
+          <label for="ProgressDiff">Progress Increase</label>
+          <div class="input-group input-group-sm">
+            <input type="number" [(ngModel)]="obj.ProgressDiff" name="progressdiff" class="form-control form-control-sm" required #progressdiff="ngModel" [ngClass]="{'is-invalid': progressdiff.invalid && (progressdiff.dirty || progressdiff.touched || blockForm.submitted)}" />
+            <span class="input-group-append">
+              <span class="input-group-text">%</span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group col-12">
+          <label for="AutoRun">Auto Run</label>
+          <button class="btn btn-workout w-100 text-white" type="button" (click)="obj.AutoRun = !obj.AutoRun">
+            <fa-icon [icon]="faCheckSquare" *ngIf="obj.AutoRun"></fa-icon>
+            <fa-icon [icon]="faSquare" *ngIf="!obj.AutoRun"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer text-right">
+    <button class="btn btn-secondary w-50" type="button" (click)="close()">Cancel</button>
+    <button class="btn btn-primary w-50" type="submit">Save</button>
+  </div>
+</form>

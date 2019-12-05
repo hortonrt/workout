@@ -1,1 +1,27 @@
-<p>newedit-programroutine works!</p>
+<div class="modal-header bg-workout text-white">
+  <h4 class="modal-title pull-left"><span *ngIf="obj.ProgramRoutineID <= 0">Create</span><span *ngIf="obj.ProgramRoutineID > 0">Edit</span> Routine</h4>
+  <button type="button" class="close pull-right text-white" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form (submit)="save()" #routineForm="ngForm">
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col-12">
+        <input type="text" [(ngModel)]="obj.ProgramRoutineID" name="id" class="form-control form-control-sm d-none" />
+        <label for="routine">Routine</label>
+        <select [(ngModel)]="obj.Routine" class="form-control form-control-sm" required name="routine" #routine="ngModel">
+          <option *ngFor="let routine of routines" [ngValue]="routine">{{ routine.Name }}</option>
+        </select>
+      </div>
+      <div class="form-group col-12">
+        <label for="day">Routine Order</label>
+        <input type="number" [(ngModel)]="obj.RoutineOrder" name="order" #order="ngModel" class="form-control form-control-sm" required />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary w-50" type="button" (click)="close()">Cancel</button>
+    <button class="btn btn-primary w-50" type="submit">Save</button>
+  </div>
+</form>

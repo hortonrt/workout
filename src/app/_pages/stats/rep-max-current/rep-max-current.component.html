@@ -1,10 +1,7 @@
 <div class="px-3">
-  <h4>
-    {{data.Name}}
-    <span class="float-right">{{ data.Date | date:'MMM dd, yy' }}</span>
-  </h4>
+  <h5> {{data.Name}} </h5>
   <div style="font-size: .75rem;">
-    {{data.Reps}} reps x {{data.LiftWeight}} lbs @ {{data.BodyWeight}} lbs
+    <span class="text-underline font-weight-bold">{{ data.Date | date:'MMM dd, yy' }}</span> - {{data.Reps}} reps x {{data.LiftWeight}} lbs @ {{data.BodyWeight}} lbs
   </div>
 </div>
 <div [id]="data.Container"></div>

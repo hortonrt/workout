@@ -1,1 +1,26 @@
-<p>newedit-set works!</p>
+<div class="modal-header bg-workout text-white">
+  <h4 class="modal-title pull-left"><span *ngIf="obj.RoutineBlockSetID <= 0">Create</span><span *ngIf="obj.RoutineBlockSetID > 0">Edit</span> Set</h4>
+  <button type="button" class="close pull-right text-white" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form (submit)="save()" #setForm="ngForm">
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group d-none">
+        <label for="RoutineBlockSetID">ID</label>
+        <input type="text" [(ngModel)]="obj.RoutineBlockSetID" name="routineblocksetid" #id="ngModel" required class="form-control form-control-sm" [ngClass]="{'is-invalid': id.invalid && (id.dirty || id.touched || setForm.submitted)}" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-12">
+        <label for="SetNumber">Set Number</label>
+        <input type="number" name="number" #number="ngModel" [(ngModel)]="obj.SetNumber" class="form-control form-control-sm" required [ngClass]="{'is-invalid': number.invalid && (number.dirty || number.touched || setForm.submitted)}" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer text-right">
+    <button class="btn btn-secondary w-50" type="button" (click)="close()">Cancel</button>
+    <button class="btn btn-primary w-50" type="submit">Save</button>
+  </div>
+</form>

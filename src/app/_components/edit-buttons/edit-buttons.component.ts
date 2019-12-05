@@ -16,6 +16,8 @@ export class EditButtonsComponent implements OnInit {
   @Output() add: EventEmitter<any> = new EventEmitter();
   @Output() edit: EventEmitter<any> = new EventEmitter();
   @Input() obj;
+  @Input() addObj = null;
+  @Input() type;
   faPencil: IconDefinition = faPencilAlt;
   faClone: IconDefinition = faClone;
   faTrash: IconDefinition = faTrash;
@@ -25,19 +27,18 @@ export class EditButtonsComponent implements OnInit {
 
   ngOnInit() {
     this.cls = 'btn ' + this.btn + ' ' + this.color;
-    // this.obj = Object.assign({}, this.obj);
   }
 
   runDelete() {
-    this.delete.emit(this.obj);
+    this.delete.emit({ obj: this.obj, type: this.type });
   }
 
   runClone() {
-    this.clone.emit(this.obj);
+    this.clone.emit({ obj: this.obj, type: this.type });
   }
 
   runAdd() {
-    this.add.emit(null);
+    this.add.emit({ obj: null, addObj: this.addObj });
   }
 
   runEdit() {

@@ -16,7 +16,7 @@
   <div class="row mb-2 no-gutters p-2">
     <div class="col-12 col-lg-6 mb-2 mb-lg-0">
       <div class="bg-primary text-white">
-        <button class="btn btn-primary text-white w-100" [routerLink]="['/program/create']" type="button"> Create New Program </button>
+        <button class="btn btn-primary text-white w-100" (click)="neweditProgram()" type="button"> Create New Program </button>
       </div>
     </div>
     <div class="col-12 col-lg-6 mb-2 mb-lg-0" *ngFor="let program of programs">

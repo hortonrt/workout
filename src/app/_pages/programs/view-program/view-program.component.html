@@ -12,7 +12,7 @@
   <div class="row mb-2 no-gutters">
     <div class="col-12 p-3">
       <h2> {{ program.Name }}
-        <app-edit-buttons (clone)="clone()" (delete)="delete()" (edit)="neweditProgram()" [obj]="program" *ngIf="editing"></app-edit-buttons>
+        <app-edit-buttons (clone)="clone($event)" (delete)="delete($event)" (edit)="neweditProgram($event)" [obj]="program" type="Programs" *ngIf="editing"></app-edit-buttons>
       </h2>
     </div>
     <div class="col-12">
@@ -25,26 +25,34 @@
       <table class="table table-sm mb-0" *ngFor="let phase of program.Phases">
         <tbody>
           <tr class="bg-routine text-light">
-            <td colspan="4" class="p-3 vertical align-middle"> {{ phase.Name }}
-              <app-edit-buttons btn="btn-routine" color="text-light" *ngIf="editing" (clone)="clone()" (delete)="delete()" (edit)="neweditPhase()" [obj]="phase"></app-edit-buttons>
+            <td colspan="3" class="p-3 vertical align-middle"> {{ phase.Name }}
+              <app-edit-buttons btn="btn-routine" color="text-light" *ngIf="editing" (clone)="clone($event)" (delete)="delete($event)" (edit)="neweditPhase($event)" [obj]="phase" type="ProgramPhases"></app-edit-buttons>
             </td>
           </tr>
         </tbody>
         <tbody *ngFor="let day of phase.Days">
-          <tr *ngFor="let routine of day.Routines; let routineX = index">
-            <td class="align-middle font-weight-bold" [attr.rowspan]="day.Routines.length" *ngIf="routineX === 0" style="width:5%">{{ day.DayNumber }} </td>
-            <td class="align-middle" style="width:65%"> <a [routerLink]="[ '/routine/view', routine.ProgramRoutineID, routine.RoutineID ]">{{ routine.Routine.Name }}</a> </td>
+          <tr class="bg-workout text-light">
+            <td colspan="3" class="p-3 vertical align-middle">Day {{ day.DayNumber }}
+              <app-edit-buttons btn="btn-workout" color="text-light" *ngIf="editing" (clone)="clone($event)" (delete)="delete($event)" (edit)="neweditDay($event)" (add)="newProgramRoutine($event)" [obj]="day" [addObj]="day" type="ProgramDays"></app-edit-buttons>
+            </td>
+          </tr>
+          <tr *ngFor="let routine of day.Routines">
+            <td class="align-middle">
+              <a [routerLink]="[ '/routine/view', routine.ProgramRoutineID, routine.RoutineID ]">{{ routine.Routine?.Name }}</a>
+            </td>
             <td class="text-center align-middle" style="width:5%" *ngIf="!editing"> {{ routine.RoutineCount }} </td>
-            <td class="text-right align-middle" style="width:30%" *ngIf="!editing"> <button type="button" [routerLink]="[ '/workout', routine.ProgramRoutineID, routine.RoutineID ]" class="btn btm-sm btn-workout"> Workout </button> </td>
+            <td class="text-right align-middle" style="width:30%" *ngIf="!editing">
+              <button type="button" [routerLink]="[ '/workout', routine.ProgramRoutineID, routine.RoutineID ]" class="btn btm-sm btn-workout"> Workout </button>
+            </td>
             <td class="align-middle text-center" colspan="2" *ngIf="editing">
-              <app-edit-buttons (clone)="clone()" (delete)="delete()" (edit)="neweditProgramRoutine()" (add)="neweditProgramRoutine()" [obj]="routine"></app-edit-buttons>
+              <app-edit-buttons (clone)="clone($event)" (delete)="delete($event)" (edit)="editProgramRoutine($event)" [obj]="routine" type="ProgramRoutines"></app-edit-buttons>
             </td>
           </tr>
         </tbody>
         <tbody>
           <tr>
             <td colspan="4" class="align-middle p-0">
-              <button class="btn btn-primary w-100" (click)="neweditDay(null)" *ngIf="editing">Add Day</button>
+              <button class="btn btn-primary w-100" (click)="neweditDay(null, phase)" *ngIf="editing">Add Day</button>
             </td>
           </tr>
         </tbody>

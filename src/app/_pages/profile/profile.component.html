@@ -72,14 +72,15 @@
       <div class="form-row" *ngIf="admin">
         <div class="form-group col-6">
           <label for="IsAdmin">Is Admin</label>
-          <div class="form-check">
-            <input class="form-check-input form-control form-control-sm" type="checkbox" (change)="user.IsAdmin = !user.IsAdmin" [(checked)]="user.IsAdmin" id="IsAdmin" />
-          </div>
+          <button class="btn btn-workout w-100 text-white" type="button" (click)="user.IsAdmin = !user.IsAdmin">
+            <fa-icon [icon]="faCheckSquare" *ngIf="user.IsAdmin"></fa-icon>
+            <fa-icon [icon]="faSquare" *ngIf="!user.IsAdmin"></fa-icon>
+          </button>
         </div>
       </div>
       <div class="form-row mb-4 mt-5">
         <div class="form-group col-12">
-          <button class="btn btn-workout w-100" type="button" (click)="save()">Save</button>
+          <button class="btn btn-success w-100" type="button" (click)="save()">Save</button>
         </div>
       </div>
       <div class="alert alert-success text-center" *ngIf="!saveError && saveMessage.length">{{saveMessage}}</div>

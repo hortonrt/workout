@@ -15,10 +15,10 @@
 <div *ngIf="loaded">
   <form [formGroup]="exerciseForm" (ngSubmit)="onSubmit()">
     <div class="p-3">
-      <h2>
-        Exercise
-        <button class="btn btn-primary float-right">Save</button>
-      </h2>
+      <h2> Exercise </h2>
+    </div>
+    <div>
+      <button class="btn btn-success w-100" type="submit">Save</button>
     </div>
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
     <div class="p-2">
