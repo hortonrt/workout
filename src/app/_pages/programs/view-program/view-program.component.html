@@ -42,7 +42,7 @@
             </td>
             <td class="text-center align-middle" style="width:5%" *ngIf="!editing"> {{ routine.RoutineCount }} </td>
             <td class="text-right align-middle" style="width:30%" *ngIf="!editing">
-              <button type="button" [routerLink]="[ '/workout', routine.ProgramRoutineID, routine.RoutineID ]" class="btn btm-sm btn-workout"> Workout </button>
+              <button type="button" [routerLink]="[ '/workout', routine.ProgramRoutineID, routine.RoutineID ]" class="btn btm-sm btn-success"> Workout </button>
             </td>
             <td class="align-middle text-center" colspan="2" *ngIf="editing">
               <app-edit-buttons (clone)="clone($event)" (delete)="delete($event)" (edit)="editProgramRoutine($event)" [obj]="routine" type="ProgramRoutines"></app-edit-buttons>

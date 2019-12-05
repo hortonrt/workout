@@ -62,7 +62,7 @@ export class NeweditExerciseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.obj = Object.assign({}, this.obj);
+    // this.obj = Object.assign({}, this.obj);
     this.listSub = this.service.lists.subscribe(lists => {
       this.lists = Object.assign({}, lists);
       if (!this.obj.RoutineBlockSetExerciseID) {
