@@ -12,7 +12,7 @@ export class BandSelectorComponent implements OnInit {
   faCheck: IconDefinition = faCheck;
   @Input() obj: any;
   constructor(private service: WorkoutService) {
-    this.bands = Object.assign([], service.bands);
+    this.bands = Object.assign([], this.service.bands);
   }
 
   ngOnInit() {

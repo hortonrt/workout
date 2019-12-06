@@ -3,7 +3,7 @@ import { WorkoutService } from 'src/app/_services/workout.service';
 import { ActivatedRoute } from '@angular/router';
 import { faStar as faStarFull } from '@fortawesome/free-solid-svg-icons';
 import { faStar, faStarHalf } from '@fortawesome/free-regular-svg-icons';
-import { Subscription, SubscriptionLike } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-exercise-history',

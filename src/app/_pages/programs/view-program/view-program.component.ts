@@ -87,7 +87,7 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
     this.bsModalRef = this.modalService.show(NeweditDayComponent, { initialState });
   }
 
-  neweditPhase(phase, program) {
+  neweditPhase(phase) {
     if (!phase) {
       phase = { ProgramPhaseID: 0, ProgramID: this.program.ProgramID, PhaseOrder: this.program.Phases.length + 1 };
     }
@@ -198,7 +198,7 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
       id = obj.obj.ProgramRoutineID;
     }
     if (conf) {
-      this.service.delete('Programs', id, obj.type).subscribe(x => {
+      this.service.delete('Programs', id, obj.type).subscribe(() => {
         if (obj.type === 'Programs') {
           this.router.navigate(['/programs']);
         } else if (obj.type === 'ProgramPhases') {

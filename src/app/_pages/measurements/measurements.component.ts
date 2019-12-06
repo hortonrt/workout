@@ -66,7 +66,7 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
     } else {
       const dp = new DatePipe(navigator.language);
       const p = 'yyyy-MM-dd';
-      const dtr = dp.transform(meas.DateCreated, p);
+      dp.transform(meas.DateCreated, p);
     }
     delete meas.UserID;
     const initialState = {

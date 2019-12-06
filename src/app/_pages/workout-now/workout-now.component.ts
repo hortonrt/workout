@@ -167,9 +167,6 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
       we.Active = false;
       const eDate: Date = new Date();
       this.activeExercise.ExerciseEnd = eDate;
-      const next: WorkoutExercise = this.workout.Exercises[
-        this.workout.Exercises.indexOf(we) + 1
-      ];
       this.activeExercise.Duration = Math.floor(
         Math.abs(
           this.activeExercise.ExerciseEnd.getTime() -

@@ -16,7 +16,6 @@ import { ConfirmGuard } from './_guards/confirm.guard';
 import { CreateProgramComponent } from './_pages/programs/create-program/create-program.component';
 import { CreateRoutineComponent } from './_pages/routines/create-routine/create-routine.component';
 import { CreateExerciseComponent } from './_pages/exercises/create-exercise/create-exercise.component';
-import { AdminGuard } from './_guards/admin.guard';
 import { CreateProgramGuard } from './_guards/createprogram.guard';
 import { CreateRoutineGuard } from './_guards/createroutine.guard';
 import { CreateExerciseGuard } from './_guards/createexercise.guard';

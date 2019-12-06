@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { Subscription } from 'rxjs';

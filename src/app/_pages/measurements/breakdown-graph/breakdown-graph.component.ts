@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserMeasurementHistory } from 'src/app/_models/UserMeasurementHistory';
 import * as Highcharts from 'highcharts';
 
 @Component({

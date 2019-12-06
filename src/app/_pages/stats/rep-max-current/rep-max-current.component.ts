@@ -13,7 +13,7 @@ export class RepMaxCurrentComponent implements OnInit {
   @Input() data: any;
   options: any;
 
-  constructor(private datePipe: DatePipe) { }
+  constructor() { }
 
   ngOnInit() {
     this.options = {

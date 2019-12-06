@@ -1,6 +1,5 @@
 import { MuscleGroupType } from './MuscleGroupType';
 import { Equipment } from './Equipment';
-import { Routine } from './Routine';
 import { WorkoutExercise } from './WorkoutExercise';
 
 export interface Workout {
@@ -16,6 +15,6 @@ export interface Workout {
   ProgramDayID: number;
   ProgramPhaseID: number;
   ProgramRoutineID: number;
-  RoutingName: string;
+  RoutineName: string;
   RoutineID: number;
 }

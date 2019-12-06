@@ -6,14 +6,14 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { AuthenticationService } from '../_services/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   currentUrl = null;
-  constructor(private authenticationService: AuthenticationService, private router: Router, private activeRoute: ActivatedRoute) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
 
 
   }

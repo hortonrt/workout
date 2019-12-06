@@ -21,7 +21,7 @@ export class EditWorkoutComponent implements OnInit {
   faStar = faStar;
   faStarFull = faStarFull;
   faStarHalf = faStarHalf;
-  constructor(public bsModalRef: BsModalRef, private datePipe: DatePipe) { }
+  constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
   }

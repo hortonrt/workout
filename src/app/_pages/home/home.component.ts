@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   faChartPie,
-  faDumbbell,
   faCalendarCheck,
   faCogs,
   faWeight,

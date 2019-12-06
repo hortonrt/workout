@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { IconDefinition, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { WorkoutService } from 'src/app/_services/workout.service';
 
 

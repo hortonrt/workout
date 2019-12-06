@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { DatePipe } from '@angular/common';
-import { exhaustMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
