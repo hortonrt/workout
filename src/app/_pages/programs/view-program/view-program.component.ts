@@ -10,6 +10,7 @@ import { NeweditPhaseComponent } from '../newedit/newedit-phase/newedit-phase.co
 import { NeweditProgramComponent } from '../newedit/newedit-program/newedit-program.component';
 import { NeweditProgramroutineComponent } from '../newedit/newedit-programroutine/newedit-programroutine.component';
 import { isArray } from 'util';
+import * as cloneDeep from 'lodash/cloneDeep';
 
 
 @Component({
@@ -59,7 +60,6 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
         this.replaceIDs(object[k], toBeReplaced);
       }
     });
-    return object;
   }
 
   ngOnDestroy() {
@@ -147,21 +147,21 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
   clone(obj) {
     const conf = confirm('Are you sure you want to clone this?');
     if (conf) {
-      let payload = null;
-      const payloadCopy = Object.assign({}, obj.obj);
+      const payload = cloneDeep(obj.obj);
       if (obj.type === 'Programs') {
-        payload = this.replaceIDs(payloadCopy, ['ProgramID', 'ProgramPhaseID', 'ProgramDayID', 'ProgramRoutineID']);
+        this.replaceIDs(payload, ['ProgramID', 'ProgramPhaseID', 'ProgramDayID', 'ProgramRoutineID']);
         delete payload.UserID;
         payload.Name += ' (Clone)';
       } else if (obj.type === 'ProgramPhases') {
-        payload = this.replaceIDs(payloadCopy, ['ProgramPhaseID', 'ProgramDayID', 'ProgramRoutineID']);
+        this.replaceIDs(payload, ['ProgramPhaseID', 'ProgramDayID', 'ProgramRoutineID']);
         payload.PhaseOrder = this.program.Phases.length + 1;
+        payload.Name += ' (Clone)';
       } else if (obj.type === 'ProgramDays') {
-        payload = this.replaceIDs(payloadCopy, ['ProgramDayID', 'ProgramRoutineID']);
+        this.replaceIDs(payload, ['ProgramDayID', 'ProgramRoutineID']);
         const phase = this.program.Phases.find(b => b.ProgramPhaseID === obj.obj.ProgramPhaseID);
         payload.DayNumber = phase.Days.length + 1;
       } else if (obj.type === 'ProgramRoutines') {
-        payload = this.replaceIDs(payloadCopy, ['ProgramRoutineID']);
+        this.replaceIDs(payload, ['ProgramRoutineID']);
         const set = this.deepSearch(this.program, 'ProgramDayID', obj.obj.ProgramDayID);
         payload.RoutineOrder = set.Routines.length + 1;
       }

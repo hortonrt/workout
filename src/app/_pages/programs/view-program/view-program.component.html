@@ -38,7 +38,7 @@
           </tr>
           <tr *ngFor="let routine of day.Routines">
             <td class="align-middle">
-              <a [routerLink]="[ '/routine/view', routine.ProgramRoutineID, routine.RoutineID ]">{{ routine.Routine?.Name }}</a>
+              <a [routerLink]="[ '/routine/view', routine.ProgramRoutineID, routine.RoutineID ]">{{ routine.Routine.Name }}</a>
             </td>
             <td class="text-center align-middle" style="width:5%" *ngIf="!editing"> {{ routine.RoutineCount }} </td>
             <td class="text-right align-middle" style="width:30%" *ngIf="!editing">

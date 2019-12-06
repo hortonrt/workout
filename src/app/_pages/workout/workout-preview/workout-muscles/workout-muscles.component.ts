@@ -90,7 +90,8 @@ export class WorkoutMusclesComponent implements OnInit, OnDestroy {
           }
         },
         tooltip: {
-          valueSuffix: '%'
+          valueSuffix: '%',
+          valueDecimals: 1
         },
         series: [{
           name: 'Muscle Groups',

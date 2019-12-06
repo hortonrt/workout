@@ -11,6 +11,7 @@ import { NeweditExerciseComponent } from '../newedit/newedit-exercise/newedit-ex
 import { NeweditRoutineComponent } from '../newedit/newedit-routine/newedit-routine.component';
 import { NeweditSetComponent } from '../newedit/newedit-set/newedit-set.component';
 import { isArray } from 'util';
+import * as cloneDeep from 'lodash/cloneDeep';
 
 @Component({
   selector: 'app-view-routine',
@@ -147,10 +148,9 @@ export class ViewRoutineComponent implements OnInit, OnDestroy {
   clone(obj) {
     const conf = confirm('Are you sure you want to clone this?');
     if (conf) {
-      let payload = null;
-      const payloadCopy = Object.assign({}, obj.obj);
+      const payload = cloneDeep(obj.obj);
       if (obj.type === 'Routines') {
-        payload = this.replaceIDs(payloadCopy, ['RoutineID', 'RoutineBlockID', 'RoutineBlockSetID', 'RoutineBlockSetExerciseID']);
+        this.replaceIDs(payload, ['RoutineID', 'RoutineBlockID', 'RoutineBlockSetID', 'RoutineBlockSetExerciseID']);
         delete payload.PrimaryMuscleGroups;
         delete payload.SecondaryMuscleGroups;
         delete payload.NeededEquipment;
@@ -158,15 +158,15 @@ export class ViewRoutineComponent implements OnInit, OnDestroy {
         delete payload.UserID;
         payload.Name += ' (Clone)';
       } else if (obj.type === 'RoutineBlocks') {
-        payload = this.replaceIDs(payloadCopy, ['RoutineBlockID', 'RoutineBlockSetID', 'RoutineBlockSetExerciseID']);
+        this.replaceIDs(payload, ['RoutineBlockID', 'RoutineBlockSetID', 'RoutineBlockSetExerciseID']);
         payload.BlockOrder = this.routine.Blocks.length + 1;
       } else if (obj.type === 'RoutineBlockSet') {
-        payload = this.replaceIDs(payloadCopy, ['RoutineBlockSetID', 'RoutineBlockSetExerciseID']);
-        const block = this.routine.Blocks.find(b => b.RoutineBlockID === obj.obj.RoutineBlockID);
+        this.replaceIDs(payload, ['RoutineBlockSetID', 'RoutineBlockSetExerciseID']);
+        const block = this.routine.Blocks.find(b => b.RoutineBlockID === payload.RoutineBlockID);
         payload.SetNumber = block.Sets.length + 1;
       } else if (obj.type === 'RoutineBlockSetExercises') {
-        payload = this.replaceIDs(payloadCopy, ['RoutineBlockSetExerciseID']);
-        const set = this.deepSearch(this.routine, 'RoutineBlockSetID', obj.obj.RoutineBlockSetID);
+        this.replaceIDs(payload, ['RoutineBlockSetExerciseID']);
+        const set = this.deepSearch(this.routine, 'RoutineBlockSetID', payload.RoutineBlockSetID);
         payload.ExerciseOrder = set.Exercises.length + 1;
       }
       this.cloneSub = this.service.post(obj.type, payload).subscribe((x: any) => {
@@ -201,7 +201,7 @@ export class ViewRoutineComponent implements OnInit, OnDestroy {
         this.replaceIDs(object[k], toBeReplaced);
       }
     });
-    return object;
+    // return object;
   }
 
   delete(obj) {

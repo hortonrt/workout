@@ -73,17 +73,17 @@
               </div>
               <ul class="list-unstyled mb-0 ml-4 text-body">
                 <li class="order-bottom" *ngFor="let exercise of set.Exercises; let even = even" [ngClass]="{'bg-med': even, 'bg-light': !even}">
-                  <div class="row no-gutters p-3">
+                  <div class="row no-gutters p-2">
                     <div class="col-12 col-md-6 font-weight-bold">
                       <div class="d-block">
                         <app-edit-buttons *ngIf="editing" btn="btn-transparent" (clone)="clone($event)" (delete)="delete($event)" (edit)="neweditExercise($event)" [obj]="exercise" type="RoutineBlockSetExercises"></app-edit-buttons>
-                        {{ exercise.Exercise?.ExerciseType?.Name }} {{ exercise.Exercise?.Name }}
-                        <span *ngIf="exercise.SideType?.SideTypeID !== 1 && exercise.SideType?.SideTypeID !== 4">({{ exercise.SideType?.Name }})</span>
+                        {{ exercise.Exercise.ExerciseType.Name }} {{ exercise.Exercise.Name }}
+                        <span *ngIf="exercise.SideType.SideTypeID !== 1 && exercise.SideType.SideTypeID !== 4">({{ exercise.SideType.Name }})</span>
                       </div>
                     </div>
                     <div class="col-12 col-md-6">
-                      <span *ngIf="exercise.RepType?.Name !== 'AMRAP'">{{ exercise.Timer > 0 ? exercise.Timer : exercise.Reps }} </span>{{ exercise.RepType?.Name }}
-                      <span *ngIf="exercise.RepType?.Name !== 'Seconds'">- {{ exercise.WeightType?.Name }}</span>
+                      <span *ngIf="exercise.RepType.Name !== 'AMRAP'">{{ exercise.Timer > 0 ? exercise.Timer : exercise.Reps }} </span>{{ exercise.RepType.Name }}
+                      <span *ngIf="exercise.RepType.Name !== 'Seconds'">- {{ exercise.WeightType.Name }}</span>
                       <span *ngIf="exercise.Timer >= 1" class="ml-2">
                         <fa-icon [icon]="faStopWatch"></fa-icon>&nbsp;{{exercise.Timer}}
                       </span>
