@@ -132,7 +132,7 @@ const routes: Routes = [{
   canDeactivate: [ConfirmCustomGuard],
 },
 // otherwise redirect to home
-{ path: '**', redirectTo: '' }];
+{ path: '**', redirectTo: '', canActivate: [AuthGuard] }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
