@@ -80,7 +80,7 @@ export class MeasurementsComponent implements OnInit, OnDestroy {
         });
       }
     };
-    this.bsModalRef = this.modalService.show(CreateMeasurementComponent, { initialState });
+    this.bsModalRef = this.modalService.show(CreateMeasurementComponent, { initialState, ignoreBackdropClick: true });
   }
 
   delete(m: UserMeasurementHistory) {

@@ -91,7 +91,7 @@ export class CreateRoutineComponent implements OnInit, OnDestroy {
         ex.patchValue({ ExerciseID: exercise.ExerciseID });
       }
     };
-    this.bsModalRef = this.modalService.show(ExercisePickerComponent, { initialState });
+    this.bsModalRef = this.modalService.show(ExercisePickerComponent, { initialState, ignoreBackdropClick: true });
   }
 
   setUpForm() {

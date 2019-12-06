@@ -82,7 +82,7 @@ export class ViewRoutineComponent implements OnInit, OnDestroy {
         this.routine.Blocks.sort((a, b) => a.BlockOrder - b.BlockOrder);
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditBlockComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditBlockComponent, { initialState, ignoreBackdropClick: true });
   }
 
   neweditExercise(exercise, set) {
@@ -103,12 +103,12 @@ export class ViewRoutineComponent implements OnInit, OnDestroy {
         set.Exercises.sort((a, b) => a.ExerciseOrder - b.ExerciseOrder);
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditExerciseComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditExerciseComponent, { initialState, ignoreBackdropClick: true });
   }
 
   neweditRoutine($event) {
     const initialState = { obj: $event, finish: (routine) => { Object.assign(this.routine, routine); } };
-    this.bsModalRef = this.modalService.show(NeweditRoutineComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditRoutineComponent, { initialState, ignoreBackdropClick: true });
   }
 
   deepSearch(object, key, val) {
@@ -142,7 +142,7 @@ export class ViewRoutineComponent implements OnInit, OnDestroy {
         block.Sets.sort((a, b) => a.SetNumber - b.SetNumber);
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditSetComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditSetComponent, { initialState, ignoreBackdropClick: true });
   }
 
   clone(obj) {

@@ -85,7 +85,7 @@ export class WorkoutHistoryComponent implements OnInit, OnDestroy {
         });
       }
     };
-    this.bsModalRef = this.modalService.show(EditWorkoutComponent, { initialState });
+    this.bsModalRef = this.modalService.show(EditWorkoutComponent, { initialState, ignoreBackdropClick: true });
   }
 
   stringToUTC(date, offset = false) {

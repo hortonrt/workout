@@ -241,7 +241,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     const initialState = {
       ORM: ormIn
     };
-    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState });
+    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState, ignoreBackdropClick: true });
   }
 
   finish() {

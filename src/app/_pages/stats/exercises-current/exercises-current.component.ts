@@ -19,7 +19,7 @@ export class ExercisesCurrentComponent implements OnInit {
     const initialState = {
       ORM: ormIn
     };
-    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState });
+    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState, ignoreBackdropClick: true });
   }
 
 }

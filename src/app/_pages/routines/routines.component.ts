@@ -41,6 +41,6 @@ export class RoutinesComponent implements OnInit, OnDestroy {
         }
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditRoutineComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditRoutineComponent, { initialState, ignoreBackdropClick: true });
   }
 }

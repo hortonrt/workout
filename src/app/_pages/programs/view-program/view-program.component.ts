@@ -84,7 +84,7 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
         phase.Days.sort((a, b) => a.DayNumber - b.DayNumber);
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditDayComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditDayComponent, { initialState, ignoreBackdropClick: true });
   }
 
   neweditPhase(phase) {
@@ -100,7 +100,7 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
         this.program.Phases.sort((a, b) => a.PhaseOrder - b.PhaseOrder);
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditPhaseComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditPhaseComponent, { initialState, ignoreBackdropClick: true });
   }
 
   neweditProgram($event) {
@@ -110,7 +110,7 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
         Object.assign(this.program, program);
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditProgramComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditProgramComponent, { initialState, ignoreBackdropClick: true });
   }
 
   editProgramRoutine($event) {
@@ -121,7 +121,7 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
         this.deepSearch(this.program, 'ProgramDayID', $event.ProgramDayID).Routines.sort((a, b) => a.RoutineOrder - b.RoutineOrder);
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditProgramroutineComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditProgramroutineComponent, { initialState, ignoreBackdropClick: true });
   }
 
 
@@ -141,7 +141,7 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
         }
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditProgramroutineComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditProgramroutineComponent, { initialState, ignoreBackdropClick: true });
   }
 
   clone(obj) {

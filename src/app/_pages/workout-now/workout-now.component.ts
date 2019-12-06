@@ -126,7 +126,7 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
         });
       }
     };
-    this.bsModalRef = this.modalService.show(ExercisePickerComponent, { initialState });
+    this.bsModalRef = this.modalService.show(ExercisePickerComponent, { initialState, ignoreBackdropClick: true });
   }
 
   transformDate(date) {
@@ -144,7 +144,7 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
     const initialState = {
       ORM: ormIn
     };
-    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState });
+    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState, ignoreBackdropClick: true });
   }
 
   bandColor(weight) {

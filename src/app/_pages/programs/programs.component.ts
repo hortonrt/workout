@@ -42,7 +42,7 @@ export class ProgramsComponent implements OnInit, OnDestroy {
         }
       }
     };
-    this.bsModalRef = this.modalService.show(NeweditProgramComponent, { initialState });
+    this.bsModalRef = this.modalService.show(NeweditProgramComponent, { initialState, ignoreBackdropClick: true });
   }
 
 }

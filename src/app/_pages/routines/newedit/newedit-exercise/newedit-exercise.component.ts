@@ -58,7 +58,7 @@ export class NeweditExerciseComponent implements OnInit, OnDestroy {
         this.obj.Exercise = newex;
       }
     };
-    this.exModalRef = this.modalService.show(ExercisePickerComponent, { initialState });
+    this.exModalRef = this.modalService.show(ExercisePickerComponent, { initialState, ignoreBackdropClick: true });
   }
 
   ngOnInit() {
