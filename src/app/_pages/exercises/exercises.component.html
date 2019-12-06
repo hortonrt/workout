@@ -17,7 +17,9 @@
         Create New Exercise
       </button>
     </div>
-    <div class="col-12">
+  </div>
+  <div class="row no-gutters">
+    <div class="col-12 p-2">
       <div class="input-group input-group-sm">
         <span class="input-group-prepend">
           <span class="input-group-text">
@@ -27,7 +29,7 @@
         <input class="form-control" [(ngModel)]="exFilt.searchText" placeholder="Search" (keyup)="updateList()">
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-12 p-2">
       <div class="input-group input-group-sm">
         <span class="input-group-prepend">
           <span class="input-group-text">
@@ -51,7 +53,7 @@
   </div>
   <div class="row no-gutters">
     <div class="col-12 col-md-6" *ngFor="let exercise of exercises">
-      <div class="bg-workout text-white mx-3 my-2" [routerLink]="['/exercise/edit', exercise.ExerciseID]">
+      <div class="bg-workout text-white mx-2 my-2" [routerLink]="['/exercise/edit', exercise.ExerciseID]">
         <table class="table table-sm text-white no-borders">
           <tbody>
             <tr>

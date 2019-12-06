@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body p-0">
   <div class="row no-gutters">
-    <div class="col-12">
+    <div class="col-12 p-2">
       <div class="input-group input-group-sm">
         <span class="input-group-prepend">
           <span class="input-group-text">
@@ -16,7 +16,9 @@
         <input class="form-control" [(ngModel)]="exFilt.searchText" placeholder="Search" (keyup)="updateList()">
       </div>
     </div>
-    <div class="col-12">
+  </div>
+  <div class="row no-gutters">
+    <div class="col-12 p-2">
       <div class="input-group input-group-sm">
         <span class="input-group-prepend">
           <span class="input-group-text">
@@ -34,7 +36,7 @@
       </div>
     </div>
     <div class="col-12" *ngFor="let exercise of exercises">
-      <div class="bg-workout text-white mx-3 my-2" (click)="select(exercise)">
+      <div class="bg-workout text-white mx-2 my-2" (click)="select(exercise)">
         <table class="table table-sm text-white no-borders">
           <tbody>
             <tr>

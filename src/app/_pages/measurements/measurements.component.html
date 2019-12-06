@@ -1,5 +1,5 @@
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
+  <ol class="breadcrumb mb-0">
     <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Measurements</li>
   </ol>
@@ -9,12 +9,16 @@
 </div>
 <div *ngIf="loaded">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 p-2">
       <h2> Measurement History </h2>
     </div>
+  </div>
+  <div class="row no-gutters">
     <div class="col-12">
       <button class="btn btn-success w-100" (click)="addMeasurement()"> Add </button>
     </div>
+  </div>
+  <div class="row no-gutters">
     <div class="col-12">
       <tabset>
         <tab heading="Table" id="tab1">
