@@ -9,7 +9,7 @@ export class CreateExerciseGuard
   implements CanDeactivate<CreateExerciseComponent> {
   constructor() { }
   canDeactivate(component: CreateExerciseComponent) {
-    if (!component.exerciseForm.pristine) {
+    if (!component.form.pristine) {
       return confirm(
         'Are you sure you want to leave. All progress will be lost.',
       );

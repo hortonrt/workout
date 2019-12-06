@@ -1,13 +1,12 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { ExerciseType } from 'src/app/_models/ExerciseType';
-import { MuscleType } from 'src/app/_models/MuscleType';
-import { Equipment } from 'src/app/_models/Equipment';
 import { Exercise } from 'src/app/_models/Exercise';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { Subscription } from 'rxjs';
-import { IconDefinition, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faSquare } from '@fortawesome/free-regular-svg-icons';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import * as cloneDeep from 'lodash/cloneDeep';
 
 @Component({
   selector: 'app-create-exercise',
@@ -15,11 +14,9 @@ import { IconDefinition, faSquare, faCheckSquare } from '@fortawesome/free-solid
   styleUrls: ['./create-exercise.component.scss']
 })
 export class CreateExerciseComponent implements OnInit, OnDestroy {
+  @ViewChild('exerciseForm', { static: false }) form: any;
   exerciseTypes: ExerciseType[] = [] as ExerciseType[];
-  muscleTypes: MuscleType[] = [] as MuscleType[];
-  equipment: Equipment[] = [] as Equipment[];
   exercise: Exercise = {} as Exercise;
-  exerciseForm: FormGroup;
   loaded = false;
   error = '';
   saving = false;
@@ -27,19 +24,19 @@ export class CreateExerciseComponent implements OnInit, OnDestroy {
   routeSub: Subscription = null;
   exSub: Subscription = null;
   postSub: Subscription = null;
+  noprime = true;
   faSquare: IconDefinition = faSquare;
   faCheckSquare: IconDefinition = faCheckSquare;
 
   constructor(
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
     private service: WorkoutService,
     private router: Router
   ) { }
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
-    if (!this.exerciseForm.pristine) {
+    if (!this.form.pristine) {
       $event.returnValue = true;
     }
   }
@@ -51,164 +48,128 @@ export class CreateExerciseComponent implements OnInit, OnDestroy {
     if (this.postSub) { this.postSub.unsubscribe(); }
   }
 
+  checkForPrime() {
+    this.noprime = true;
+    if (this.exercise.MuscleTypes.filter(x => x.IsPrimary && x.IsWorked).length === 1) {
+      this.noprime = false;
+    }
+  }
+
   ngOnInit() {
     this.listSub = this.service.getAll('Lists').subscribe((lists: any) => {
-      this.equipment = lists.Equipment;
-      this.muscleTypes = lists.MuscleTypes;
       this.exerciseTypes = lists.ExerciseTypes;
-
       this.routeSub = this.route.paramMap.subscribe(params => {
+        lists.MuscleTypes.map(mt => {
+          mt.ExerciseID = this.exercise.ExerciseID;
+          mt.IsWorked = 0;
+          mt.IsPrimary = 0;
+          delete mt.MuscleGroupTypeID;
+        });
+        lists.Equipment.map(eq => {
+          eq.ExerciseID = this.exercise.ExerciseID;
+          eq.IsOptional = 1;
+          eq.IsUsed = 0;
+        });
         if (Number(params.get('id')) > 0) {
           this.exSub = this.service.get('Exercises', + Number(params.get('id'))).subscribe((data: Exercise) => {
             this.exercise = data;
-            this.setUpForm();
+            this.exercise.ExerciseType = this.exerciseTypes.find(x => x.ExerciseTypeID === this.exercise.ExerciseTypeID);
+            this.exercise.MuscleTypes.map(mt => {
+              delete mt.ExerciseMuscleTypeID;
+              mt.Name = mt.MuscleTypeName;
+              delete mt.MuscleTypeName;
+            });
+            this.exercise.MuscleTypes = this.removeDupsAndMerge(lists.MuscleTypes, this.exercise.MuscleTypes, 'Name')
+              .sort((a, b) => {
+                if (a.Name < b.Name) { return -1; }
+                if (a.Name > b.Name) { return 1; }
+                return 0;
+              });
+            this.exercise.Equipment.map(eq => {
+              delete eq.ExerciseEquipmentID;
+              eq.Name = eq.EquipmentName;
+              delete eq.EquipmentName;
+            });
+            this.exercise.Equipment = this.removeDupsAndMerge(lists.Equipment, this.exercise.Equipment, 'Name')
+              .sort((a, b) => {
+                if (a.Name < b.Name) { return -1; }
+                if (a.Name > b.Name) { return 1; }
+                return 0;
+              });
+            this.checkForPrime();
+            this.loaded = true;
           });
         } else {
-          this.exercise.ExerciseID = 0;
-          this.setUpForm();
+          this.exercise = { ExerciseID: 0, ExerciseType: null, ExerciseTypeID: null, MuscleTypes: [], Equipment: [], Name: '' };
+          this.exercise.MuscleTypes = [...lists.MuscleTypes];
+          this.exercise.Equipment = [...lists.Equipment];
+          console.log(this.exercise);
+          this.loaded = true;
         }
       });
     });
   }
 
-  setUpForm() {
-    if (this.exercise && this.exercise.ExerciseID) {
-      this.exerciseForm = this.formBuilder.group({
-        ExerciseID: [this.exercise.ExerciseID, Validators.required],
-        Name: [this.exercise.Name, Validators.required],
-        ExerciseTypeID: [
-          this.exercise.ExerciseTypeID,
-          Validators.required,
-        ],
-        ExerciseType: [this.exercise.ExerciseType, Validators.required],
-        MuscleTypes: new FormArray([]),
-        Equipment: new FormArray([]),
-      });
-    } else {
-      this.exerciseForm = this.formBuilder.group({
-        ExerciseID: [0, Validators.required],
-        Name: ['', Validators.required],
-        ExerciseTypeID: [-1],
-        ExerciseType: [],
-        MuscleTypes: new FormArray([]),
-        Equipment: new FormArray([]),
-      });
+  removeDupsAndMerge(stock, removeFromStock, prop) {
+    for (const stockObj of stock) {
+      for (const removed of removeFromStock) {
+        if (stockObj && (stockObj[prop] === removed[prop])) {
+          stock.splice(stock.indexOf(stockObj), 1);
+        }
+      }
     }
-    this.initForm();
-    this.loaded = true;
+    return [...stock, ...removeFromStock];
   }
 
-  initForm() {
-    this.muscleTypes.map(muscleType => {
-      const mt =
-        this.exercise.MuscleTypes &&
-        this.exercise.MuscleTypes.find(
-          emt => emt.MuscleTypeID === muscleType.MuscleTypeID,
-        );
-      if (this.exercise.MuscleTypes && this.exercise.MuscleTypes.length && mt) {
-        // exists
-        const mtControl = this.exerciseForm.controls.MuscleTypes as FormArray;
-        mtControl.push(
-          this.formBuilder.group({
-            ExerciseMuscleTypeID: [
-              mt.ExerciseMuscleTypeID,
-              Validators.required,
-            ],
-            ExerciseID: [mt.ExerciseID, Validators.required],
-            MuscleTypeID: [
-              { value: mt.MuscleTypeID, disabled: true },
-              Validators.required,
-            ],
-            MuscleTypeName: [mt.MuscleTypeName],
-            IsPrimary: [mt.IsPrimary],
-            IsWorked: [mt.IsWorked],
-          }),
-        );
-      } else {
-        // add
-        const mtControl = this.exerciseForm.controls.MuscleTypes as FormArray;
-        mtControl.push(
-          this.formBuilder.group({
-            ExerciseMuscleTypeID: [0, Validators.required],
-            ExerciseID: [this.exercise.ExerciseID, Validators.required],
-            MuscleTypeID: [
-              { value: muscleType.MuscleTypeID, disabled: true },
-              Validators.required,
-            ],
-            MuscleTypeName: [muscleType.Name],
-            IsPrimary: [false],
-            IsWorked: [false],
-          }),
-        );
-      }
-    });
-    this.equipment.map(equip => {
-      const ee =
-        this.exercise.Equipment &&
-        this.exercise.Equipment.find(
-          emt => emt.EquipmentID === equip.EquipmentID,
-        );
-      if (this.exercise.Equipment && this.exercise.Equipment.length && ee) {
-        // exists
-        const eqControl = this.exerciseForm.controls.Equipment as FormArray;
-        eqControl.push(
-          this.formBuilder.group({
-            ExerciseEquipmentID: [ee.ExerciseEquipmentID, Validators.required],
-            ExerciseID: [ee.ExerciseID, Validators.required],
-            EquipmentID: [
-              { value: ee.EquipmentID, disabled: true },
-              Validators.required,
-            ],
-            EquipmentName: [ee.EquipmentName],
-            IsOptional: [ee.IsOptional],
-            IsUsed: [ee.IsUsed],
-          }),
-        );
-      } else {
-        // add
-        const mtControl = this.exerciseForm.controls.Equipment as FormArray;
-        mtControl.push(
-          this.formBuilder.group({
-            ExerciseEquipmentID: [0, Validators.required],
-            ExerciseID: [this.exercise.ExerciseID, Validators.required],
-            EquipmentID: [
-              { value: equip.EquipmentID, disabled: true },
-              Validators.required,
-            ],
-            EquipmentName: [equip.Name],
-            IsOptional: [false],
-            IsUsed: [false],
-          }),
-        );
-      }
-    });
+  togglePrimary(mtype) {
+    this.exercise.MuscleTypes.filter(x => x.MuscleTypeID !== mtype.MuscleTypeID).map(x => x.IsPrimary = false);
+    mtype.IsPrimary = !mtype.IsPrimary;
+    if (mtype.IsPrimary) { mtype.IsWorked = true; }
+    this.checkForPrime();
+    this.form.form.markAsDirty();
   }
 
-  onSubmit() {
-    this.error = '';
+  toggleWorked(mtype) {
+    mtype.IsWorked = !mtype.IsWorked;
+    if (!mtype.IsWorked) { mtype.IsPrimary = false; }
+    this.checkForPrime();
+    this.form.form.markAsDirty();
+  }
 
-    if (this.exerciseForm.invalid) {
+  toggleUsed(eq) {
+    eq.IsUsed = !eq.IsUsed;
+    if (!eq.IsUsed) { eq.IsOptional = true; }
+    this.form.form.markAsDirty();
+  }
+
+  toggleRequired(eq) {
+    eq.IsOptional = !eq.IsOptional;
+    if (!eq.IsOptional) { eq.IsUsed = true; }
+    this.form.form.markAsDirty();
+  }
+
+  save() {
+    this.checkForPrime();
+
+    if (this.form.invalid || this.noprime) {
       this.saving = false;
       return;
     }
     this.saving = true;
-    const payload: Exercise = this.exerciseForm.getRawValue();
+    const payload = cloneDeep(this.exercise);
     payload.MuscleTypes.map(x => {
-      delete x.MuscleType;
-      delete x.MuscleTypeName;
-      delete x.Exercise;
+      delete x.Name;
     });
     payload.Equipment.map(x => {
-      delete x.Equipment;
-      delete x.EquipmentName;
-      delete x.Exercise;
+      delete x.Name;
     });
+    payload.ExerciseTypeID = payload.ExerciseType.ExerciseTypeID;
     delete payload.ExerciseType;
     payload.MuscleTypes = payload.MuscleTypes.filter(x => x.IsWorked);
     payload.Equipment = payload.Equipment.filter(x => x.IsUsed);
     this.postSub = this.service.post('Exercises', payload).subscribe(
       (data: Exercise) => {
-        this.exerciseForm.markAsPristine();
+        this.form.form.markAsPristine();
         this.router.navigate(['exercises']);
       },
       error => {

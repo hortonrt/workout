@@ -13,98 +13,58 @@
   <app-loader></app-loader>
 </div>
 <div *ngIf="loaded">
-  <form [formGroup]="exerciseForm" (ngSubmit)="onSubmit()">
-    <div class="p-3">
-      <h2> Exercise </h2>
-    </div>
+  <div class="p-3">
+    <h2> Exercise </h2>
+  </div>
+  <form (submit)="save()" #exerciseForm="ngForm">
     <div>
       <button class="btn btn-success w-100" type="submit">Save</button>
     </div>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-    <div class="p-2">
-      <div class="form-group d-none">
-        <label for="ExerciseID">ID</label>
-        <input type="text" formControlName="ExerciseID" class="form-control" />
+    <div class="form-group d-none">
+      <label for="ExerciseID">ID</label>
+      <input type="text" [(ngModel)]="exercise.ExerciseID" class="form-control" name="id" #id="ngModel" required />
+    </div>
+    <div class="form-group col-12">
+      <label for="Name">Name</label>
+      <input type="text" [(ngModel)]="exercise.Name" class="form-control" name="name" #name="ngModel" required [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched || exerciseForm.submitted)}" />
+    </div>
+    <div class="form-group col-12">
+      <label for="ExerciseTypeID">Exercise Type</label>
+      <select [(ngModel)]="exercise.ExerciseType" class="form-control" name="etype" #etype="ngModel" required [ngClass]="{'is-invalid': etype.invalid && (etype.dirty || etype.touched || exerciseForm.submitted)}">
+        <option *ngFor="let eType of exerciseTypes" [ngValue]="eType">{{ eType.Name }}</option>
+      </select>
+    </div>
+    <div class="form-group col-12 col-lg-6">
+      <label for="mtypes">Muscle Types</label>
+      <div class="text-danger" *ngIf="noprime && exerciseForm.submitted">
+        At least one muscle must be checked and marked as primary
       </div>
-      <div class="form-group">
-        <label for="Name">Name</label>
-        <input type="text" formControlName="Name" class="form-control" />
+      <div class="btn-group w-100 mb-1" *ngFor="let mtype of exercise.MuscleTypes">
+        <button class="btn w-50 text-left" type="button" (click)="toggleWorked(mtype)" [ngClass]="{'btn-med': !mtype.IsWorked, 'btn-workout': mtype.IsWorked}">
+          <fa-icon [icon]="faCheckSquare" *ngIf="mtype.IsWorked"></fa-icon>
+          <fa-icon [icon]="faSquare" *ngIf="!mtype.IsWorked"></fa-icon>
+          &nbsp;{{mtype.Name}}
+        </button>
+        <button class="btn w-50 text-center" type="button" (click)="togglePrimary(mtype)" [ngClass]="{'btn-med': !mtype.IsPrimary, 'btn-workout': mtype.IsPrimary}">
+          <fa-icon [icon]="faCheckSquare" *ngIf="mtype.IsPrimary"></fa-icon>
+          <fa-icon [icon]="faSquare" *ngIf="!mtype.IsPrimary"></fa-icon>
+          &nbsp;Primary
+        </button>
       </div>
-      <div class="form-row no-gutters">
-        <div class="form-group col-12">
-          <label for="ExerciseTypeID">Exercise Type</label>
-          <select formControlName="ExerciseTypeID" class="form-control">
-            <option *ngFor="let eType of exerciseTypes" [ngValue]="eType.ExerciseTypeID">{{ eType.Name }}</option>
-          </select>
-        </div>
-        <div class="form-group col-12 col-md-6">
-          <label for="MuscleTypes">Muscle Types</label>
-          <div formArrayName="MuscleTypes">
-            <div *ngFor="
-                let muscleType of exerciseForm.get('MuscleTypes').controls;
-                let mtX = index
-              ">
-              <div [formGroupName]="mtX">
-                <div class="form-row justify-content-center" [ngClass]="{'bg-med': mtX % 2 === 0}">
-                  <div class="form-group d-none">
-                    <label for="ExerciseMuscleTypeID">ID</label>
-                    <input type="text" formControlName="ExerciseMuscleTypeID" class="form-control" />
-                  </div>
-                  <div class="form-group col-12 col-md-6 d-none">
-                    <label for="ExerciseID">Exercise ID</label>
-                    <input type="text" formControlName="ExerciseID" class="form-control" />
-                  </div>
-                  <div class="form-group col-7">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" formControlName="IsWorked" id="mt-cb-{{ mtX }}" />
-                      <label class="form-check-label" for="mt-cb-{{ mtX }}">{{ muscleType.value.MuscleTypeName }}</label>
-                    </div>
-                  </div>
-                  <div class="form-group col-1">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" formControlName="IsPrimary" id="mt-cb-p-{{ mtX }}" />
-                      <label class="form-check-label" for="mt-cb-p-{{ mtX }}">Primary</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-12 col-md-6">
-          <label for="Equipment">Equipment</label>
-          <div formArrayName="Equipment">
-            <div *ngFor="
-                let equip of exerciseForm.get('Equipment').controls;
-                let eX = index
-              ">
-              <div [formGroupName]="eX">
-                <div class="form-row justify-content-center" [ngClass]="{'bg-med': eX % 2 === 0}">
-                  <div class="form-group d-none">
-                    <label for="ExerciseEquipmentID">ID</label>
-                    <input type="text" formControlName="ExerciseEquipmentID" class="form-control" />
-                  </div>
-                  <div class="form-group col-12 col-md-6 d-none">
-                    <label for="ExerciseID">Exercise ID</label>
-                    <input type="text" formControlName="ExerciseID" class="form-control" />
-                  </div>
-                  <div class="form-group col-7">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" formControlName="IsUsed" id="ee-cb-{{ eX }}" />
-                      <label class="form-check-label" for="ee-cb-{{ eX }}">{{ equip.value.EquipmentName }}</label>
-                    </div>
-                  </div>
-                  <div class="form-group col-1">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" formControlName="IsOptional" id="ee-cb-p-{{ eX }}" />
-                      <label class="form-check-label" for="ee-cb-p-{{ eX }}">Optional</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="form-group col-12 col-lg-6">
+      <label for="mtypes">Equipment</label>
+      <div class="btn-group w-100 mb-1" *ngFor="let eq of exercise.Equipment">
+        <button class="btn w-50 text-left" type="button" (click)="toggleUsed(eq)" [ngClass]="{'btn-med': !eq.IsUsed, 'btn-workout': eq.IsUsed}">
+          <fa-icon [icon]="faCheckSquare" *ngIf="eq.IsUsed"></fa-icon>
+          <fa-icon [icon]="faSquare" *ngIf="!eq.IsUsed"></fa-icon>
+          &nbsp;{{eq.Name}}
+        </button>
+        <button class="btn w-50 text-center" type="button" (click)="toggleRequired(eq)" [ngClass]="{'btn-med': eq.IsOptional, 'btn-workout': !eq.IsOptional}">
+          <fa-icon [icon]="faCheckSquare" *ngIf="!eq.IsOptional"></fa-icon>
+          <fa-icon [icon]="faSquare" *ngIf="eq.IsOptional"></fa-icon>
+          &nbsp;Required
+        </button>
       </div>
     </div>
   </form>

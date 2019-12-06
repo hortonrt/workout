@@ -10,4 +10,5 @@ export interface ExerciseEquipment {
   IsUsed: boolean;
   IsOptional: boolean;
   EquipmentName: string;
+  Name: string;
 }

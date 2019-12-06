@@ -62,7 +62,7 @@ if($method === "POST") {
   }
   foreach($payload->MuscleTypes as $mt){
     $mt->ExerciseID = $ExerciseID;
-    unset($equip->ExerciseMuscleTypeID);
+    unset($mt->ExerciseMuscleTypeID);
     insert('ExerciseMuscleTypes', $mt);
   }
   echo(json_encode(array('ExerciseID' => $ExerciseID)));

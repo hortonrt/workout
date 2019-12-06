@@ -8,6 +8,7 @@ export interface ExerciseMuscleType {
   MuscleTypeID: number;
   MuscleType: MuscleType;
   MuscleTypeName: string;
+  Name: string;
   IsPrimary: boolean;
   IsWorked: boolean;
 }
