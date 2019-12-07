@@ -8,109 +8,120 @@
   <app-loader></app-loader>
 </div>
 <div *ngIf="loaded">
-  <div class="row no-gutters">
-    <div class="col-12 p-2">
-      <h2>My Profile </h2>
-    </div>
-  </div>
-  <div class="col-12 p-2">
-    <div class="form-row" *ngIf="admin">
-      <div class="form-group col-12">
-        <label for="Admin">Users</label>
-        <select name="User" class="form-control form-control-sm" [(ngModel)]="user">
-          <option *ngFor="let user of users" [(ngValue)]="user">{{ user.FirstName }} {{user.LastName}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-6">
-        <label for="FirstName">First</label>
-        <input type="text" name="FirstName" [(ngModel)]="user.FirstName" class="form-control" />
-      </div>
-      <div class="form-group col-6">
-        <label for="LastName">Last</label>
-        <input type="text" name="LastName" [(ngModel)]="user.LastName" class="form-control" />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-6">
-        <label for="Username">Username</label>
-        <input type="text" name="Username" [(ngModel)]="user.Username" class="form-control" />
-      </div>
-      <div class="form-group col-6" *ngIf="admin">
-        <label for="Password">Password</label>
-        <input type="password" name="Password" [(ngModel)]="user.Password" class="form-control" autocomplete="new-password" />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-6">
-        <label for="Birthdate">Birthdate</label>
-        <input type="date" name="Birthdate" [(ngModel)]="user.Birthdate" class="form-control" />
-      </div>
-      <div class="form-group col-6">
-        <label for="Height">Height</label>
-        <div class="input-group">
-          <input type="number" name="Height" [(ngModel)]="user.Height" class="form-control" />
-          <div class="input-group-append">
-            <span class="input-group-text">in</span>
+  <tabset [justified]="true">
+    <tab heading="My Profile">
+      <form #proForm="ngForm" (submit)="save()">
+        <div class="row">
+          <div class="col-12 p-3">
+            <div class="form-row" *ngIf="admin">
+              <div class="form-group col-12">
+                <label for="Admin">Users</label>
+                <select name="User" class="form-control form-control-sm" [(ngModel)]="user">
+                  <option *ngFor="let user of users" [(ngValue)]="user">{{ user.Display ? user.Display : user.FirstName + ' ' + user.LastName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="FirstName">First</label>
+                <input type="text" name="FirstName" [(ngModel)]="user.FirstName" class="form-control" required #first="ngModel" [ngClass]="{'is-invalid': first.invalid && (first.dirty || first.touched || proForm.submitted)}" />
+              </div>
+              <div class="form-group col-6">
+                <label for="LastName">Last</label>
+                <input type="text" name="LastName" [(ngModel)]="user.LastName" class="form-control" required #last="ngModel" [ngClass]="{'is-invalid': last.invalid && (last.dirty || last.touched || proForm.submitted)}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="Username">Username</label>
+                <input type="text" name="Username" [(ngModel)]="user.Username" class="form-control" required #uname="ngModel" [ngClass]="{'is-invalid': uname.invalid && (uname.dirty || uname.touched || proForm.submitted)}" />
+              </div>
+              <div class="form-group col-6">
+                <label for="Birthdate">Birthdate</label>
+                <input type="date" name="Birthdate" [(ngModel)]="user.Birthdate" class="form-control" required #bdate="ngModel" [ngClass]="{'is-invalid': bdate.invalid && (bdate.dirty || bdate.touched || proForm.submitted)}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <app-adjuster name="Height" small="true" lbl="Height" [(obj)]="user" post="in" [inclass]="{'is-invalid': height.invalid && (height.dirty || height.touched || proForm.submitted)}"></app-adjuster>
+                <input type="number" name="height" [(ngModel)]="user.Height" min="0" class="form-control d-none" required #height="ngModel" [ngClass]="{'is-invalid': height.invalid && (height.dirty || height.touched || proForm.submitted)}" />
+              </div>
+              <div class="form-group col-6">
+                <app-adjuster name="HighestDumbbell" small="true" lbl="Largest Dumbbell" [step]="5" [(obj)]="user" [inclass]="{'is-invalid': dbell.invalid && (dbell.dirty || dbell.touched || proForm.submitted)}"></app-adjuster>
+                <input type="number" name="dbell" [(ngModel)]="user.HighestDumbbell" min="0" class="form-control d-none" required #dbell="ngModel" [ngClass]="{'is-invalid': dbell.invalid && (dbell.dirty || dbell.touched || proForm.submitted)}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="Gender">Gender</label>
+                <select name="Gender" class="form-control form-control-sm" [(ngModel)]="user.Gender" required #gen="ngModel" [ngClass]="{'is-invalid': gen.invalid && (gen.dirty || gen.touched || proForm.submitted)}">
+                  <option ngValue="M">Male</option>
+                  <option ngValue="F">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row" *ngIf="admin">
+              <div class="form-group col-6">
+                <label for="IsAdmin">Is Admin</label>
+                <button class="btn btn-workout w-100 text-white" type="button" (click)="user.IsAdmin = !user.IsAdmin">
+                  <fa-icon [icon]="faCheckSquare" *ngIf="user.IsAdmin"></fa-icon>
+                  <fa-icon [icon]="faSquare" *ngIf="!user.IsAdmin"></fa-icon>
+                </button>
+              </div>
+              <div class="form-group col-6">
+                <label for="reset">Reset Password</label>
+                <button class="btn btn-workout w-100 text-white" type="button" (click)="user.Password = !user.Password">
+                  <fa-icon [icon]="faCheckSquare" *ngIf="user.Password"></fa-icon>
+                  <fa-icon [icon]="faSquare" *ngIf="!user.Password"></fa-icon>
+                </button>
+              </div>
+            </div>
+            <div class="alert alert-success text-center" *ngIf="!saveError && saveMessage.length">{{saveMessage}}</div>
+            <div class="alert alert-danger text-center" *ngIf="saveError && saveMessage.length">{{saveMessage}}</div>
+            <div class="form-row mb-4 mt-5">
+              <div class="form-group col-12">
+                <button class="btn btn-success w-100" type="submit">Save</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-6">
-        <label for="HighestDumbbell">Largest Dumbbell</label>
-        <select name="User" class="form-control form-control-sm" [(ngModel)]="user.HighestDumbbell">
-          <option *ngFor="let dumbbell of dumbbells" [(ngValue)]="dumbbell">{{ dumbbell }}</option>
-        </select>
-      </div>
-      <div class="form-group col-6">
-        <label for="Birthdate">Gender</label>
-        <select name="User" class="form-control form-control-sm" [(ngModel)]="user.Gender">
-          <option value="M">Male</option>
-          <option value="F">Female</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row" *ngIf="admin">
-      <div class="form-group col-6">
-        <label for="IsAdmin">Is Admin</label>
-        <button class="btn btn-workout w-100 text-white" type="button" (click)="user.IsAdmin = !user.IsAdmin">
-          <fa-icon [icon]="faCheckSquare" *ngIf="user.IsAdmin"></fa-icon>
-          <fa-icon [icon]="faSquare" *ngIf="!user.IsAdmin"></fa-icon>
-        </button>
-      </div>
-    </div>
-    <div class="form-row mb-4 mt-5">
-      <div class="form-group col-12">
-        <button class="btn btn-success w-100" type="button" (click)="save()">Save</button>
-      </div>
-    </div>
-    <div class="alert alert-success text-center" *ngIf="!saveError && saveMessage.length">{{saveMessage}}</div>
-    <div class="alert alert-danger text-center" *ngIf="saveError && saveMessage.length">{{saveMessage}}</div>
-  </div>
-  <div class="col-12 p-2" *ngIf="user.UserID !== -1">
-    <h2>Change Password </h2>
-    <div class="form-row">
-      <div class="form-group col-12">
-        <label for="OldPassword">Current</label>
-        <input type="password" name="OldPassword" [(ngModel)]="change.OldPassword" class="form-control" autocomplete="new-password" />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-6">
-        <label for="NewPassword">New</label>
-        <input type="password" name="NewPassword" [(ngModel)]="change.NewPassword" class="form-control" autocomplete="new-password" />
-      </div>
-      <div class="form-group col-6">
-        <label for="VerifyPassword">Verify</label>
-        <input type="password" name="VerifyPassword" [(ngModel)]="change.VerifyPassword" class="form-control" autocomplete="new-password" />
-      </div>
-    </div>
-    <div class="form-row mb-4">
-      <button class="btn btn-workout w-100" type="button" (click)="changePW()">Update Password</button>
-    </div>
-    <div class="alert alert-success text-center" *ngIf="!changeError && changeMessage.length">{{changeMessage}}</div>
-    <div class="alert alert-danger text-center" *ngIf="changeError && changeMessage.length">{{changeMessage}}</div>
-  </div>
+      </form>
+    </tab>
+    <tab heading="Password" [disabled]="user.UserID !== curUser.UserID" [customClass]="user.UserID !== curUser.UserID ? 'bg-med': bg-white">
+      <form #changeForm="ngForm" (submit)="changePW()">
+        <div class="row">
+          <div class="col-12 p-3">
+            <h2>Change Password </h2>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="OldPassword">Current</label>
+                <input type="password" name="OldPassword" [(ngModel)]="change.OldPassword" class="form-control" autocomplete="new-password" required #old="ngModel" [ngClass]="{'is-invalid': old.invalid && (old.dirty || old.touched || changeForm.submitted)}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="NewPassword">New</label>
+                <input type="password" name="NewPassword" minlength="8" [(ngModel)]="change.NewPassword" class="form-control" autocomplete="new-password" required #new="ngModel" [ngClass]="{'is-invalid': new.invalid && (new.dirty || new.touched || changeForm.submitted)}" />
+                <div class="text-danger" *ngIf="new.invalid && (new.dirty || new.touched)">
+                  Password must be at least 8 characters
+                </div>
+              </div>
+              <div class="form-group col-6">
+                <label for="VerifyPassword">Verify</label>
+                <input type="password" name="VerifyPassword" [(ngModel)]="change.VerifyPassword" class="form-control" autocomplete="new-password" required #repeat="ngModel" [ngClass]="{'is-invalid': repeat.invalid && (repeat.dirty || repeat.touched || changeForm.submitted)}" />
+                <div class="text-danger" *ngIf="change.NewPassword !== change.VerifyPassword && (repeat.dirty || repeat.touched)">
+                  Passwords do not match
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-success text-center" *ngIf="!changeError && changeMessage.length">{{changeMessage}}</div>
+            <div class="alert alert-danger text-center" *ngIf="changeError && changeMessage.length">{{changeMessage}}</div>
+            <div class="form-row mb-4">
+              <button class="btn btn-workout w-100" type="submit">Update Password</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </tab>
+  </tabset>
 </div>

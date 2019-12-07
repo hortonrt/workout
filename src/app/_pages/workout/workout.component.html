@@ -97,11 +97,14 @@
         </div>
       </div>
       <nav class="navbar navbar-dark bg-dark workout-nav" *ngIf="we.Active">
-        <form class="form-inline w-100 nav-form"> <button class="btn btn-link btn-xl text-white clock" type="button">
+        <form class="form-inline w-100 nav-form">
+          <button class="btn btn-link btn-xl text-white clock" type="button">
             <fa-icon [icon]="faClock"></fa-icon> {{ clock | secondstimer: '12':'7' }}
-          </button> <button class="btn btn-success btn-xl" type="button" (click)="next()" [disabled]="resting || timerrunning || we.Timer > 0">
+          </button>
+          <button class="btn btn-success btn-xl" type="button" (click)="next()" [disabled]="resting || timerrunning || we.Timer > 0">
             <fa-icon [icon]="faChevronCircleRight"></fa-icon>
-          </button> </form>
+          </button>
+        </form>
       </nav>
       <div class="row" *ngIf="we.PostRest > 0">
         <div class="bg-danger col-12 text-white text-center">

@@ -1,13 +1,26 @@
-<label [for]="name">{{ name }}</label>
-<div class="input-group" [ngClass]="{'input-group-tgl': big, 'bigfont': bigfont}">
-  <div class=" input-group-prepend" *ngIf="!fixed">
-    <button class="btn btn-primary" (click)="down()" tabindex="-1">
+<label [for]="name">{{ lbl }}</label>
+<div class="input-group" [ngClass]="{'input-group-tgl': big, 'bigfont': bigfont, 'input-group-sm': small}">
+  <div class="input-group-prepend" *ngIf="tggl">
+    <button class="btn btn-med" (click)="toggle()" tabindex="-1" type="button">
+      <fa-icon [icon]="faSquare" *ngIf="obj[name] === -1"></fa-icon>
+      <fa-icon [icon]="faCheckSquare" *ngIf="obj[name] !== -1"></fa-icon>
+    </button>
+  </div>
+  <div class="input-group-prepend" *ngIf="!fixed && showVal">
+    <button class="btn btn-primary" (click)="down()" tabindex="-1" type="button">
       <fa-icon [icon]="faMinus"></fa-icon>
     </button>
   </div>
-  <input type="number" name="Weight" [(ngModel)]="obj[name]" class="form-control text-center" [readonly]="fixed" />
-  <div class="input-group-prepend" *ngIf="!fixed">
-    <button class="btn btn-primary" (click)="up()" tabindex="-1">
+  <div class="input-group-append" *ngIf="pre && showVal">
+    <span class="input-group-text">{{pre}}</span>
+  </div>
+  <input type="text" value="" class="form-control text-center" [ngClass]="inclass" *ngIf="tggl && !showVal" />
+  <input type="number" [(ngModel)]="obj[name]" class="form-control text-center" [readonly]="fixed" [ngClass]="inclass" *ngIf="!tggl || (tggl && showVal)" />
+  <div class="input-group-append" *ngIf="post && showVal">
+    <span class="input-group-text">{{post}}</span>
+  </div>
+  <div class="input-group-append" *ngIf="!fixed && showVal">
+    <button class="btn btn-primary" (click)="up()" tabindex="-1" type="button">
       <fa-icon [icon]="faPlus"></fa-icon>
     </button>
   </div>

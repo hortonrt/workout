@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { User } from 'src/app/_models/User';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
@@ -12,8 +12,11 @@ import { IconDefinition, faSquare, faCheckSquare } from '@fortawesome/free-solid
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @ViewChild('changeForm', { static: false }) changeForm: any;
+  @ViewChild('proForm', { static: false }) proForm: any;
   users: User[] = [];
   user: User = null;
+  curUser: User = null;
   loaded = false;
   admin = false;
   changeMessage = '';
@@ -26,16 +29,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
   routines: Routine[] = [];
   newuser: User = {
     UserID: -1,
-    FirstName: 'Create',
-    LastName: 'New',
+    FirstName: '',
+    LastName: '',
     Username: '',
-    Password: 'Password1!',
-    Height: 0,
+    Password: null,
+    Height: 65,
     Birthdate: null,
     Token: '',
     Expires: null,
     IsAdmin: false,
-    HighestDumbbell: 45
+    HighestDumbbell: 45,
+    Display: 'Create New'
   };
   change = {
     UserID: -1,
@@ -51,6 +55,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loaded = false;
     this.dumbbells = this.service.dumbbells;
+    this.curUser = this.authService.currentUser.value;
     this.getSub = this.service.getAll('Users').subscribe((users: User[]) => {
       this.admin = users.length > 1 || (users.length === 1 && Boolean(users[0].IsAdmin) === true);
       this.users = Object.assign([], users);
@@ -67,27 +72,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this.saveMessage = '';
-    this.saveError = false;
-    const payload = Object.assign({}, this.user);
-    delete payload.Expires;
-    delete payload.Token;
-    this.postSub = this.service.post('Users', payload).subscribe((x: any) => {
-      this.saveMessage = x.message;
-    }, (err: any) => {
-      console.log(err);
-      this.saveError = true;
-      this.saveMessage = err;
-    });
+    if (!this.proForm.invalid) {
+      this.saveMessage = '';
+      this.saveError = false;
+      const payload = Object.assign({}, this.user);
+      delete payload.Expires;
+      delete payload.Token;
+      this.postSub = this.service.post('Users', payload).subscribe((x: any) => {
+        this.saveMessage = x.message;
+      }, (err: any) => {
+        console.log(err);
+        this.saveError = true;
+        this.saveMessage = err;
+      });
+    }
   }
 
   changePW() {
-    this.changeMessage = '';
-    this.changeError = false;
-    if (this.change.NewPassword !== this.change.VerifyPassword) {
-      this.changeError = true;
-      this.changeMessage = 'Passwords do not match.';
-    } else {
+    if (!this.changeForm.invalid && this.change.NewPassword === this.change.VerifyPassword) {
+      this.changeMessage = '';
+      this.changeError = false;
       this.change.UserID = this.user.UserID;
       this.changeSub = this.service.post('Password', this.change).subscribe((x: any) => {
         this.changeMessage = x.message;
@@ -97,5 +101,4 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
     }
   }
-
 }

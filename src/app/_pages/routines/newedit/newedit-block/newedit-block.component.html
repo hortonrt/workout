@@ -20,24 +20,22 @@
           </select>
         </div>
         <div class="form-group col-12">
-          <label for="BlockOrder">Order</label>
-          <input type="number" [(ngModel)]="obj.BlockOrder" name="blockorder" class="form-control form-control-sm" required #blockorder="ngModel" [ngClass]="{'is-invalid': blockorder.invalid && (blockorder.dirty || blockorder.touched || blockForm.submitted)}" />
+          <app-adjuster name="BlockOrder" lbl="Order" [(obj)]="obj" [inclass]="{'is-invalid': blockorder.invalid && (blockorder.dirty || blockorder.touched || blockForm.submitted)}"></app-adjuster>
+          <input type="number" [(ngModel)]="obj.BlockOrder" name="blockorder" class="form-control form-control-sm d-none" required #blockorder="ngModel" />
         </div>
         <div class="form-group col-12">
           <label for="ProgressType">Progress Type</label>
-          <select [(ngModel)]="obj.ProgressType" name="ProgressType" class="form-control form-control-sm">
+          <select [(ngModel)]="obj.ProgressType" name="ProgressType" class="form-control form-control-sm" (change)="pChange($event)">
             <option ngValue="None">None </option>
             <option ngValue="Block">Block </option>
             <option ngValue="Set">Set </option>
             <option ngValue="Exercise">Exercise </option>
-          </select> </div>
-        <div class="form-group col-12">
-          <label for="ProgressDiff">Progress Increase</label>
+          </select>
+        </div>
+        <div class="form-group col-12" *ngIf="obj.ProgressType !== 'None'">
           <div class="input-group input-group-sm">
-            <input type="number" [(ngModel)]="obj.ProgressDiff" name="progressdiff" class="form-control form-control-sm" required #progressdiff="ngModel" [ngClass]="{'is-invalid': progressdiff.invalid && (progressdiff.dirty || progressdiff.touched || blockForm.submitted)}" />
-            <span class="input-group-append">
-              <span class="input-group-text">%</span>
-            </span>
+            <app-adjuster name="ProgressDiff" lbl="Progress Increase" [(obj)]="obj" post="%" [step]="5" [inclass]="{'is-invalid': progressdiff.invalid && (progressdiff.dirty || progressdiff.touched || blockForm.submitted)}"></app-adjuster>
+            <input type="number" [(ngModel)]="obj.ProgressDiff" name="progressdiff" class="form-control form-control-sm d-none" required #progressdiff="ngModel" [ngClass]="{'is-invalid': progressdiff.invalid && (progressdiff.dirty || progressdiff.touched || blockForm.submitted)}" />
           </div>
         </div>
         <div class="form-group col-12">

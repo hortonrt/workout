@@ -24,6 +24,10 @@ export class NeweditBlockComponent implements OnInit, OnDestroy {
     if (this.listSub) { this.listSub.unsubscribe(); }
   }
 
+  pChange() {
+    if (this.obj.ProgressType === 'None') { this.obj.ProgressDiff = 0; }
+  }
+
   ngOnInit() {
     this.original = Object.assign({}, this.obj);
     this.listSub = this.service.getAll('Lists').subscribe((lists: any) => {
@@ -38,6 +42,7 @@ export class NeweditBlockComponent implements OnInit, OnDestroy {
           BlockType: null
         });
       }
+      console.log(this.obj);
     });
   }
 

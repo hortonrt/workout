@@ -38,6 +38,7 @@ if($method === "GET"){
 
 if($method === "POST") {
   $payload = getPayload();
+  unset($payload->Display);
   $user = checkForTokenOrDie();
   if(isset($payload->UserID) && !empty($payload->UserID) && $payload->UserID == $user["UserID"]){
     //user is updating
@@ -48,7 +49,7 @@ if($method === "POST") {
   else if($payload->UserID === -1 && $user['IsAdmin'] === 1){
     //admin creating
     if($payload->UserID === -1){
-      $payload->Password = password_hash($payload->Password, PASSWORD_DEFAULT);
+      $payload->Password = password_hash('Get@it!', PASSWORD_DEFAULT);
     }
     $exists = getBy('Users', $payload->Username, 'Username');
     if(count($exists) > 0){
@@ -64,7 +65,7 @@ if($method === "POST") {
   else if(isset($payload->UserID) && !empty($payload->UserID) && $user['IsAdmin'] === 1){
     //admin updating
     if(isset($payload->Password) && !empty($payload->Password)){
-      $payload->Password = password_hash($payload->Password, PASSWORD_DEFAULT);
+      $payload->Password = password_hash("Get@it!", PASSWORD_DEFAULT);
     }
     upsert('Users', $payload);
     echo(json_encode(array('message'=> 'User has been updated.')));

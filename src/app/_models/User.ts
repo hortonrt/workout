@@ -10,4 +10,5 @@ export interface User {
   Expires: string;
   IsAdmin: boolean;
   HighestDumbbell: number;
+  Display: string;
 }

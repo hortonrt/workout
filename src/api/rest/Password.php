@@ -21,10 +21,11 @@ if($method === "POST") {
       $res = array('status'=> 400, 'message' => 'Invalid Current Password');
       echo(json_encode($res));
     }
-  } else if($user['IsAdmin'] === 1){
-    //admin is updating
-    $pwUp = array('UserID'=> $user['UserID'], 'Password'=> password_hash($payload->NewPassword, PASSWORD_DEFAULT));
-    upsert('Users', $pwUp);
-    echo(json_encode(array('message'=> 'Password has been changed for '. $user['FirstName'] . ' ' . $user['LastName'])));
   } 
+  // else if($user['IsAdmin'] === 1){
+  //   //admin is updating
+  //   $pwUp = array('UserID'=> $user['UserID'], 'Password'=> password_hash($payload->NewPassword, PASSWORD_DEFAULT));
+  //   upsert('Users', $pwUp);
+  //   echo(json_encode(array('message'=> 'Password has been changed for '. $user['FirstName'] . ' ' . $user['LastName'])));
+  // } 
 }

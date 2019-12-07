@@ -25,14 +25,14 @@
       <table class="table table-sm mb-0" *ngFor="let phase of program.Phases">
         <tbody>
           <tr class="bg-routine text-light">
-            <td colspan="3" class="p-3 vertical align-middle"> {{ phase.Name }}
+            <td colspan="3" class="p-1 vertical align-middle"> {{ phase.Name }}
               <app-edit-buttons btn="btn-routine" color="text-light" *ngIf="editing" (clone)="clone($event)" (delete)="delete($event)" (edit)="neweditPhase($event)" [obj]="phase" type="ProgramPhases"></app-edit-buttons>
             </td>
           </tr>
         </tbody>
         <tbody *ngFor="let day of phase.Days">
           <tr class="bg-workout text-light">
-            <td colspan="3" class="p-3 vertical align-middle">Day {{ day.DayNumber }}
+            <td colspan="3" class="p-1 vertical align-middle">Day {{ day.DayNumber }}
               <app-edit-buttons btn="btn-workout" color="text-light" *ngIf="editing" (clone)="clone($event)" (delete)="delete($event)" (edit)="neweditDay($event)" (add)="newProgramRoutine($event)" [obj]="day" [addObj]="day" type="ProgramDays"></app-edit-buttons>
             </td>
           </tr>
@@ -42,7 +42,7 @@
             </td>
             <td class="text-center align-middle" style="width:5%" *ngIf="!editing"> {{ routine.RoutineCount }} </td>
             <td class="text-right align-middle" style="width:30%" *ngIf="!editing">
-              <button type="button" [routerLink]="[ '/workout', routine.ProgramRoutineID, routine.RoutineID ]" class="btn btm-sm btn-success"> Workout </button>
+              <button type="button" [routerLink]="[ '/workout', routine.ProgramRoutineID, routine.RoutineID ]" class="btn btn-sm btn-success"> Workout </button>
             </td>
             <td class="align-middle text-center" colspan="2" *ngIf="editing">
               <app-edit-buttons (clone)="clone($event)" (delete)="delete($event)" (edit)="editProgramRoutine($event)" [obj]="routine" type="ProgramRoutines"></app-edit-buttons>

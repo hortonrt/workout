@@ -27,23 +27,6 @@ export class NeweditExerciseComponent implements OnInit, OnDestroy {
     if (this.listSub) { this.listSub.unsubscribe(); }
   }
 
-
-  toggleFixed() {
-    if (this.obj.FixedWeight === -1) {
-      this.obj.FixedWeight = 0;
-    } else {
-      this.obj.FixedWeight = -1;
-    }
-  }
-
-  toggleTimer() {
-    if (this.obj.Timer === -1) {
-      this.obj.Timer = 0;
-    } else {
-      this.obj.Timer = -1;
-    }
-  }
-
   selectExercise(ex) {
     const initialState = {
       exercise: ex, pickExercise: (exercise) => {
@@ -86,6 +69,7 @@ export class NeweditExerciseComponent implements OnInit, OnDestroy {
         this.obj.WeightType = this.lists.WeightTypes.find(x => x.WeightTypeID === this.obj.WeightTypeID);
         this.obj.SideType = this.lists.SideTypes.find(x => x.SideTypeID === this.obj.SideTypeID);
       }
+      if (this.obj.PostRest === 0) { this.obj.PostRest = -1; }
       this.original = Object.assign({}, this.obj);
     });
 
@@ -106,6 +90,7 @@ export class NeweditExerciseComponent implements OnInit, OnDestroy {
       delete payload.WeightType;
       const st = Object.assign({}, payload.SideType);
       delete payload.SideType;
+      if (payload.PostRest === -1) { payload.PostRest = 0; }
       this.service.post('RoutineBlockSetExercises', payload).subscribe((rbse: any) => {
         if (payload.RoutineBlockSetExerciseID === 0) {
           payload.RoutineBlockSetExerciseID = rbse.RoutineBlockSetExerciseID;

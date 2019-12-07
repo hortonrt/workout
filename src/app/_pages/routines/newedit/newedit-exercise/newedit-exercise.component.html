@@ -1,5 +1,5 @@
 <div class="modal-header bg-workout text-white">
-  <h4 class="modal-title pull-left"><span *ngIf="obj.RoutineBlockSetExerciseID <= 0">Create</span><span *ngIf="obj.RoutineBlockSetExerciseID > 0">Edit</span> Exercise</h4>
+  <h4 class="modal-title pull-left"><span *ngIf="obj.RoutineBlockSetExerciseID <= 0">Add</span><span *ngIf="obj.RoutineBlockSetExerciseID > 0">Edit</span> Exercise</h4>
   <button type="button" class="close pull-right text-white" aria-label="Close" (click)="close()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -16,16 +16,16 @@
         <input type="string" name="exercise" readonly [value]="obj.Exercise ? obj.Exercise.Name + ' - ' + obj.Exercise.ExerciseType.Name : ''" class="form-control form-control-sm" (click)="selectExercise(obj)" [ngClass]="{'is-invalid': !obj.Exercise && exerciseForm.submitted}" />
       </div>
       <div class="form-group col-6">
-        <label for="order">Order</label>
-        <input type="number" [(ngModel)]="obj.ExerciseOrder" name="order" #order="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': order.invalid && (order.dirty || order.touched || exerciseForm.submitted)}" />
+        <app-adjuster name="ExerciseOrder" lbl="Order" small="true" [(obj)]="obj" [inclass]="{'is-invalid': order.invalid && (order.dirty || order.touched || exerciseForm.submitted)}"></app-adjuster>
+        <input type="number" [(ngModel)]="obj.ExerciseOrder" name="order" #order="ngModel" class="form-control form-control-sm d-none" required [ngClass]="{'is-invalid': order.invalid && (order.dirty || order.touched || exerciseForm.submitted)}" />
       </div>
       <div class="form-group col-6">
-        <label for="reps">Reps</label>
-        <input type="number" [(ngModel)]="obj.Reps" name="reps" #reps="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': reps.invalid && (reps.dirty || reps.touched || exerciseForm.submitted)}" />
+        <app-adjuster name="Reps" [(obj)]="obj" small="true" [inclass]="{'is-invalid': reps.invalid && (reps.dirty || reps.touched || exerciseForm.submitted)}"></app-adjuster>
+        <input type="number" [(ngModel)]="obj.Reps" name="reps" #reps="ngModel" class="form-control form-control-sm d-none" required [ngClass]="{'is-invalid': reps.invalid && (reps.dirty || reps.touched || exerciseForm.submitted)}" />
       </div>
       <div class="form-group col-6">
-        <label for="rest">Post Rest</label>
-        <input type="number" [(ngModel)]="obj.PostRest" name="rest" #rest="ngModel" class="form-control form-control-sm" required [ngClass]="{'is-invalid': rest.invalid && (rest.dirty || rest.touched || exerciseForm.submitted)}" />
+        <app-adjuster name="PostRest" tggl="true" [step]="5" lbl="Post Rest" small="true" [(obj)]="obj" [inclass]="{'is-invalid': rest.invalid && (rest.dirty || rest.touched || exerciseForm.submitted)}"></app-adjuster>
+        <input type="number" [(ngModel)]="obj.PostRest" name="rest" #rest="ngModel" class="form-control form-control-sm d-none" required [ngClass]="{'is-invalid': rest.invalid && (rest.dirty || rest.touched || exerciseForm.submitted)}" />
       </div>
       <div class="form-group col-6">
         <label for="st">Side</label>
@@ -49,30 +49,12 @@
         </select>
       </div>
       <div class="form-group col-6">
-        <label for="fw">Fixed Weight</label>
-        <div class="input-group input-group-sm">
-          <div class="input-group-prepend">
-            <button class="btn btn-med" (click)="toggleFixed()" type="button">
-              <fa-icon [icon]="faSquare" *ngIf="obj.FixedWeight === -1"></fa-icon>
-              <fa-icon [icon]="faCheckSquare" *ngIf="obj.FixedWeight !== -1"></fa-icon>
-            </button>
-          </div>
-          <input type="number" value="" readonly class="form-control form-control-sm" *ngIf="obj.FixedWeight === -1" />
-          <input type="number" [(ngModel)]="obj.FixedWeight" name="fw" #fw="ngModel" class="form-control form-control-sm" *ngIf="obj.FixedWeight !== -1" required [ngClass]="{'is-invalid': fw.invalid && (fw.dirty || fw.touched || exerciseForm.submitted)}" />
-        </div>
+        <app-adjuster name="FixedWeight" tggl="true" lbl="Fixed Weight" [step]="5" small="true" [(obj)]="obj" [inclass]="{'is-invalid': fw.invalid && (fw.dirty || fw.touched || exerciseForm.submitted)}"></app-adjuster>
+        <input type="number" [(ngModel)]="obj.FixedWeight" name="fw" #fw="ngModel" class="form-control form-control-sm d-none" required [ngClass]="{'is-invalid': fw.invalid && (fw.dirty || fw.touched || exerciseForm.submitted)}" />
       </div>
       <div class="form-group col-6">
-        <label for="timer">Timer</label>
-        <div class="input-group input-group-sm">
-          <div class="input-group-prepend">
-            <button class="btn btn-med" (click)="toggleTimer()" type="button">
-              <fa-icon [icon]="faSquare" *ngIf="obj.Timer === -1"></fa-icon>
-              <fa-icon [icon]="faCheckSquare" *ngIf="obj.Timer !== -1"></fa-icon>
-            </button>
-          </div>
-          <input type="number" value="" readonly class="form-control form-control-sm" *ngIf="obj.Timer === -1" />
-          <input type="number" [(ngModel)]="obj.Timer" name="timer" #timer="ngModel" class="form-control form-control-sm" *ngIf="obj.Timer !== -1" required [ngClass]="{'is-invalid': timer.invalid && (timer.dirty || timer.touched || exerciseForm.submitted)}" />
-        </div>
+        <app-adjuster name="Timer" tggl="true" small="true" [(obj)]="obj" [step]="5" [inclass]="{'is-invalid': timer.invalid && (timer.dirty || timer.touched || exerciseForm.submitted)}"></app-adjuster>
+        <input type="number" [(ngModel)]="obj.Timer" name="timer" #timer="ngModel" class="form-control form-control-sm d-none" required [ngClass]="{'is-invalid': timer.invalid && (timer.dirty || timer.touched || exerciseForm.submitted)}" />
       </div>
     </div>
   </div>
