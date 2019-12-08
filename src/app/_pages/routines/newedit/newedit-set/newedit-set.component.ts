@@ -53,7 +53,14 @@ export class NeweditSetComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    Object.assign(this.obj, this.original);
-    this.bsModalRef.hide();
+    if (this.form.pristine) {
+      Object.assign(this.obj, this.original);
+      this.bsModalRef.hide();
+    } else {
+      if (confirm('You have unsaved changes. Are you sure you want to cancel?')) {
+        Object.assign(this.obj, this.original);
+        this.bsModalRef.hide();
+      }
+    }
   }
 }

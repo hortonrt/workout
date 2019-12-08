@@ -13,11 +13,7 @@ import { WorkoutHistoryComponent } from './_pages/history/workout-history/workou
 import { ExerciseHistoryComponent } from './_pages/history/exercise-history/exercise-history.component';
 import { WorkoutComponent } from './_pages/workout/workout.component';
 import { ConfirmGuard } from './_guards/confirm.guard';
-import { CreateProgramComponent } from './_pages/programs/create-program/create-program.component';
-import { CreateRoutineComponent } from './_pages/routines/create-routine/create-routine.component';
 import { CreateExerciseComponent } from './_pages/exercises/create-exercise/create-exercise.component';
-import { CreateProgramGuard } from './_guards/createprogram.guard';
-import { CreateRoutineGuard } from './_guards/createroutine.guard';
 import { CreateExerciseGuard } from './_guards/createexercise.guard';
 import { MeasurementsComponent } from './_pages/measurements/measurements.component';
 import { ProfileComponent } from './_pages/profile/profile.component';
@@ -45,16 +41,6 @@ const routes: Routes = [{
   canActivate: [AuthGuard],
 },
 {
-  path: 'program/edit/:id',
-  component: CreateProgramComponent,
-  canDeactivate: [CreateProgramGuard],
-},
-{
-  path: 'program/create',
-  component: CreateProgramComponent,
-  canDeactivate: [CreateProgramGuard],
-},
-{
   path: 'routines',
   component: RoutinesComponent,
   canActivate: [AuthGuard],
@@ -63,16 +49,6 @@ const routes: Routes = [{
   path: 'routine/view/:programroutineid/:routineid',
   component: ViewRoutineComponent,
   canActivate: [AuthGuard],
-},
-{
-  path: 'routine/edit/:id',
-  component: CreateRoutineComponent,
-  canDeactivate: [CreateRoutineGuard],
-},
-{
-  path: 'routine/create',
-  component: CreateRoutineComponent,
-  canDeactivate: [CreateRoutineGuard],
 },
 {
   path: 'exercises',

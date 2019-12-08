@@ -15,7 +15,7 @@
         </select>
       </div>
       <div class="form-group col-12">
-        <app-adjuster name="RoutineOrder" lbl="Order" [(obj)]="obj" [inclass]="{'is-invalid': order.invalid && (order.dirty || order.touched || routineForm.submitted)}"></app-adjuster>
+        <app-adjuster name="RoutineOrder" lbl="Order" [(obj)]="obj" [frm]="routineForm" [inclass]="{'is-invalid': order.invalid && (order.dirty || order.touched || routineForm.submitted)}"></app-adjuster>
         <input type="number" [(ngModel)]="obj.RoutineOrder" name="order" #order="ngModel" class="form-control form-control-sm d-none" required [ngClass]="{'is-invalid': order.invalid && (order.dirty || order.touched || routineForm.submitted)}" />
       </div>
     </div>

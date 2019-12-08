@@ -14,7 +14,7 @@
     </div>
     <div class="form-row">
       <div class="form-group col-12">
-        <app-adjuster name="SetNumber" lbl="Set Number" [(obj)]="obj" [inclass]="{'is-invalid': number.invalid && (number.dirty || number.touched || setForm.submitted)}"></app-adjuster>
+        <app-adjuster name="SetNumber" lbl="Set Number" [(obj)]="obj" [frm]="setForm" [inclass]="{'is-invalid': number.invalid && (number.dirty || number.touched || setForm.submitted)}"></app-adjuster>
         <input type="number" name="number" #number="ngModel" [(ngModel)]="obj.SetNumber" class="form-control form-control-sm d-none" required [ngClass]="{'is-invalid': number.invalid && (number.dirty || number.touched || setForm.submitted)}" />
       </div>
     </div>

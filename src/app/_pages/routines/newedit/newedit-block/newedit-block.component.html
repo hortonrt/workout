@@ -19,11 +19,18 @@
             <option *ngFor="let bType of blockTypes" [value]="bType.BlockTypeID">{{ bType.Name }} </option>
           </select>
         </div>
-        <div class="form-group col-12">
-          <app-adjuster name="BlockOrder" lbl="Order" [(obj)]="obj" [inclass]="{'is-invalid': blockorder.invalid && (blockorder.dirty || blockorder.touched || blockForm.submitted)}"></app-adjuster>
+        <div class="form-group col-6">
+          <app-adjuster name="BlockOrder" lbl="Order" [(obj)]="obj" small="true" [frm]="blockForm" [inclass]="{'is-invalid': blockorder.invalid && (blockorder.dirty || blockorder.touched || blockForm.submitted)}"></app-adjuster>
           <input type="number" [(ngModel)]="obj.BlockOrder" name="blockorder" class="form-control form-control-sm d-none" required #blockorder="ngModel" />
         </div>
-        <div class="form-group col-12">
+        <div class="form-group col-6">
+          <label for="AutoRun">Auto Run</label>
+          <button class="btn btn-workout w-100 text-white" type="button" (click)="obj.AutoRun = !obj.AutoRun">
+            <fa-icon [icon]="faCheckSquare" *ngIf="obj.AutoRun"></fa-icon>
+            <fa-icon [icon]="faSquare" *ngIf="!obj.AutoRun"></fa-icon>
+          </button>
+        </div>
+        <div class="form-group col-12 col-md-6">
           <label for="ProgressType">Progress Type</label>
           <select [(ngModel)]="obj.ProgressType" name="ProgressType" class="form-control form-control-sm" (change)="pChange()">
             <option ngValue="None">None </option>
@@ -32,19 +39,13 @@
             <option ngValue="Exercise">Exercise </option>
           </select>
         </div>
-        <div class="form-group col-12" *ngIf="obj.ProgressType !== 'None'">
+        <div class="form-group col-12 col-md-6" *ngIf="obj.ProgressType !== 'None'">
           <div class="input-group input-group-sm">
-            <app-adjuster name="ProgressDiff" lbl="Progress Increase" [(obj)]="obj" post="%" [step]="5" [inclass]="{'is-invalid': progressdiff.invalid && (progressdiff.dirty || progressdiff.touched || blockForm.submitted)}"></app-adjuster>
+            <app-adjuster name="ProgressDiff" lbl="Progress Increase" [frm]="blockForm" [(obj)]="obj" post="%" [step]="5" [inclass]="{'is-invalid': progressdiff.invalid && (progressdiff.dirty || progressdiff.touched || blockForm.submitted)}"></app-adjuster>
             <input type="number" [(ngModel)]="obj.ProgressDiff" name="progressdiff" class="form-control form-control-sm d-none" required #progressdiff="ngModel" [ngClass]="{'is-invalid': progressdiff.invalid && (progressdiff.dirty || progressdiff.touched || blockForm.submitted)}" />
           </div>
         </div>
-        <div class="form-group col-12">
-          <label for="AutoRun">Auto Run</label>
-          <button class="btn btn-workout w-100 text-white" type="button" (click)="obj.AutoRun = !obj.AutoRun">
-            <fa-icon [icon]="faCheckSquare" *ngIf="obj.AutoRun"></fa-icon>
-            <fa-icon [icon]="faSquare" *ngIf="!obj.AutoRun"></fa-icon>
-          </button>
-        </div>
+
       </div>
     </div>
   </div>

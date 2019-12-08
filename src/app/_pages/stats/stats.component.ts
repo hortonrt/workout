@@ -193,7 +193,6 @@ export class StatsComponent implements OnInit, OnDestroy {
   }
 
   setupFTH(data: any[]) {
-    console.log(data);
     const fth: any = [];
     const uniqueExercises = [...new Set(data.map(x =>
       (x.ExerciseOrder < 10 ? '0' + x.ExerciseOrder : x.ExerciseOrder) + '-' + x.Name))].sort();

@@ -114,7 +114,6 @@ export class ViewProgramComponent implements OnInit, OnDestroy {
   }
 
   editProgramRoutine($event) {
-    console.log($event);
     const initialState = {
       obj: $event,
       finish: () => {

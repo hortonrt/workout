@@ -103,7 +103,6 @@ export class CreateExerciseComponent implements OnInit, OnDestroy {
           this.exercise = { ExerciseID: 0, ExerciseType: null, ExerciseTypeID: null, MuscleTypes: [], Equipment: [], Name: '' };
           this.exercise.MuscleTypes = [...lists.MuscleTypes];
           this.exercise.Equipment = [...lists.Equipment];
-          console.log(this.exercise);
           this.loaded = true;
         }
       });

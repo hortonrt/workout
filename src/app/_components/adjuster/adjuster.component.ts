@@ -25,6 +25,7 @@ export class AdjusterComponent implements OnInit {
   @Input() post: string = null;
   @Input() small = false;
   @Input() tggl = false;
+  @Input() frm = null;
   faPlus: IconDefinition = faPlus;
   faMinus: IconDefinition = faMinus;
   faSquare: IconDefinition = faSquare;
@@ -40,6 +41,7 @@ export class AdjusterComponent implements OnInit {
   }
 
   toggle() {
+    if (this.frm) { this.frm.form.markAsDirty(); }
     if (this.obj[this.name] === -1) {
       this.obj[this.name] = 0;
       this.showVal = true;
@@ -50,11 +52,13 @@ export class AdjusterComponent implements OnInit {
   }
 
   down() {
+    if (this.frm) { this.frm.form.markAsDirty(); }
     this.obj[this.name] -= this.step;
     this.obj[this.name] = parseFloat(this.obj[this.name].toFixed(this.dec));
   }
 
   up() {
+    if (this.frm) { this.frm.form.markAsDirty(); }
     this.obj[this.name] += this.step;
     this.obj[this.name] = parseFloat(this.obj[this.name].toFixed(this.dec));
   }

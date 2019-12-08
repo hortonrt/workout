@@ -80,10 +80,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       delete payload.Token;
       this.postSub = this.service.post('Users', payload).subscribe((x: any) => {
         this.saveMessage = x.message;
-      }, (err: any) => {
-        console.log(err);
+      }, (e: any) => {
+        console.log(e);
         this.saveError = true;
-        this.saveMessage = err;
+        this.saveMessage = e;
       });
     }
   }

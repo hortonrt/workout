@@ -33,9 +33,7 @@ import { ExerciseHistoryComponent } from './_pages/history/exercise-history/exer
 import { SecondstimerPipe } from './_pipes/secondstimer.pipe';
 import { WorkoutComponent } from './_pages/workout/workout.component';
 import { RepmaxPipe } from './_pipes/repmax.pipe';
-import { CreateRoutineComponent } from './_pages/routines/create-routine/create-routine.component';
 import { CreateExerciseComponent } from './_pages/exercises/create-exercise/create-exercise.component';
-import { CreateProgramComponent } from './_pages/programs/create-program/create-program.component';
 import { ExercisePickerComponent } from './_components/exercise-picker/exercise-picker.component';
 import { FilterExercisePipe } from './_pipes/filter-exercise.pipe';
 import { MeasurementsComponent } from './_pages/measurements/measurements.component';
@@ -87,9 +85,7 @@ import { NeweditProgramroutineComponent } from './_pages/programs/newedit/newedi
     SecondstimerPipe,
     WorkoutComponent,
     RepmaxPipe,
-    CreateRoutineComponent,
     CreateExerciseComponent,
-    CreateProgramComponent,
     ExercisePickerComponent,
     FilterExercisePipe,
     MeasurementsComponent,

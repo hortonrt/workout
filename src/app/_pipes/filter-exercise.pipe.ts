@@ -9,7 +9,6 @@ export class FilterExercisePipe implements PipeTransform {
     if (!searchText) { return items; }
     searchText = searchText.toLowerCase();
     return items.filter(it => {
-      console.log(it);
       return it.Name.toLowerCase().includes(searchText)
         || it.ExerciseTypeName.toLowerCase().includes(searchText)
         || it.PrimaryMuscleGroup.toLowerCase().includes(searchText)
