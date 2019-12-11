@@ -71,6 +71,7 @@ import { StarRatingComponent } from './_components/star-rating/star-rating.compo
 import { ExerciseDetailComponent } from './_pages/workout/exercise-detail/exercise-detail.component';
 import { ActiveExerciseComponent } from './_pages/workout/active-exercise/active-exercise.component';
 import { TimerComponent } from './_pages/workout/timer/timer.component';
+import { ExHistComponent } from './_pages/history/exercise-history/ex-hist/ex-hist.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +128,8 @@ import { TimerComponent } from './_pages/workout/timer/timer.component';
     StarRatingComponent,
     ExerciseDetailComponent,
     ActiveExerciseComponent,
-    TimerComponent
+    TimerComponent,
+    ExHistComponent
   ],
   imports: [
     BrowserModule,

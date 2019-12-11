@@ -2,7 +2,7 @@
   <div class="col-6 p-0">
     <table class="table table-sm table-bordered rounded text-center w-100" *ngIf="we.HasPrevious">
       <tr>
-        <td class="w-25 align-middle bg-workout font-weight-bold text-underline"> {{ we.PrevDate }} </td>
+        <td class="w-25 align-middle bg-workout font-weight-bold text-underline"> <a (click)="openModal(template)">{{ we.PrevDate }}</a> </td>
         <td class="w-25 align-middle"> {{ we.PrevReps }} </td>
         <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(we.PrevWeight)}" *ngIf="we.ExerciseType === 'Bands'"></td>
         <td class="w-25 align-middle" *ngIf="we.ExerciseType !== 'Bands'"><a (click)="viewRepMax(we.ORM)" class="text-underline">{{we.PrevWeight}}</a></td>
@@ -23,3 +23,15 @@
     </table>
   </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-header bg-workout text-white">
+    <h4 class="modal-title pull-left">Exercise History</h4>
+    <button type="button" class="close pull-right text-white" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-0">
+    <app-ex-hist [exerciseID]="we.ExerciseID" [header]="false"></app-ex-hist>
+  </div>
+</ng-template>

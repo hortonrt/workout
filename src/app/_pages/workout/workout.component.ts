@@ -18,12 +18,30 @@ import { WorkoutService } from 'src/app/_services/workout.service';
 import { DatePipe } from '@angular/common';
 import webAudioTouchUnlock from 'web-audio-touch-unlock';
 import { Subscription } from 'rxjs';
+import { trigger, state, transition, animate, style } from '@angular/animations';
 
 @Component({
   selector: 'app-workout',
   templateUrl: './workout.component.html',
   styleUrls: ['./workout.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
+  animations: [
+    trigger('openClose', [
+      // ...
+      state('open', style({
+        opacity: 0
+      })),
+      state('closed', style({
+        opacity: 1,
+      })),
+      transition('open => closed', [
+        animate('0.5s')
+      ]),
+      transition('closed => open', [
+        animate('0.5s')
+      ]),
+    ]),
+  ]
 })
 export class WorkoutComponent implements OnInit, OnDestroy {
   repMax: RepmaxPipe;
@@ -104,46 +122,48 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
   next(rested = false) {
     const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
-    we.Completed = true;
     if (we.PostRest > 0 && !rested) {
       this.rest(we);
       return;
     }
-
-    we.Active = false;
+    we.toggle = true;
     this.resting = false;
-    const eDate: Date = new Date();
-    this.activeExercise.ExerciseEnd = eDate;
-    const next: WorkoutExercise = this.workout.Exercises[
-      this.workout.Exercises.indexOf(we) + 1
-    ];
-    this.activeExercise.Duration = Math.floor(
-      Math.abs(
-        this.activeExercise.ExerciseEnd.getTime() -
-        this.activeExercise.ExerciseStart.getTime(),
-      ) / 1000,
-    );
-    we.Reps = this.activeExercise.Reps;
-    we.Weight = this.activeExercise.Weight;
-    we.Rating = this.activeExercise.Rating;
-    this.userWorkout.Exercises.push(Object.assign({}, this.activeExercise));
-    if (next) {
-      this.activeExercise = {} as UserWorkoutExerciseHistory;
-      this.activeExercise.ExerciseOrder = this.userWorkout.Exercises.length + 1;
-      this.activeExercise.Rating = 3;
-      this.activeExercise.Reps = next.Reps;
-      this.activeExercise.Weight = next.Weight;
-      this.activeExercise.RoutineBlockSetExerciseID =
-        next.RoutineBlockSetExerciseID;
-      this.activeExercise.ExerciseID = next.ExerciseID;
-      this.activeExercise.ExerciseStart = eDate;
-      this.activeExercise.RoutineBlockID = next.RoutineBlockID;
-      this.activeExercise.RoutineBlockSetID = next.RoutineBlockSetID;
-      this.activeExercise.RoutineID = this.rid;
-      next.Active = true;
-    } else {
-      this.finish();
-    }
+    setTimeout(() => {
+      we.Active = false;
+      we.Completed = true;
+      const eDate: Date = new Date();
+      this.activeExercise.ExerciseEnd = eDate;
+      const next: WorkoutExercise = this.workout.Exercises[
+        this.workout.Exercises.indexOf(we) + 1
+      ];
+      this.activeExercise.Duration = Math.floor(
+        Math.abs(
+          this.activeExercise.ExerciseEnd.getTime() -
+          this.activeExercise.ExerciseStart.getTime(),
+        ) / 1000,
+      );
+      we.Reps = this.activeExercise.Reps;
+      we.Weight = this.activeExercise.Weight;
+      we.Rating = this.activeExercise.Rating;
+      this.userWorkout.Exercises.push(Object.assign({}, this.activeExercise));
+      if (next) {
+        this.activeExercise = {} as UserWorkoutExerciseHistory;
+        this.activeExercise.ExerciseOrder = this.userWorkout.Exercises.length + 1;
+        this.activeExercise.Rating = 3;
+        this.activeExercise.Reps = next.Reps;
+        this.activeExercise.Weight = next.Weight;
+        this.activeExercise.RoutineBlockSetExerciseID =
+          next.RoutineBlockSetExerciseID;
+        this.activeExercise.ExerciseID = next.ExerciseID;
+        this.activeExercise.ExerciseStart = eDate;
+        this.activeExercise.RoutineBlockID = next.RoutineBlockID;
+        this.activeExercise.RoutineBlockSetID = next.RoutineBlockSetID;
+        this.activeExercise.RoutineID = this.rid;
+        next.Active = true;
+      } else {
+        this.finish();
+      }
+    }, 550);
   }
 
   toggleTimer($event) {

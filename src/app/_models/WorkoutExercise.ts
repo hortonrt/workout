@@ -25,4 +25,5 @@ export interface WorkoutExercise {
   HasPrevious: boolean;
   Timer: number;
   AutoRun: number;
+  toggle: boolean;
 }

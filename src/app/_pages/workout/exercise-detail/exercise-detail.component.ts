@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -13,6 +13,7 @@ export class ExerciseDetailComponent implements OnInit {
   @Input() activeExercise = null;
   bands = null;
   bsModalRef = null;
+  modalRef = null;
   constructor(
     private service: WorkoutService,
     private modalService: BsModalService
@@ -21,7 +22,6 @@ export class ExerciseDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.we);
   }
 
   bandColor(weight) {
@@ -33,5 +33,9 @@ export class ExerciseDetailComponent implements OnInit {
       ORM: ormIn
     };
     this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState, ignoreBackdropClick: true });
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }

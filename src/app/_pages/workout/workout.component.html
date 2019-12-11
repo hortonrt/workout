@@ -24,7 +24,7 @@
         <div class="col-12 bg-info text-white">Set {{ we.SetNumber }}</div>
       </div>
       <div class="row">
-        <div class="exercise-div col-12">
+        <div class="exercise-div col-12" [@openClose]="we.toggle ? 'open' : 'closed'">
           <div class="pb-3">
             <div class="large">
               <strong>{{ we.ExerciseType }} {{ we.ExerciseName}}<span *ngIf="we.SideType !== 'Both'"> - {{ we.SideType }}</span></strong>
