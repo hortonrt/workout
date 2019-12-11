@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-dumbbell-selector',
@@ -8,12 +9,14 @@ import { WorkoutService } from 'src/app/_services/workout.service';
 })
 export class DumbbellSelectorComponent implements OnInit {
   dumbbells = [];
+  maxDumbell: number = null;
 
   @Input() obj: any;
-  constructor(private service: WorkoutService) { }
+  constructor(private service: WorkoutService, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    this.dumbbells = this.chunk(Object.assign([], this.service.dumbbells), 2);
+    this.dumbbells = this.chunk(Object.assign([],
+      this.service.dumbbells.filter(x => x <= this.authService.currentUserValue.HighestDumbbell)), 2);
   }
 
   chunk(target, size) {

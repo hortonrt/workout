@@ -22,17 +22,11 @@
       <table class="table table-sm table-bordered table-striped table-hover">
         <thead>
           <tr>
-            <th colspan="4" class="text-center bg-workout">
-              {{ history.Name }}
-            </th>
+            <th colspan="4" class="text-center bg-workout"> {{ history.Name }} </th>
           </tr>
           <tr>
-            <th colspan="2" class="text-center bg-warning">
-              {{ history.StartTime }}
-            </th>
-            <th colspan="2" class="text-center bg-warning">
-              {{ history.Duration | secondstimer: '12':'7' }}
-            </th>
+            <th colspan="2" class="text-center bg-warning"> {{ history.StartTime }} </th>
+            <th colspan="2" class="text-center bg-warning"> {{ history.Duration | secondstimer: '12':'7' }} </th>
           </tr>
         </thead>
         <thead>
@@ -45,22 +39,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let ue of history.Exercises">
-            <td>
-              <a [routerLink]="['/history/exercise/', ue.ExerciseID]">
-                {{ ue.Name }}
-              </a>
-            </td>
+            <td> <a [routerLink]="['/history/exercise/', ue.ExerciseID]"> {{ ue.Name }} </a> </td>
             <td class="text-center align-middle">{{ ue.Reps }}<span *ngIf="ue.ExerciseReps"> / {{ue.ExerciseReps}}</span></td>
             <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(ue.Weight)}" *ngIf="ue.ExerciseTypeID === 3"></td>
             <td class="w-25 align-middle text-center" *ngIf="ue.ExerciseTypeID !== 3">{{ue.Weight}} </td>
-            <td class="text-center align-middle" [class.bg-danger]="ue.Rating === 1" [class.bg-warning]="ue.Rating === 2" [class.bg-success]="ue.Rating === 3">
-              <fa-icon [icon]="
-                    ue.Rating === 1
-                      ? faStarHalf
-                      : ue.Rating === 2
-                      ? faStar
-                      : faStarFull
-                  " class="text-white"></fa-icon>
+            <td class="text-center align-middle p-0">
+              <app-star-rating [exercise]="ue" size="sm"></app-star-rating>
             </td>
           </tr>
         </tbody>

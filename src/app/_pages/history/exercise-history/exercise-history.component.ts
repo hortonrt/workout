@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { ActivatedRoute } from '@angular/router';
-import { faStar as faStarFull } from '@fortawesome/free-solid-svg-icons';
-import { faStar, faStarHalf } from '@fortawesome/free-regular-svg-icons';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,9 +10,6 @@ import { Subscription } from 'rxjs';
 export class ExerciseHistoryComponent implements OnInit, OnDestroy {
   loaded = false;
   history: any = [];
-  faStar = faStar;
-  faStarFull = faStarFull;
-  faStarHalf = faStarHalf;
   bands = null;
   paramSub: Subscription = null;
   exHis: Subscription = null;

@@ -22,7 +22,7 @@
     <div class="col-12 p-0">
       <div class="btn-group w-100" *ngIf="!editing">
         <button class="btn btn-primary text-white" (click)="editing = true"> Edit Routine </button>
-        <button class="btn btn-success text-white" [routerLink]="['/workout',-1, routine.RoutineID]"> Workout </button>
+        <button class="btn btn-success text-white" [routerLink]="['/workout', programroutineid, routine.RoutineID]"> Workout </button>
       </div>
       <div class="btn-group w-100" *ngIf="editing">
         <button class="btn btn-success text-white" (click)="doneEdit()"> Done Editing </button>

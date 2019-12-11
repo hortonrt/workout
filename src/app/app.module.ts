@@ -66,6 +66,11 @@ import { NeweditProgramComponent } from './_pages/programs/newedit/newedit-progr
 import { NeweditPhaseComponent } from './_pages/programs/newedit/newedit-phase/newedit-phase.component';
 import { NeweditDayComponent } from './_pages/programs/newedit/newedit-day/newedit-day.component';
 import { NeweditProgramroutineComponent } from './_pages/programs/newedit/newedit-programroutine/newedit-programroutine.component';
+import { RestComponent } from './_pages/workout/rest/rest.component';
+import { StarRatingComponent } from './_components/star-rating/star-rating.component';
+import { ExerciseDetailComponent } from './_pages/workout/exercise-detail/exercise-detail.component';
+import { ActiveExerciseComponent } from './_pages/workout/active-exercise/active-exercise.component';
+import { TimerComponent } from './_pages/workout/timer/timer.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +122,12 @@ import { NeweditProgramroutineComponent } from './_pages/programs/newedit/newedi
     NeweditProgramComponent,
     NeweditPhaseComponent,
     NeweditDayComponent,
-    NeweditProgramroutineComponent
+    NeweditProgramroutineComponent,
+    RestComponent,
+    StarRatingComponent,
+    ExerciseDetailComponent,
+    ActiveExerciseComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,

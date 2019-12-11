@@ -1,0 +1,25 @@
+<div class="row justify-content-center">
+  <div class="col-6 p-0">
+    <table class="table table-sm table-bordered rounded text-center w-100" *ngIf="we.HasPrevious">
+      <tr>
+        <td class="w-25 align-middle bg-workout font-weight-bold text-underline"> {{ we.PrevDate }} </td>
+        <td class="w-25 align-middle"> {{ we.PrevReps }} </td>
+        <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(we.PrevWeight)}" *ngIf="we.ExerciseType === 'Bands'"></td>
+        <td class="w-25 align-middle" *ngIf="we.ExerciseType !== 'Bands'"><a (click)="viewRepMax(we.ORM)" class="text-underline">{{we.PrevWeight}}</a></td>
+        <td class="w-25 align-middle p-0">
+          <app-star-rating [exercise]="we" prev="true" size="sm"></app-star-rating>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-6 p-0">
+    <table class="table table-sm table-bordered rounded text-center w-100" *ngIf="we.ExerciseType === 'Barbell' || we.ExerciseType === 'EZ Bar'">
+      <tr>
+        <td class="bg-workout w-25">Per</td>
+        <td class="w-25">{{ ((we.Active ? activeExercise.Weight : we.Weight) - (we.ExerciseType === 'Barbell' ? 45 : 15)) / (we.SideType === 'Single' ? 1 : 2) }}</td>
+        <td class="bg-workout w-25">Total</td>
+        <td class="w-25">{{ we.Active ? activeExercise.Weight : we.Weight }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -28,9 +28,7 @@
       <app-adjuster name="Weight" [(obj)]="exercise" [step]="5"></app-adjuster>
     </div>
     <div class="form-group col-12">
-      <button class="btn-xl" [ngClass]="exercise.Rating === 1 ? 'btn w-100 btn-danger' : exercise.Rating === 2 ? 'btn w-100 btn-warning' : 'btn w-100 btn-success'" type="button" (click)="toggleRating(exercise)">
-        <fa-icon [icon]="exercise.Rating === 1 ? faStarHalf : exercise.Rating === 2 ? faStar : faStarFull" class="text-white"></fa-icon>
-      </button>
+      <app-star-rating [exercise]="exercise" [togglable]="true" size="xl"></app-star-rating>
     </div>
   </div>
 </div>

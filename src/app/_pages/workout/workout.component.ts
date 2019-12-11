@@ -1,16 +1,12 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import {
   faChevronCircleRight,
-  faHeartbeat,
-  faStar as faStarFull,
   faCheck,
   faTimes,
-  faStopwatch
+  faHeartbeat
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  faClock,
-  faStar,
-  faStarHalf,
+  faClock
 } from '@fortawesome/free-regular-svg-icons';
 import { RepmaxPipe } from 'src/app/_pipes/repmax.pipe';
 import { WorkoutExercise } from 'src/app/_models/WorkoutExercise';
@@ -20,8 +16,6 @@ import { UserWorkoutExerciseHistory } from 'src/app/_models/UserWorkoutExerciseH
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { DatePipe } from '@angular/common';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
 import webAudioTouchUnlock from 'web-audio-touch-unlock';
 import { Subscription } from 'rxjs';
 
@@ -35,13 +29,8 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   repMax: RepmaxPipe;
   faChevronCircleRight = faChevronCircleRight;
   faClock = faClock;
-  faStar = faStar;
-  faCheck = faCheck;
-  faStopwatch = faStopwatch;
   faTimes = faTimes;
-  faStarFull = faStarFull;
-  faStarHalf = faStarHalf;
-  faHeartbeat = faHeartbeat;
+  faCheck = faCheck;
   blockSummary: WorkoutExercise[] = [] as WorkoutExercise[];
   workout: Workout = {} as Workout;
   equipment: string;
@@ -56,68 +45,29 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   audioCtx: AudioContext = null;
   restInterval: any;
   restTimer: number;
-  timerrunning = false;
   done = false;
-  bands = null;
-  bsModalRef = null;
   rid = -1;
-  timerInt = null;
   countInt = null;
   postSub: Subscription = null;
   routeSub: Subscription = null;
   woSub: Subscription = null;
+  faHeartbeat = faHeartbeat;
+  timerrunning = false;
   constructor(
     private route: ActivatedRoute,
     private service: WorkoutService,
     private router: Router,
-    private datePipe: DatePipe,
-    private modalService: BsModalService
+    private datePipe: DatePipe
   ) {
-    this.bands = Object.assign([], service.bands);
   }
 
   ngOnDestroy() {
     if (this.clockInterval) { clearInterval(this.clockInterval); }
-    if (this.timerInt) { clearInterval(this.timerInt); }
     if (this.restInterval) { clearInterval(this.restInterval); }
     if (this.countInt) { clearInterval(this.countInt); }
     if (this.postSub) { this.postSub.unsubscribe(); }
     if (this.routeSub) { this.routeSub.unsubscribe(); }
     if (this.woSub) { this.woSub.unsubscribe(); }
-  }
-
-  toggleTimer() {
-    this.timerrunning = !this.timerrunning;
-    if (this.timerrunning) {
-      const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
-      if (we.AutoRun === 0) {
-        this.countIn();
-      } else {
-        this.startTimer();
-      }
-    } else {
-      clearInterval(this.timerInt);
-    }
-  }
-
-  startTimer() {
-    const we: WorkoutExercise = this.workout.Exercises.find(x => x.Active);
-    this.timerInt = setInterval(() => {
-      if (we.Timer === 1) {
-        this.buzzer(true);
-      } else if (we.Timer <= 6 && we.Timer > 1) {
-        this.buzzer(false);
-      }
-      if (we.Timer <= 0) {
-        clearInterval(this.timerInt);
-        this.timerrunning = false;
-        if (we.AutoRun === 1) {
-          this.next(false);
-        }
-      } else {
-        we.Timer -= 1;
-      }
-    }, 1000);
   }
 
   ngOnInit() {
@@ -138,30 +88,9 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleRating(direction = 1) {
-    if (this.activeExercise.Rating === 1) {
-      this.activeExercise.Rating = 3;
-    } else {
-      this.activeExercise.Rating -= direction;
-    }
-  }
-
-  adjust(type, step, direction) {
-    this.activeExercise[type] += direction * step;
-    const we = this.workout.Exercises.find(
-      (x: WorkoutExercise) =>
-        x.RoutineBlockSetExerciseID ===
-        this.activeExercise.RoutineBlockSetExerciseID,
-    );
-    this.workout.Exercises[this.workout.Exercises.indexOf(we)][type] +=
-      direction * step;
-  }
-
   rest(we: WorkoutExercise) {
-    const restStart = new Date();
+    this.restTimer = we.PostRest;
     this.blockSummary = [] as WorkoutExercise[];
-    const restEnd = new Date();
-    restEnd.setSeconds(restEnd.getSeconds() + we.PostRest);
     const next: WorkoutExercise = this.workout.Exercises[
       this.workout.Exercises.indexOf(we) + 1
     ];
@@ -170,17 +99,7 @@ export class WorkoutComponent implements OnInit, OnDestroy {
         x => x.RoutineBlockID === next.RoutineBlockID,
       );
     }
-    this.restTimer = we.PostRest;
     this.resting = true;
-    this.restInterval = setInterval(() => {
-      this.restTimer =
-        we.PostRest -
-        Math.floor(Math.abs(new Date().getTime() - restStart.getTime()) / 1000);
-      if (new Date() > restEnd) {
-        clearInterval(this.restInterval);
-        this.next(true);
-      }
-    }, 1000);
   }
 
   next(rested = false) {
@@ -222,12 +141,13 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       this.activeExercise.RoutineBlockSetID = next.RoutineBlockSetID;
       this.activeExercise.RoutineID = this.rid;
       next.Active = true;
-      if (next.AutoRun && next.RepType === 'Seconds') {
-        this.toggleTimer();
-      }
     } else {
       this.finish();
     }
+  }
+
+  toggleTimer($event) {
+    this.timerrunning = $event;
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -235,13 +155,6 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     if (this.exercising) {
       $event.returnValue = true;
     }
-  }
-
-  viewRepMax(ormIn) {
-    const initialState = {
-      ORM: ormIn
-    };
-    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState, ignoreBackdropClick: true });
   }
 
   finish() {
@@ -272,46 +185,6 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     return this.datePipe.transform(date, 'yyyy-MM-dd H:mm:ss');
   }
 
-  bandColor(weight) {
-    return this.bands.find(x => x.v === weight).n;
-  }
-
-  buzzer(full) {
-    const oscillator = this.audioCtx.createOscillator();
-    const gainNode = this.audioCtx.createGain();
-    oscillator.connect(gainNode);
-    gainNode.connect(this.audioCtx.destination);
-    gainNode.gain.value = 1;
-    oscillator.frequency.value = 100;
-    oscillator.type = 'sawtooth';
-    oscillator.start();
-    setTimeout(() => { oscillator.stop(); }, full ? 1000 : 250);
-  }
-
-  countIn() {
-    let times = 3;
-    this.countInt = setInterval(() => {
-      this.countInSound(times);
-      times -= 1;
-      if (times < 0) {
-        clearInterval(this.countInt);
-        this.startTimer();
-      }
-    }, 1000);
-  }
-
-  countInSound(last) {
-    const oscillator = this.audioCtx.createOscillator();
-    const gainNode = this.audioCtx.createGain();
-    oscillator.connect(gainNode);
-    gainNode.connect(this.audioCtx.destination);
-    gainNode.gain.value = 1;
-    oscillator.frequency.value = last === 0 ? 450 : 300;
-    oscillator.type = 'triangle';
-    oscillator.start();
-    setTimeout(() => { oscillator.stop(); }, 500);
-  }
-
   startWorkout() {
     this.userWorkout.StartTime = new Date();
     this.userWorkout.UserWorkoutHistoryID = 0;
@@ -339,8 +212,5 @@ export class WorkoutComponent implements OnInit, OnDestroy {
       );
     }, 1000);
     this.exercising = true;
-    if (this.workout.Exercises[0].AutoRun && this.workout.Exercises[0].RepType === 'Seconds') {
-      this.toggleTimer();
-    }
   }
 }

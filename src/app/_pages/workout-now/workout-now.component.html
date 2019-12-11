@@ -4,59 +4,8 @@
       <div class="pb-3 large">
         <strong>{{ we.ExerciseType }} {{ we.ExerciseName}}</strong>
       </div>
-      <div *ngIf="we.Active">
-        <div class="form-row">
-          <div class="form-group col-12 col-md-6" [ngClass]="{'col-md-12': we.ExerciseType === 'Dumbbell' || we.ExerciseType === 'Bands' || we.ExerciseType === 'Body Weight'}">
-            <app-adjuster name="Reps" [(obj)]="activeExercise" [step]="1" big="true" bigfont="true"></app-adjuster>
-          </div>
-          <div class="form-group col-12 col-md-6" [ngClass]="{'d-none': we.ExerciseType === 'Dumbbell' || we.ExerciseType === 'Bands' || we.ExerciseType === 'Body Weight'}">
-            <app-adjuster name="Weight" [(obj)]="activeExercise" [step]="5" big="true" bigfont="true"></app-adjuster>
-          </div>
-        </div>
-        <div class="form-row" *ngIf="we.ExerciseType === 'Dumbbell'">
-          <div class="form-group col-12">
-            <app-dumbbell-selector [(obj)]="activeExercise"></app-dumbbell-selector>
-          </div>
-        </div>
-        <div class="form-row" *ngIf="we.ExerciseType === 'Bands'">
-          <div class="form-group col-12">
-            <app-band-selector [(obj)]="activeExercise"></app-band-selector>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-12">
-            <label>Form</label>
-            <button class="btn-xl" [ngClass]="activeExercise.Rating === 1 ? 'btn w-100 btn-danger' : activeExercise.Rating === 2 ? 'btn w-100 btn-warning' : 'btn w-100 btn-success'" type="button" (click)="toggleRating()">
-              <fa-icon [icon]="activeExercise.Rating === 1 ? faStarHalf : activeExercise.Rating === 2 ? faStar : faStarFull" class="text-white"></fa-icon>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-6 p-0">
-          <table class="table table-sm table-bordered rounded text-center w-100" *ngIf="we.HasPrevious">
-            <tr>
-              <td class="w-25 align-middle bg-workout font-weight-bold"> {{ we.PrevDate }} </td>
-              <td class="w-25 align-middle"> {{ we.PrevReps }} </td>
-              <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(we.PrevWeight)}" *ngIf="we.ExerciseType === 'Bands'"></td>
-              <td class="w-25 align-middle" *ngIf="we.ExerciseType !== 'Bands'"><a (click)="viewRepMax(we.ORM)">{{we.PrevWeight}}</a></td>
-              <td class="w-25 align-middle" [class.bg-danger]="we.PrevRating === 1" [class.bg-warning]="we.PrevRating === 2" [class.bg-success]="we.PrevRating === 3">
-                <fa-icon [icon]="we.PrevRating === 1 ? faStarHalf : we.PrevRating === 2 ? faStar : faStarFull" class="text-white"></fa-icon>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-6 p-0">
-          <table class="table table-sm table-bordered rounded text-center w-100" *ngIf="we.ExerciseType === 'Barbell' || we.ExerciseType === 'EZ Bar'">
-            <tr>
-              <td class="bg-workout w-25">Per</td>
-              <td class="w-25">{{ ((we.Active ? activeExercise.Weight : we.Weight) - (we.ExerciseType === 'Barbell' ? 45 : 15)) / (we.SideType === 'Single' ? 1 : 2) }}</td>
-              <td class="bg-workout w-25">Total</td>
-              <td class="w-25">{{ we.Active ? activeExercise.Weight : we.Weight }}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
+      <app-active-exercise *ngIf="we.Active" [we]="we" [activeExercise]="activeExercise"></app-active-exercise>
+      <app-exercise-detail [we]="we" [activeExercise]="activeExercise"></app-exercise-detail>
     </div>
   </div>
 </div>

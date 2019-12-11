@@ -2,8 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserWorkoutHistory } from 'src/app/_models/UserWorkoutHistory';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { ActivatedRoute } from '@angular/router';
-import { faStar as faStarFull } from '@fortawesome/free-solid-svg-icons';
-import { faStar, faStarHalf } from '@fortawesome/free-regular-svg-icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EditWorkoutComponent } from './edit-workout/edit-workout.component';
 import { DatePipe } from '@angular/common';
@@ -19,9 +17,6 @@ export class WorkoutHistoryComponent implements OnInit, OnDestroy {
   workoutID = -1;
   loaded = false;
   history: UserWorkoutHistory = {} as UserWorkoutHistory;
-  faStar = faStar;
-  faStarFull = faStarFull;
-  faStarHalf = faStarHalf;
   routeSub: Subscription = null;
   histSub: Subscription = null;
   postSub: Subscription = null;

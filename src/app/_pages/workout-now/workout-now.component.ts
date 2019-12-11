@@ -6,20 +6,16 @@ import { UserWorkoutHistory } from 'src/app/_models/UserWorkoutHistory';
 import {
   faChevronCircleRight,
   faHeartbeat,
-  faStar as faStarFull,
   faCheck,
   faTimes,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faClock,
-  faStar,
-  faStarHalf,
 } from '@fortawesome/free-regular-svg-icons';
 import { WorkoutService } from 'src/app/_services/workout.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { RepMaxChartComponent } from 'src/app/_components/rep-max-chart/rep-max-chart.component';
 import { WorkoutExercise } from 'src/app/_models/WorkoutExercise';
 import { Workout } from 'src/app/_models/Workout';
 import { Subscription } from 'rxjs';
@@ -40,12 +36,9 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
   bsModalRef = null;
   faChevronCircleRight = faChevronCircleRight;
   faClock = faClock;
-  faStar = faStar;
   bands = null;
   faCheck = faCheck;
   faTimes = faTimes;
-  faStarFull = faStarFull;
-  faStarHalf = faStarHalf;
   faHeartbeat = faHeartbeat;
   faPlus = faPlus;
   activeExercise: UserWorkoutExerciseHistory = null;
@@ -137,24 +130,6 @@ export class WorkoutNowComponent implements OnInit, OnDestroy {
   unloadNotification($event: any) {
     if (this.exercising) {
       $event.returnValue = true;
-    }
-  }
-
-  viewRepMax(ormIn) {
-    const initialState = {
-      ORM: ormIn
-    };
-    this.bsModalRef = this.modalService.show(RepMaxChartComponent, { initialState, ignoreBackdropClick: true });
-  }
-
-  bandColor(weight) {
-    return this.bands.find(x => x.v === weight).n;
-  }
-  toggleRating(direction = 1) {
-    if (this.activeExercise.Rating === 1) {
-      this.activeExercise.Rating = 3;
-    } else {
-      this.activeExercise.Rating -= direction;
     }
   }
 

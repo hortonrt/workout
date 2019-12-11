@@ -1,0 +1,8 @@
+<div class="form-row mb-3">
+  <div class="col-12 duration-box">
+    <fa-icon [icon]="faStopwatch"></fa-icon>&nbsp;{{ timerval | secondstimer: '15':'4' }}
+  </div>
+  <div class="col-12">
+    <button class="btn btn-xl w-100 btn-workout" (click)="toggleTimer()"><span *ngIf="countingin">({{countin}})</span><span *ngIf="timerrunning && !countingin">Pause</span><span *ngIf="!timerrunning">Start</span></button>
+  </div>
+</div>

@@ -44,14 +44,8 @@
             <td class="w-25 align-middle" [ngStyle]="{'background-color': bandColor(ue.Weight)}" *ngIf="ue.ExerciseTypeID === 3"></td>
             <td class="w-25 align-middle text-center" *ngIf="ue.ExerciseTypeID !== 3">{{ue.Weight}} </td>
             <td class="w-25 align-middle text-center">{{ue.ORM}} </td>
-            <td class="text-center align-middle" [class.bg-danger]="ue.Rating === 1" [class.bg-warning]="ue.Rating === 2" [class.bg-success]="ue.Rating === 3">
-              <fa-icon [icon]="
-                    ue.Rating === 1
-                      ? faStarHalf
-                      : ue.Rating === 2
-                      ? faStar
-                      : faStarFull
-                  " class="text-white"></fa-icon>
+            <td class="text-center align-middle p-0">
+              <app-star-rating [exercise]="ue" size="sm"></app-star-rating>
             </td>
           </tr>
         </tbody>

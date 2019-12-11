@@ -1,0 +1,35 @@
+<div class="resting-div" *ngIf="restInterval">
+  <div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+      <div class="text-center resting-content">
+        <fa-icon [icon]="faHeartbeat" size="5x"></fa-icon><span class="big clock">{{ postrest | secondstimer: '14':'5' }}</span>
+        <table class="table table-sm table-bordered border-white text-white">
+          <tbody *ngFor="let we of blocksummary; let weX = index">
+            <tr *ngIf="weX === 0">
+              <td colspan="5" class="text-left">
+                <h4> Block {{ we.BlockOrder }} - {{ we.BlockTypeName }} </h4>
+              </td>
+            </tr>
+            <tr *ngIf="weX === 0" class="font-weight-bold">
+              <td>Exercise</td>
+              <td>Reps</td>
+              <td>Weight</td>
+              <td>Per</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>{{ we.ExerciseType }} {{ we.ExerciseName }}<span *ngIf="we.SideType !== 'Both'"> - {{ we.SideType }}</span></td>
+              <td>{{ we.Reps }}</td>
+              <td>{{ we.Weight }}</td>
+              <td> <span *ngIf="we.ExerciseType !== 'Barbell' && we.ExerciseType !== 'EZ Bar'">N/A</span> <span *ngIf="we.ExerciseType === 'Barbell' || we.ExerciseType === 'EZ Bar'">{{ (we.Weight - (we.ExerciseType === 'Barbell' ? 45 : 15)) / 2 }}</span> </td>
+              <td>
+                <fa-icon [icon]="faTimes" *ngIf="!we.Completed"></fa-icon>
+                <fa-icon [icon]="faCheck" *ngIf="we.Completed"></fa-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
