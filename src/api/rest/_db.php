@@ -11,9 +11,9 @@ class DBClass {
 
     public function __construct(){
         $this->host = "localhost";
-        $this->username = "porktig3_workout";
-        $this->password = "vN99iwbv7!";
-        $this->database = "porktig3_workout";
+        $this->username = "";
+        $this->password = "";
+        $this->database = "";
         $this->getConnection();      
     }
 
